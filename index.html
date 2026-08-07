@@ -71,11 +71,11 @@
             align-items: center;
             justify-content: center;
             width: 100%;
-            max-width: 380px;
+            max-width: 450px;
             padding: 10px;
         }
 
-        /* SVG LOGO CHIM CÚ & KHIÊN (ĐÃ CHỈNH BÉ LẠI TÍ) */
+        /* SVG LOGO CHIM CÚ & KHIÊN */
         .logo-svg {
             width: 120px;
             height: 110px;
@@ -88,24 +88,31 @@
             filter: drop-shadow(0 0 20px rgba(0, 240, 255, 0.9)) drop-shadow(0 0 8px rgba(255, 200, 0, 1));
         }
 
-        /* GIỮ NGUYÊN KÍCH THƯỚC CHỮ PLAT • DEX */
+        /* KHUNG CHỮ CHỨA CẢ PLAT • DEX VÀ DÒNG PHỤ */
         .title-container {
-            margin-top: -15px; /* Điều chỉnh lại đè nhẹ khớp với logo nhỏ hơn */
+            margin-top: -15px;
             z-index: 2;
             position: relative;
             background: rgba(5, 10, 25, 0.85);
-            padding: 6px 25px;
-            border-radius: 8px;
+            padding: 12px 25px;
+            border-radius: 12px;
             border: 1px solid var(--esports-gold);
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.9), inset 0 0 10px rgba(255, 170, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
         }
 
         .rainbow-3d-title {
-            font-size: 2.5rem; /* Giữ nguyên kích thước 2.5rem */
+            font-size: clamp(1.8rem, 6vw, 2.5rem);
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 3px;
             line-height: 1.1;
+            white-space: nowrap;
             
             background: linear-gradient(
                 90deg, 
@@ -122,6 +129,18 @@
             animation: rainbowFlow 3s linear infinite, glowPulse 1.5s ease-in-out infinite alternate;
         }
 
+        /* DÒNG CHỮ PHỤ ĐƯỢC CĂN TRONG KHUNG */
+        .sub-title-in-box {
+            font-size: clamp(0.75rem, 3vw, 0.95rem);
+            color: #ffffff;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 2px;
+            white-space: nowrap;
+            text-shadow: 0 0 8px rgba(0, 240, 255, 0.9);
+            opacity: 0.95;
+        }
+
         @keyframes rainbowFlow {
             0% { background-position: 0% center; }
             100% { background-position: 200% center; }
@@ -136,18 +155,6 @@
                 filter: drop-shadow(3px 3px 0px #000) 
                         drop-shadow(0px 0px 25px rgba(0, 240, 255, 1));
             }
-        }
-
-        /* GIỮ NGUYÊN DÒNG PHỤ NƠI CÁC SIÊU NHÂN ĐẺ RA */
-        header p.sub-title {
-            font-size: 0.95rem; /* Giữ nguyên kích thước */
-            color: #ffffff;
-            text-transform: uppercase;
-            font-weight: bold;
-            letter-spacing: 2px;
-            margin-top: 12px;
-            text-shadow: 0 0 8px rgba(0, 240, 255, 0.8);
-            z-index: 2;
         }
 
         /* DANH SÁCH BANNER */
@@ -350,32 +357,31 @@
                     <!-- Viền khiên màu vàng ánh kim -->
                     <path d="M150 25 L250 60 L232 190 L150 250 L68 190 L50 60 Z" fill="none" stroke="#ffaa00" stroke-width="6" stroke-linejoin="round"/>
                     
-                    <!-- Cánh trái (Blue feathers with gold tips) -->
+                    <!-- Cánh trái -->
                     <g fill="#0077ff" stroke="#ffaa00" stroke-width="1.5">
                         <path d="M140 100 Q80 40 20 65 Q60 100 85 125 Q50 105 10 115 Q55 140 90 145 M130 110 L40 160 L100 165 M125 130 L60 195 L110 180" />
                     </g>
-                    <!-- Cánh phải (Lật ngược) -->
+                    <!-- Cánh phải -->
                     <g fill="#0077ff" stroke="#ffaa00" stroke-width="1.5">
                         <path d="M160 100 Q220 40 280 65 Q240 100 215 125 Q250 105 290 115 Q245 140 210 145 M170 110 L260 160 L200 165 M175 130 L240 195 L190 180" />
                     </g>
                     
-                    <!-- Đầu Cú / Đại Điêu (Chính giữa) -->
+                    <!-- Đầu Cú / Đại Điêu -->
                     <path d="M150 70 L130 95 L120 85 L135 115 L150 120 L165 115 L180 85 L170 95 Z" fill="#00a2ff" stroke="#ffaa00" stroke-width="2"/>
-                    <!-- Mắt cú phát sáng -->
+                    <!-- Mắt cú -->
                     <polygon points="138,100 146,102 142,108" fill="#ffea00"/>
                     <polygon points="162,100 154,102 158,108" fill="#ffea00"/>
-                    <!-- Mỏ vàng -->
+                    <!-- Mỏ -->
                     <polygon points="150,105 145,118 155,118" fill="#ffaa00"/>
                     <!-- Lông ngực & Đuôi -->
                     <path d="M135 130 Q150 170 165 130 M140 145 Q150 190 160 145 M145 160 L150 210 L155 160" stroke="#00d4ff" stroke-width="3" fill="none"/>
                 </svg>
 
-                <!-- Tiêu đề Plat Dex -->
+                <!-- Khung chứa cả Plat • Dex và Nơi Các Siêu Nhân Đẻ Ra -->
                 <div class="title-container">
                     <h1 class="rainbow-3d-title">Plat • Dex</h1>
+                    <p class="sub-title-in-box">NƠI CÁC SIÊU NHÂN ĐẺ RA</p>
                 </div>
-
-                <p class="sub-title">Nơi Các Siêu Nhân Đẻ Ra</p>
             </div>
         </header>
 
