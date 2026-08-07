@@ -6,8 +6,6 @@
     <title>Plat • Dex</title>
     <style>
         :root {
-            --bg-main: #030712;
-            --bg-card: #0b132b;
             --border-cyan: #00f0ff;
             --text-main: #ffffff;
         }
@@ -21,17 +19,26 @@
         }
 
         body {
-            background-color: var(--bg-main);
-            background-image: 
-                radial-gradient(circle at 50% 10%, rgba(0, 240, 255, 0.12) 0%, transparent 60%),
-                linear-gradient(rgba(0, 240, 255, 0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 240, 255, 0.04) 1px, transparent 1px);
-            background-size: 100% 100%, 25px 25px, 25px 25px;
+            background-color: #000000;
             color: var(--text-main);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
             align-items: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* CANVAS MATRIX CODE BACKGROUND */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.35; /* Độ mờ của code bay nền đen */
         }
 
         .container {
@@ -39,6 +46,8 @@
             max-width: 650px;
             padding: 25px 15px;
             flex: 1;
+            position: relative;
+            z-index: 1; /* Nổi lên trên background */
         }
 
         /* HEADER & CHỮ 3D NHẤP NHÁY MÀU CẦU VỒNG */
@@ -93,53 +102,28 @@
             text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
         }
 
-        /* DANH SÁCH BANNER CARD */
+        /* DANH SÁCH BANNER */
         .banner-list {
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: 35px;
         }
 
-        /* KHUNG TỔNG THỂ BANNER CARD */
-        .banner-card {
-            background: var(--bg-card);
-            position: relative;
-            padding: 16px;
-            clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
-            border: 2px solid rgba(0, 240, 255, 0.4);
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
-            transition: all 0.3s ease;
+        /* KHUNG NHÓM ITEM (ĐÃ XÓA KHUNG TỔNG BAO NGOÀI) */
+        .banner-item {
             display: flex;
             flex-direction: column;
-            gap: 12px; /* Khoảng cách giữa 3 khung con */
-        }
-
-        .banner-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 8px;
-            height: 100%;
-            background: var(--border-cyan);
-            box-shadow: 0 0 10px var(--border-cyan);
-        }
-
-        .banner-card:hover {
-            transform: translateY(-4px) scale(1.01);
-            border-color: var(--border-cyan);
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+            gap: 12px;
+            align-items: center;
         }
 
         /* 1. KHUNG CHỮ (TIÊU ĐỀ) */
         .banner-title-box {
             width: 100%;
-            background: rgba(0, 240, 255, 0.05);
-            border: 1px solid rgba(0, 240, 255, 0.3);
+            background: rgba(0, 0, 0, 0.7);
             border-left: 4px solid #ff0055;
             padding: 10px 15px;
             text-align: center;
-            clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
         }
 
         .banner-title {
@@ -148,18 +132,24 @@
             color: #ffffff;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+            text-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
         }
 
-        /* 2. KHUNG BANNER (ẢNH 16:9) */
+        /* 2. KHUNG DÀNH RIÊNG CHO ẢNH BANNER */
         .banner-img-box {
             width: 100%;
             aspect-ratio: 16 / 9;
             overflow: hidden;
             background-color: #020611;
-            border: 1px solid rgba(0, 240, 255, 0.2);
-            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
-            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--border-cyan);
+            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .banner-img-box:hover {
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
+            transform: scale(1.01);
         }
 
         .banner-img-box img {
@@ -170,28 +160,25 @@
             transition: transform 0.4s ease;
         }
 
-        .banner-card:hover .banner-img-box img {
+        .banner-img-box:hover img {
             transform: scale(1.05);
         }
 
-        /* 3. KHUNG PHẦN XEM NGAY (CHỨA NÚT) */
+        /* 3. KHUNG PHẦN XEM NGAY */
         .banner-action-box {
             width: 100%;
-            background: rgba(3, 7, 18, 0.6);
-            border: 1px dashed rgba(0, 240, 255, 0.3);
-            padding: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
-            clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
+            margin-top: 5px;
         }
 
-        /* Nút Xem Ngay nằm trong Khung Xem Ngay */
+        /* Nút Xem Ngay */
         .btn-view {
             position: relative;
             background: linear-gradient(135deg, #ff0055 0%, #7a00ff 100%);
             color: #ffffff;
-            padding: 10px 32px;
+            padding: 10px 35px;
             text-decoration: none;
             font-weight: bold;
             font-size: 1.1rem;
@@ -214,11 +201,13 @@
         /* FOOTER & GOOGLE MAPS */
         footer {
             width: 100%;
-            background: #01040a;
+            background: rgba(1, 4, 10, 0.85);
             border-top: 2px solid var(--border-cyan);
             padding: 35px 20px;
             margin-top: 50px;
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
         .footer-info {
@@ -290,6 +279,9 @@
 </head>
 <body>
 
+    <!-- Canvas tạo hiệu ứng code bay Nền Đen -->
+    <canvas id="matrix-canvas"></canvas>
+
     <div class="container">
         <!-- Header -->
         <header>
@@ -301,72 +293,52 @@
         <main class="banner-list">
             
             <!-- Banner 1 -->
-            <div class="banner-card">
-                <!-- 1. Khung Chữ -->
+            <div class="banner-item">
                 <div class="banner-title-box">
                     <span class="banner-title">1. Hack Liên Quân IOS Miễn Phí</span>
                 </div>
-                
-                <!-- 2. Khung Banner (Ảnh) -->
                 <div class="banner-img-box">
                     <img src="LQ.PNG" alt="Liên Quân IOS Miễn Phí">
                 </div>
-                
-                <!-- 3. Khung Phần Xem Ngay -->
                 <div class="banner-action-box">
                     <a href="#" class="btn-view">Xem Ngay</a>
                 </div>
             </div>
 
             <!-- Banner 2 -->
-            <div class="banner-card">
-                <!-- 1. Khung Chữ -->
+            <div class="banner-item">
                 <div class="banner-title-box">
                     <span class="banner-title">2. Hack Free Fire IOS Miễn Phí</span>
                 </div>
-                
-                <!-- 2. Khung Banner (Ảnh) -->
                 <div class="banner-img-box">
                     <img src="FF.PNG" alt="Free Fire IOS Miễn Phí">
                 </div>
-                
-                <!-- 3. Khung Phần Xem Ngay -->
                 <div class="banner-action-box">
                     <a href="#" class="btn-view">Xem Ngay</a>
                 </div>
             </div>
 
             <!-- Banner 3 -->
-            <div class="banner-card">
-                <!-- 1. Khung Chữ -->
+            <div class="banner-item">
                 <div class="banner-title-box">
                     <span class="banner-title">3. Hack Play Together IOS Miễn Phí</span>
                 </div>
-                
-                <!-- 2. Khung Banner (Ảnh) -->
                 <div class="banner-img-box">
                     <img src="PLT.PNG" alt="Play Together IOS Miễn Phí">
                 </div>
-                
-                <!-- 3. Khung Phần Xem Ngay -->
                 <div class="banner-action-box">
                     <a href="#" class="btn-view">Xem Ngay</a>
                 </div>
             </div>
 
             <!-- Banner 4 -->
-            <div class="banner-card">
-                <!-- 1. Khung Chữ -->
+            <div class="banner-item">
                 <div class="banner-title-box">
                     <span class="banner-title">4. Tải Và Hướng Dẫn Cài TFT Pbe IOS Miễn Phí</span>
                 </div>
-                
-                <!-- 2. Khung Banner (Ảnh) -->
                 <div class="banner-img-box">
                     <img src="TFTPBE.PNG" alt="Tải Và Hướng Dẫn Cài TFT Pbe IOS Miễn Phí">
                 </div>
-                
-                <!-- 3. Khung Phần Xem Ngay -->
                 <div class="banner-action-box">
                     <a href="#" class="btn-view">Xem Ngay</a>
                 </div>
@@ -375,7 +347,7 @@
         </main>
     </div>
 
-    <!-- Footer & Thông tin liên hệ -->
+    <!-- Footer -->
     <footer>
         <div class="footer-info">
             <h3>THÔNG TIN LIÊN HỆ</h3>
@@ -392,12 +364,49 @@
         </div>
     </footer>
 
-    <!-- Icon Telegram Tròn -->
+    <!-- Icon Telegram -->
     <a href="https://t.me/your_telegram" class="telegram-btn" target="_blank" aria-label="Telegram">
         <svg viewBox="0 0 24 24">
             <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.56 8.16l-2.01 9.48c-.15.68-.55.84-1.12.52l-3.1-2.28-1.5 1.44c-.17.17-.31.31-.63.31l.22-3.17 5.77-5.21c.25-.22-.05-.34-.39-.12l-7.13 4.49-3.07-.96c-.67-.21-.68-.67.14-.99l12.01-4.63c.56-.21 1.05.13.83.92z"/>
         </svg>
     </a>
 
+    <!-- SCRIPT TẠO HIỆU ỨNG MATRIX CODE BAY CHẠY TRÊN NỀN ĐEN -->
+    <script>
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ<>/{}[];:*&^%$#@!';
+        const fontSize = 14;
+        let columns = Math.floor(canvas.width / fontSize);
+        let drops = Array(columns).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#00f0ff'; // Màu xanh neon hacker
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 33);
+    </script>
 </body>
 </html>
