@@ -8,8 +8,8 @@
         :root {
             --border-cyan: #00f0ff;
             --text-main: #ffffff;
-            --dragon-cyan: #00f0ff;
-            --dragon-red: #ff0055;
+            --phoenix-gold: #ffaa00;
+            --phoenix-orange: #ff4500;
         }
 
         /* Đồng bộ phông chữ Times New Roman */
@@ -40,7 +40,7 @@
             height: 100vh;
             z-index: 0;
             pointer-events: none;
-            opacity: 0.4;
+            opacity: 0.35;
         }
 
         .container {
@@ -52,7 +52,7 @@
             z-index: 1;
         }
 
-        /* HEADER & KHUNG RỒNG GAMING */
+        /* HEADER & KHUNG PHƯỢNG HOÀNG / RỒNG GAMING */
         header {
             text-align: center;
             margin-bottom: 35px;
@@ -62,59 +62,70 @@
             position: relative;
         }
 
-        /* KHUNG RỒNG GAMING (ĐÃ XÓA HIỆU ỨNG LIQUID GLASS) */
-        .dragon-frame-gaming {
+        /* KHUNG BIỂU TƯỢNG PHOENIX / GAMING EMBLEM */
+        .phoenix-frame-gaming {
             position: relative;
             display: inline-flex;
             justify-content: center;
             align-items: center;
-            padding: 30px 60px;
-            margin-bottom: 10px;
-            background: rgba(5, 10, 20, 0.85);
-            border: 2px solid var(--dragon-cyan);
+            padding: 25px 70px;
+            margin-bottom: 15px;
+            background: linear-gradient(180deg, rgba(30, 10, 5, 0.9) 0%, rgba(5, 5, 10, 0.95) 100%);
+            border: 2px solid #ffaa00;
+            
+            /* Cắt vát 2 đầu tạo phom dáng Emblem Badge */
             clip-path: polygon(
-                20px 0, calc(100% - 20px) 0, 100% 20px, 
-                100% calc(100% - 20px), calc(100% - 20px) 100%, 
-                20px 100%, 0 calc(100% - 20px), 0 20px
+                15% 0%, 85% 0%, 
+                100% 30%, 95% 70%, 
+                50% 100%, 
+                5% 70%, 0% 30%
             );
             box-shadow: 
-                0 0 20px rgba(0, 240, 255, 0.4),
-                inset 0 0 15px rgba(0, 240, 255, 0.2);
-            transition: all 0.3s ease;
+                0 0 25px rgba(255, 120, 0, 0.6),
+                inset 0 0 20px rgba(255, 69, 0, 0.4);
+            transition: all 0.4s ease;
         }
 
-        .dragon-frame-gaming:hover {
-            border-color: var(--dragon-red);
-            box-shadow: 
-                0 0 30px rgba(255, 0, 85, 0.7),
-                inset 0 0 20px rgba(255, 0, 85, 0.3);
-            transform: scale(1.02);
-        }
-
-        /* BIỂU TƯỢNG RỒNG GAMING HAI BÊN KHUNG */
-        .dragon-frame-gaming::before,
-        .dragon-frame-gaming::after {
-            content: '🐉';
+        /* CÁNH PHƯỢNG HOÀNG LỚN XÒE RỘNG 2 BÊN (MÔ PHỎNG HUY HIỆU TRONG ẢNH) */
+        .phoenix-frame-gaming::before,
+        .phoenix-frame-gaming::after {
+            content: '';
             position: absolute;
-            font-size: 1.8rem;
             top: 50%;
-            transform: translateY(-50%);
-            filter: drop-shadow(0 0 8px var(--dragon-cyan));
-            transition: all 0.3s ease;
+            width: 55px;
+            height: 75px;
+            background: linear-gradient(135deg, #ff8c00, #ff0044);
+            transition: all 0.4s ease;
+            z-index: -1;
+            filter: drop-shadow(0 0 10px #ffaa00);
         }
 
-        .dragon-frame-gaming::before {
-            left: 15px;
+        /* Cánh trái xòe lông vũ */
+        .phoenix-frame-gaming::before {
+            left: -45px;
+            transform: translateY(-50%) rotate(-15deg);
+            clip-path: polygon(100% 0, 0 20%, 30% 50%, 0 70%, 40% 85%, 100% 100%);
         }
 
-        .dragon-frame-gaming::after {
-            right: 15px;
-            transform: translateY(-50%) scaleX(-1);
+        /* Cánh phải xòe lông vũ */
+        .phoenix-frame-gaming::after {
+            right: -45px;
+            transform: translateY(-50%) rotate(15deg) scaleX(-1);
+            clip-path: polygon(100% 0, 0 20%, 30% 50%, 0 70%, 40% 85%, 100% 100%);
         }
 
-        .dragon-frame-gaming:hover::before,
-        .dragon-frame-gaming:hover::after {
-            filter: drop-shadow(0 0 12px var(--dragon-red));
+        .phoenix-frame-gaming:hover {
+            transform: translateY(-3px) scale(1.03);
+            border-color: #ffe600;
+            box-shadow: 
+                0 0 35px rgba(255, 200, 0, 0.9),
+                inset 0 0 25px rgba(255, 100, 0, 0.6);
+        }
+
+        .phoenix-frame-gaming:hover::before,
+        .phoenix-frame-gaming:hover::after {
+            filter: drop-shadow(0 0 18px #ffe600);
+            background: linear-gradient(135deg, #ffe600, #ff0055);
         }
 
         /* TIÊU ĐỀ PLAT • DEX */
@@ -161,7 +172,7 @@
             color: #00f0ff;
             text-transform: uppercase;
             font-weight: bold;
-            margin-top: 8px;
+            margin-top: 5px;
             text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
         }
 
@@ -357,7 +368,7 @@
     <div class="container">
         <!-- Header -->
         <header>
-            <div class="dragon-frame-gaming">
+            <div class="phoenix-frame-gaming">
                 <h1 class="rainbow-3d-title">Plat • Dex</h1>
             </div>
             <p>Nơi Các Siêu Nhân Đẻ Ra</p>
@@ -445,7 +456,7 @@
         </svg>
     </a>
 
-    <!-- SCRIPT CHỮ NỀN MATRIX ĐA HƯỚNG LỘN XỘN -->
+    <!-- SCRIPT MATRIX CODE -->
     <script>
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
