@@ -38,7 +38,7 @@
             height: 100vh;
             z-index: 0;
             pointer-events: none;
-            opacity: 0.4;
+            opacity: 0.45;
         }
 
         .container {
@@ -59,13 +59,13 @@
             align-items: center;
         }
 
-        /* KHUNG LIQUID GLASS (KÍNH MỜ LỎNG) */
+        /* KHUNG LIQUID GLASS */
         .glass-box {
             position: relative;
             padding: 20px 30px;
             border-radius: 20px;
-            background: rgba(255, 255, 255, 0.05); /* Lớp nền trong suốt nhẹ */
-            backdrop-filter: blur(12px); /* Hiệu ứng làm mờ hậu cảnh (Glassmorphism) */
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.15);
             box-shadow: 
@@ -77,7 +77,6 @@
             transition: all 0.4s ease;
         }
 
-        /* VIỀN PHÁT SÁNG DẠNG LIQUID (LỎNG) CHO KHUNG */
         .glass-box::before {
             content: '';
             position: absolute;
@@ -103,9 +102,9 @@
             transform: translateY(-2px);
         }
 
-        /* TIÊU ĐỀ PLAT • DEX TO HƠN */
+        /* TIÊU ĐỀ PLAT • DEX */
         .rainbow-3d-title {
-            font-size: 2.8rem; /* Đã tăng kích thước chữ to hơn */
+            font-size: 2.8rem;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 3px;
@@ -165,7 +164,7 @@
             align-items: center;
         }
 
-        /* 1. KHUNG CHỮ BANNER (ĐỎ - ĐEN TỪ TRÁI SANG PHẢI) */
+        /* KHUNG CHỮ BANNER (ĐỎ - ĐEN TỪ TRÁI SANG PHẢI) */
         .banner-title-box {
             width: 100%;
             background: linear-gradient(to right, #8b0000 0%, #3a0007 40%, #000000 100%);
@@ -192,7 +191,7 @@
             text-shadow: 0 0 8px rgba(255, 0, 85, 0.8);
         }
 
-        /* 2. KHUNG DÀNH RIÊNG CHO ẢNH BANNER */
+        /* KHUNG ẢNH BANNER */
         .banner-img-box {
             width: 100%;
             aspect-ratio: 16 / 9;
@@ -221,7 +220,7 @@
             transform: scale(1.05);
         }
 
-        /* 3. KHUNG PHẦN XEM NGAY */
+        /* NÚT XEM NGAY */
         .banner-action-box {
             width: 100%;
             display: flex;
@@ -230,7 +229,6 @@
             margin-top: 5px;
         }
 
-        /* Nút Xem Ngay */
         .btn-view {
             position: relative;
             background: linear-gradient(135deg, #ff0055 0%, #7a00ff 100%);
@@ -255,7 +253,7 @@
             box-shadow: 0 0 25px rgba(0, 240, 250, 0.8);
         }
 
-        /* FOOTER & GOOGLE MAPS */
+        /* FOOTER */
         footer {
             width: 100%;
             background: transparent;
@@ -431,7 +429,7 @@
         </svg>
     </a>
 
-    <!-- SCRIPT MATRIX CODE -->
+    <!-- SCRIPT CHỮ NỀN MATRIX ĐA HƯỚNG LỘN XỘN (XUỐNG, TRÁI->PHẢI, PHẢI->TRÁI) -->
     <script>
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
@@ -443,27 +441,87 @@
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ<>/{}[];:*&^%$#@!';
+        const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ<>/{}[];:*&^%$#@!PLATDEX';
         const fontSize = 14;
-        let columns = Math.floor(canvas.width / fontSize);
-        let drops = Array(columns).fill(1);
+        const totalStreams = 70; // Số lượng chuỗi chữ ngẫu nhiên
+        const streams = [];
+
+        // Tạo danh sách chuỗi chữ chạy tự do đa hướng
+        for (let i = 0; i < totalStreams; i++) {
+            resetStream(i);
+        }
+
+        function resetStream(i) {
+            // Ngẫu nhiên hướng: 0 = từ trên xuống, 1 = từ trái qua phải, 2 = từ phải qua trái
+            const dir = Math.floor(Math.random() * 3);
+            let x, y;
+
+            if (dir === 0) { // Từ trên xuống
+                x = Math.random() * canvas.width;
+                y = Math.random() * -200;
+            } else if (dir === 1) { // Từ trái sang phải
+                x = Math.random() * -200;
+                y = Math.random() * canvas.height;
+            } else { // Từ phải sang trái
+                x = canvas.width + Math.random() * 200;
+                y = Math.random() * canvas.height;
+            }
+
+            streams[i] = {
+                dir: dir,
+                x: x,
+                y: y,
+                speed: 2 + Math.random() * 4,
+                length: 8 + Math.floor(Math.random() * 15),
+                chars: Array.from({length: 20}, () => chars.charAt(Math.floor(Math.random() * chars.length)))
+            };
+        }
 
         function drawMatrix() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.08)'; // Hiệu ứng đuôi mờ
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            ctx.fillStyle = '#00f0ff';
             ctx.font = fontSize + 'px monospace';
 
-            for (let i = 0; i < drops.length; i++) {
-                const text = chars.charAt(Math.floor(Math.random() * chars.length));
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            streams.forEach((s, idx) => {
+                for (let j = 0; j < s.length; j++) {
+                    let charX = s.x;
+                    let charY = s.y;
 
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
+                    // Tính vị trí từng ký tự theo hướng tương ứng
+                    if (s.dir === 0) charY -= j * fontSize;
+                    else if (s.dir === 1) charX -= j * fontSize;
+                    else if (s.dir === 2) charX += j * fontSize;
+
+                    // Màu sắc: Ký tự đầu sáng trắng, các ký tự sau màu xanh cyan
+                    if (j === 0) {
+                        ctx.fillStyle = '#ffffff';
+                    } else {
+                        ctx.fillStyle = `rgba(0, 240, 255, ${1 - j / s.length})`;
+                    }
+
+                    // Đổi ngẫu nhiên ký tự cho sống động
+                    if (Math.random() < 0.05) {
+                        s.chars[j] = chars.charAt(Math.floor(Math.random() * chars.length));
+                    }
+
+                    ctx.fillText(s.chars[j], charX, charY);
                 }
-                drops[i]++;
-            }
+
+                // Cập nhật vị trí di chuyển
+                if (s.dir === 0) s.y += s.speed;
+                else if (s.dir === 1) s.x += s.speed;
+                else if (s.dir === 2) s.x -= s.speed;
+
+                // Reset khi chuỗi chữ chạy vượt quá màn hình
+                if (
+                    (s.dir === 0 && s.y - s.length * fontSize > canvas.height) ||
+                    (s.dir === 1 && s.x - s.length * fontSize > canvas.width) ||
+                    (s.dir === 2 && s.x + s.length * fontSize < 0)
+                ) {
+                    resetStream(idx);
+                }
+            });
         }
 
         setInterval(drawMatrix, 33);
