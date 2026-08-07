@@ -8,6 +8,8 @@
         :root {
             --border-cyan: #00f0ff;
             --text-main: #ffffff;
+            --dragon-cyan: #00f0ff;
+            --dragon-red: #ff0055;
         }
 
         /* Đồng bộ phông chữ Times New Roman */
@@ -38,7 +40,7 @@
             height: 100vh;
             z-index: 0;
             pointer-events: none;
-            opacity: 0.45;
+            opacity: 0.4;
         }
 
         .container {
@@ -50,56 +52,69 @@
             z-index: 1;
         }
 
-        /* HEADER & KHUNG LIQUID GLASS MỜ DÀNH CHO PLAT • DEX */
+        /* HEADER & KHUNG RỒNG GAMING */
         header {
             text-align: center;
             margin-bottom: 35px;
             display: flex;
             flex-direction: column;
             align-items: center;
-        }
-
-        /* KHUNG LIQUID GLASS */
-        .glass-box {
             position: relative;
-            padding: 20px 30px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 
-                0 8px 32px 0 rgba(0, 240, 255, 0.25),
-                inset 0 0 15px rgba(255, 255, 255, 0.1);
-            display: inline-block;
-            margin-bottom: 12px;
-            overflow: hidden;
-            transition: all 0.4s ease;
         }
 
-        .glass-box::before {
-            content: '';
+        /* KHUNG RỒNG GAMING (ĐÃ XÓA HIỆU ỨNG LIQUID GLASS) */
+        .dragon-frame-gaming {
+            position: relative;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 60px;
+            margin-bottom: 10px;
+            background: rgba(5, 10, 20, 0.85);
+            border: 2px solid var(--dragon-cyan);
+            clip-path: polygon(
+                20px 0, calc(100% - 20px) 0, 100% 20px, 
+                100% calc(100% - 20px), calc(100% - 20px) 100%, 
+                20px 100%, 0 calc(100% - 20px), 0 20px
+            );
+            box-shadow: 
+                0 0 20px rgba(0, 240, 255, 0.4),
+                inset 0 0 15px rgba(0, 240, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .dragon-frame-gaming:hover {
+            border-color: var(--dragon-red);
+            box-shadow: 
+                0 0 30px rgba(255, 0, 85, 0.7),
+                inset 0 0 20px rgba(255, 0, 85, 0.3);
+            transform: scale(1.02);
+        }
+
+        /* BIỂU TƯỢNG RỒNG GAMING HAI BÊN KHUNG */
+        .dragon-frame-gaming::before,
+        .dragon-frame-gaming::after {
+            content: '🐉';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(0,240,255,0.3) 0%, rgba(255,0,85,0.3) 50%, transparent 70%);
-            animation: liquidRotate 6s linear infinite;
-            z-index: -1;
-            pointer-events: none;
+            font-size: 1.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            filter: drop-shadow(0 0 8px var(--dragon-cyan));
+            transition: all 0.3s ease;
         }
 
-        @keyframes liquidRotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .dragon-frame-gaming::before {
+            left: 15px;
         }
 
-        .glass-box:hover {
-            box-shadow: 
-                0 12px 40px 0 rgba(0, 240, 255, 0.45),
-                inset 0 0 25px rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
+        .dragon-frame-gaming::after {
+            right: 15px;
+            transform: translateY(-50%) scaleX(-1);
+        }
+
+        .dragon-frame-gaming:hover::before,
+        .dragon-frame-gaming:hover::after {
+            filter: drop-shadow(0 0 12px var(--dragon-red));
         }
 
         /* TIÊU ĐỀ PLAT • DEX */
@@ -146,7 +161,7 @@
             color: #00f0ff;
             text-transform: uppercase;
             font-weight: bold;
-            margin-top: 5px;
+            margin-top: 8px;
             text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
         }
 
@@ -164,7 +179,7 @@
             align-items: center;
         }
 
-        /* KHUNG CHỮ BANNER (ĐỎ - ĐEN TỪ TRÁI SANG PHẢI) */
+        /* KHUNG CHỮ BANNER */
         .banner-title-box {
             width: 100%;
             background: linear-gradient(to right, #8b0000 0%, #3a0007 40%, #000000 100%);
@@ -244,6 +259,7 @@
             display: inline-block;
             border: none;
             text-align: center;
+            cursor: pointer;
         }
 
         .btn-view:hover {
@@ -341,7 +357,7 @@
     <div class="container">
         <!-- Header -->
         <header>
-            <div class="glass-box">
+            <div class="dragon-frame-gaming">
                 <h1 class="rainbow-3d-title">Plat • Dex</h1>
             </div>
             <p>Nơi Các Siêu Nhân Đẻ Ra</p>
@@ -359,7 +375,7 @@
                     <img src="LQ.PNG" alt="Liên Quân IOS Miễn Phí">
                 </div>
                 <div class="banner-action-box">
-                    <a href="#" class="btn-view">Xem Ngay</a>
+                    <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-view" target="_blank">Xem Ngay</a>
                 </div>
             </div>
 
@@ -372,7 +388,7 @@
                     <img src="FF.PNG" alt="Free Fire IOS Miễn Phí">
                 </div>
                 <div class="banner-action-box">
-                    <a href="#" class="btn-view">Xem Ngay</a>
+                    <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-view" target="_blank">Xem Ngay</a>
                 </div>
             </div>
 
@@ -385,7 +401,7 @@
                     <img src="PLT.PNG" alt="Play Together IOS Miễn Phí">
                 </div>
                 <div class="banner-action-box">
-                    <a href="#" class="btn-view">Xem Ngay</a>
+                    <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-view" target="_blank">Xem Ngay</a>
                 </div>
             </div>
 
@@ -398,7 +414,7 @@
                     <img src="TFTPBE.PNG" alt="Tải Và Hướng Dẫn Cài TFT Pbe IOS Miễn Phí">
                 </div>
                 <div class="banner-action-box">
-                    <a href="#" class="btn-view">Xem Ngay</a>
+                    <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-view" target="_blank">Xem Ngay</a>
                 </div>
             </div>
 
@@ -429,7 +445,7 @@
         </svg>
     </a>
 
-    <!-- SCRIPT CHỮ NỀN MATRIX ĐA HƯỚNG LỘN XỘN (XUỐNG, TRÁI->PHẢI, PHẢI->TRÁI) -->
+    <!-- SCRIPT CHỮ NỀN MATRIX ĐA HƯỚNG LỘN XỘN -->
     <script>
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
@@ -443,26 +459,24 @@
 
         const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ<>/{}[];:*&^%$#@!PLATDEX';
         const fontSize = 14;
-        const totalStreams = 70; // Số lượng chuỗi chữ ngẫu nhiên
+        const totalStreams = 70;
         const streams = [];
 
-        // Tạo danh sách chuỗi chữ chạy tự do đa hướng
         for (let i = 0; i < totalStreams; i++) {
             resetStream(i);
         }
 
         function resetStream(i) {
-            // Ngẫu nhiên hướng: 0 = từ trên xuống, 1 = từ trái qua phải, 2 = từ phải qua trái
             const dir = Math.floor(Math.random() * 3);
             let x, y;
 
-            if (dir === 0) { // Từ trên xuống
+            if (dir === 0) {
                 x = Math.random() * canvas.width;
                 y = Math.random() * -200;
-            } else if (dir === 1) { // Từ trái sang phải
+            } else if (dir === 1) {
                 x = Math.random() * -200;
                 y = Math.random() * canvas.height;
-            } else { // Từ phải sang trái
+            } else {
                 x = canvas.width + Math.random() * 200;
                 y = Math.random() * canvas.height;
             }
@@ -478,7 +492,7 @@
         }
 
         function drawMatrix() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.08)'; // Hiệu ứng đuôi mờ
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             ctx.font = fontSize + 'px monospace';
@@ -488,19 +502,16 @@
                     let charX = s.x;
                     let charY = s.y;
 
-                    // Tính vị trí từng ký tự theo hướng tương ứng
                     if (s.dir === 0) charY -= j * fontSize;
                     else if (s.dir === 1) charX -= j * fontSize;
                     else if (s.dir === 2) charX += j * fontSize;
 
-                    // Màu sắc: Ký tự đầu sáng trắng, các ký tự sau màu xanh cyan
                     if (j === 0) {
                         ctx.fillStyle = '#ffffff';
                     } else {
                         ctx.fillStyle = `rgba(0, 240, 255, ${1 - j / s.length})`;
                     }
 
-                    // Đổi ngẫu nhiên ký tự cho sống động
                     if (Math.random() < 0.05) {
                         s.chars[j] = chars.charAt(Math.floor(Math.random() * chars.length));
                     }
@@ -508,12 +519,10 @@
                     ctx.fillText(s.chars[j], charX, charY);
                 }
 
-                // Cập nhật vị trí di chuyển
                 if (s.dir === 0) s.y += s.speed;
                 else if (s.dir === 1) s.x += s.speed;
                 else if (s.dir === 2) s.x -= s.speed;
 
-                // Reset khi chuỗi chữ chạy vượt quá màn hình
                 if (
                     (s.dir === 0 && s.y - s.length * fontSize > canvas.height) ||
                     (s.dir === 1 && s.x - s.length * fontSize > canvas.width) ||
