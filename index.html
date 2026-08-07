@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plat • Dex - Gaming Hub</title>
+    <style>
+        /* CSS Reset & Variable */
+        :root {
+            --bg-main: #050b14;
+            --bg-card: #0a172c;
+            --border-neon: #00f3ff;
+            --primary-blue: #0088ff;
+            --glow-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
+            --glow-strong: 0 0 25px rgba(0, 243, 255, 0.8);
+            --text-main: #f0f6fc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            /* Nền hoạ tiết lưới Gaming */
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(0, 136, 255, 0.15) 0%, transparent 70%),
+                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 30px 30px, 30px 30px;
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 650px;
+            padding: 20px 15px;
+            flex: 1;
+        }
+
+        /* Header Gaming */
+        header {
+            text-align: center;
+            margin-bottom: 35px;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #ffffff;
+            text-shadow: 0 0 10px var(--border-neon), 0 0 20px var(--primary-blue);
+            margin-bottom: 5px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: #7dd3fc;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            text-shadow: 0 0 5px rgba(0, 243, 255, 0.5);
+        }
+
+        /* Banner List Gaming */
+        .banner-list {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .banner-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 14px;
+            padding: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .banner-card:hover {
+            border-color: var(--border-neon);
+            box-shadow: var(--glow-shadow);
+            transform: translateY(-4px);
+        }
+
+        /* Khung ảnh tỷ lệ 16:9 */
+        .banner-img-container {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #020813;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            margin-bottom: 12px;
+        }
+
+        .banner-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .banner-card:hover .banner-img-container img {
+            transform: scale(1.03);
+        }
+
+        .banner-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 12px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .banner-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Nút Upload Ảnh */
+        .upload-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px dashed var(--border-neon);
+            color: #7dd3fc;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .upload-btn:hover {
+            background: rgba(0, 243, 255, 0.15);
+            color: #fff;
+        }
+
+        /* Nút Xem Ngay Gaming Nổi Đẹp */
+        .btn-view {
+            position: relative;
+            background: linear-gradient(135deg, #00d2ff 0%, #0066ff 100%);
+            color: #ffffff;
+            padding: 10px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 10px rgba(0, 136, 255, 0.5);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            display: inline-block;
+            border: none;
+        }
+
+        /* Hiệu ứng tia sáng lướt qua nút */
+        .btn-view::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-view:hover::before {
+            left: 100%;
+        }
+
+        .btn-view:hover {
+            transform: scale(1.05);
+            box-shadow: var(--glow-strong);
+            background: linear-gradient(135deg, #00f3ff 0%, #0088ff 100%);
+            color: #000;
+        }
+
+        /* Footer & Google Maps */
+        footer {
+            width: 100%;
+            background: #020712;
+            border-top: 1px solid rgba(0, 243, 255, 0.2);
+            padding: 30px 20px;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .footer-info {
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .footer-info h3 {
+            color: var(--border-neon);
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px rgba(0, 243, 255, 0.4);
+        }
+
+        .footer-info p {
+            margin-bottom: 8px;
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        .map-container {
+            margin-top: 20px;
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 200px;
+            border: 0;
+            filter: grayscale(20%) invert(90%) hue-rotate(180deg); /* Style map tối phong cách gaming */
+        }
+
+        /* Nút Telegram Tròn Phát Sáng */
+        .telegram-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #29a9eb, #0077ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(41, 169, 235, 0.6);
+            transition: transform 0.3s, box-shadow 0.3s;
+            z-index: 1000;
+            border: 2px solid var(--border-neon);
+        }
+
+        .telegram-btn:hover {
+            transform: scale(1.12);
+            box-shadow: 0 0 25px var(--border-neon);
+        }
+
+        .telegram-btn svg {
+            width: 30px;
+            height: 30px;
+            fill: #ffffff;
+            margin-right: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>Plat • Dex</h1>
+            <p>Nơi Các Siêu Nhân Đẻ Ra</p>
+        </header>
+
+        <!-- Danh sách Banner -->
+        <main class="banner-list">
+            
+            <!-- Banner 1 -->
+            <div class="banner-card">
+                <div class="banner-img-container">
+                    <img id="img-1" src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&auto=format&fit=crop&q=60" alt="Liên Quân IOS">
+                </div>
+                <div class="banner-title">1. Liên Quân IOS Miễn Phí</div>
+                <div class="banner-actions">
+                    <label class="upload-btn">
+                        📁 Tải ảnh lên
+                        <input type="file" accept="image/*" style="display:none" onchange="previewImage(event, 'img-1')">
+                    </label>
+                    <a href="#" class="btn-view">Xem Ngay</a>
+                </div>
+            </div>
+
+            <!-- Banner 2 -->
+            <div class="banner-card">
+                <div class="banner-img-container">
+                    <img id="img-2" src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&auto=format&fit=crop&q=60" alt="Free Fire IOS">
+                </div>
+                <div class="banner-title">2. Free Fire IOS Miễn Phí</div>
+                <div class="banner-actions">
+                    <label class="upload-btn">
+                        📁 Tải ảnh lên
+                        <input type="file" accept="image/*" style="display:none" onchange="previewImage(event, 'img-2')">
+                    </label>
+                    <a href="#" class="btn-view">Xem Ngay</a>
+                </div>
+            </div>
+
+            <!-- Banner 3 -->
+            <div class="banner-card">
+                <div class="banner-img-container">
+                    <img id="img-3" src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800&auto=format&fit=crop&q=60" alt="Play Together IOS">
+                </div>
+                <div class="banner-title">3. Play Together IOS Miễn Phí</div>
+                <div class="banner-actions">
+                    <label class="upload-btn">
+                        📁 Tải ảnh lên
+                        <input type="file" accept="image/*" style="display:none" onchange="previewImage(event, 'img-3')">
+                    </label>
+                    <a href="#" class="btn-view">Xem Ngay</a>
+                </div>
+            </div>
+
+            <!-- Banner 4 -->
+            <div class="banner-card">
+                <div class="banner-img-container">
+                    <img id="img-4" src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&auto=format&fit=crop&q=60" alt="TFT Pbe IOS">
+                </div>
+                <div class="banner-title">4. Tải Và Hướng Dẫn Cài TFT Pbe IOS Miễn Phí</div>
+                <div class="banner-actions">
+                    <label class="upload-btn">
+                        📁 Tải ảnh lên
+                        <input type="file" accept="image/*" style="display:none" onchange="previewImage(event, 'img-4')">
+                    </label>
+                    <a href="#" class="btn-view">Xem Ngay</a>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Footer & Thông tin liên hệ -->
+    <footer>
+        <div class="footer-info">
+            <h3>THÔNG TIN LIÊN HỆ</h3>
+            <p><strong>Developer:</strong> Plat • Dex</p>
+            <p><strong>Địa Chỉ:</strong> Hà Nội , Việt Nam</p>
+            
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d476859.1023737525!2d105.37248386807498!3d20.97344611400609!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab9bd9861ca1%3A0x3233d6118b3cb358!2zSMOgIE7hu5lpLCBWaeG7h3QgTmFt!5e0!3m2!1svi!2s!4v1700000000000!5m2!1svi!2s" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Icon Telegram Tròn Bỏ Chữ -->
+    <a href="https://t.me/your_telegram" class="telegram-btn" target="_blank" aria-label="Telegram">
+        <svg viewBox="0 0 24 24">
+            <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.56 8.16l-2.01 9.48c-.15.68-.55.84-1.12.52l-3.1-2.28-1.5 1.44c-.17.17-.31.31-.63.31l.22-3.17 5.77-5.21c.25-.22-.05-.34-.39-.12l-7.13 4.49-3.07-.96c-.67-.21-.68-.67.14-.99l12.01-4.63c.56-.21 1.05.13.83.92z"/>
+        </svg>
+    </a>
+
+    <!-- JS Đổi ảnh xem trước ngay lập tức -->
+    <script>
+        function previewImage(event, imgId) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById(imgId).src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+</body>
+</html>
