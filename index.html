@@ -38,7 +38,7 @@
             height: 100vh;
             z-index: 0;
             pointer-events: none;
-            opacity: 0.35; /* Độ mờ của code bay nền đen */
+            opacity: 0.4;
         }
 
         .container {
@@ -47,20 +47,69 @@
             padding: 25px 15px;
             flex: 1;
             position: relative;
-            z-index: 1; /* Nổi lên trên background */
+            z-index: 1;
         }
 
-        /* HEADER & CHỮ 3D NHẤP NHÁY MÀU CẦU VỒNG */
+        /* HEADER & KHUNG LIQUID GLASS MỜ DÀNH CHO PLAT • DEX */
         header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
+        /* KHUNG LIQUID GLASS (KÍNH MỜ LỎNG) */
+        .glass-box {
+            position: relative;
+            padding: 20px 30px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05); /* Lớp nền trong suốt nhẹ */
+            backdrop-filter: blur(12px); /* Hiệu ứng làm mờ hậu cảnh (Glassmorphism) */
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 
+                0 8px 32px 0 rgba(0, 240, 255, 0.25),
+                inset 0 0 15px rgba(255, 255, 255, 0.1);
+            display: inline-block;
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        /* VIỀN PHÁT SÁNG DẠNG LIQUID (LỎNG) CHO KHUNG */
+        .glass-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0,240,255,0.3) 0%, rgba(255,0,85,0.3) 50%, transparent 70%);
+            animation: liquidRotate 6s linear infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes liquidRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .glass-box:hover {
+            box-shadow: 
+                0 12px 40px 0 rgba(0, 240, 255, 0.45),
+                inset 0 0 25px rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* TIÊU ĐỀ PLAT • DEX TO HƠN */
         .rainbow-3d-title {
-            font-size: 2rem;
+            font-size: 2.8rem; /* Đã tăng kích thước chữ to hơn */
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
+            line-height: 1.1;
             
             background: linear-gradient(
                 90deg, 
@@ -72,7 +121,7 @@
             
             filter: drop-shadow(2px 2px 0px #000) 
                     drop-shadow(-1px -1px 0px #000)
-                    drop-shadow(0px 0px 15px rgba(0, 240, 255, 0.6));
+                    drop-shadow(0px 0px 15px rgba(0, 240, 255, 0.8));
 
             animation: rainbowFlow 3s linear infinite, glowPulse 1.5s ease-in-out infinite alternate;
         }
@@ -109,21 +158,29 @@
             gap: 35px;
         }
 
-        /* KHUNG NHÓM ITEM (ĐÃ XÓA KHUNG TỔNG BAO NGOÀI) */
         .banner-item {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
             align-items: center;
         }
 
-        /* 1. KHUNG CHỮ (TIÊU ĐỀ) */
+        /* 1. KHUNG CHỮ BANNER (ĐỎ - ĐEN TỪ TRÁI SANG PHẢI) */
         .banner-title-box {
             width: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            border-left: 4px solid #ff0055;
-            padding: 10px 15px;
+            background: linear-gradient(to right, #8b0000 0%, #3a0007 40%, #000000 100%);
+            border: 1px solid #ff0055;
+            border-left: 5px solid #ff0055;
+            padding: 12px 15px;
             text-align: center;
+            clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+            box-shadow: 0 0 10px rgba(255, 0, 85, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .banner-title-box:hover {
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.8);
+            border-color: #ff3377;
         }
 
         .banner-title {
@@ -132,7 +189,7 @@
             color: #ffffff;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            text-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
+            text-shadow: 0 0 8px rgba(255, 0, 85, 0.8);
         }
 
         /* 2. KHUNG DÀNH RIÊNG CHO ẢNH BANNER */
@@ -201,7 +258,7 @@
         /* FOOTER & GOOGLE MAPS */
         footer {
             width: 100%;
-            background: rgba(1, 4, 10, 0.85);
+            background: transparent;
             border-top: 2px solid var(--border-cyan);
             padding: 35px 20px;
             margin-top: 50px;
@@ -226,8 +283,9 @@
 
         .footer-info p {
             margin-bottom: 8px;
-            color: #94a3b8;
+            color: #ffffff;
             font-size: 1.1rem;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.9);
         }
 
         .map-container {
@@ -235,7 +293,7 @@
             width: 100%;
             overflow: hidden;
             border: 1px solid var(--border-cyan);
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.9);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
             clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
         }
 
@@ -279,13 +337,15 @@
 </head>
 <body>
 
-    <!-- Canvas tạo hiệu ứng code bay Nền Đen -->
+    <!-- Canvas Matrix phủ toàn bộ màn hình -->
     <canvas id="matrix-canvas"></canvas>
 
     <div class="container">
         <!-- Header -->
         <header>
-            <h1 class="rainbow-3d-title">Plat • Dex</h1>
+            <div class="glass-box">
+                <h1 class="rainbow-3d-title">Plat • Dex</h1>
+            </div>
             <p>Nơi Các Siêu Nhân Đẻ Ra</p>
         </header>
 
@@ -350,7 +410,7 @@
     <!-- Footer -->
     <footer>
         <div class="footer-info">
-            <h3>THÔNG TIN LIÊN HỆ</h3>
+            <h3>THÔNG TIN CHỦ SỞ HỮU</h3>
             <p><strong>Developer:</strong> Plat • Dex</p>
             <p><strong>Địa Chỉ:</strong> Hà Nội , Việt Nam</p>
             
@@ -371,7 +431,7 @@
         </svg>
     </a>
 
-    <!-- SCRIPT TẠO HIỆU ỨNG MATRIX CODE BAY CHẠY TRÊN NỀN ĐEN -->
+    <!-- SCRIPT MATRIX CODE -->
     <script>
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
@@ -392,7 +452,7 @@
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            ctx.fillStyle = '#00f0ff'; // Màu xanh neon hacker
+            ctx.fillStyle = '#00f0ff';
             ctx.font = fontSize + 'px monospace';
 
             for (let i = 0; i < drops.length; i++) {
