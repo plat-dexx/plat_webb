@@ -8,8 +8,9 @@
         :root {
             --border-cyan: #00f0ff;
             --text-main: #ffffff;
-            --phoenix-gold: #ffaa00;
-            --phoenix-orange: #ff4500;
+            --esports-gold: #ffaa00;
+            --esports-blue: #0088ff;
+            --esports-dark: #0a1128;
         }
 
         /* Đồng bộ phông chữ Times New Roman */
@@ -52,7 +53,7 @@
             z-index: 1;
         }
 
-        /* HEADER & KHUNG PHƯỢNG HOÀNG / RỒNG GAMING */
+        /* HEADER ESPORTS LOGO STYLE */
         header {
             text-align: center;
             margin-bottom: 35px;
@@ -62,75 +63,45 @@
             position: relative;
         }
 
-        /* KHUNG BIỂU TƯỢNG PHOENIX / GAMING EMBLEM */
-        .phoenix-frame-gaming {
+        /* KHUNG LOGO ESPORTS TỔNG THỂ */
+        .esports-logo-wrapper {
             position: relative;
-            display: inline-flex;
-            justify-content: center;
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            padding: 25px 70px;
-            margin-bottom: 15px;
-            background: linear-gradient(180deg, rgba(30, 10, 5, 0.9) 0%, rgba(5, 5, 10, 0.95) 100%);
-            border: 2px solid #ffaa00;
-            
-            /* Cắt vát 2 đầu tạo phom dáng Emblem Badge */
-            clip-path: polygon(
-                15% 0%, 85% 0%, 
-                100% 30%, 95% 70%, 
-                50% 100%, 
-                5% 70%, 0% 30%
-            );
-            box-shadow: 
-                0 0 25px rgba(255, 120, 0, 0.6),
-                inset 0 0 20px rgba(255, 69, 0, 0.4);
-            transition: all 0.4s ease;
+            justify-content: center;
+            width: 100%;
+            max-width: 380px;
+            padding: 10px;
         }
 
-        /* CÁNH PHƯỢNG HOÀNG LỚN XÒE RỘNG 2 BÊN (MÔ PHỎNG HUY HIỆU TRONG ẢNH) */
-        .phoenix-frame-gaming::before,
-        .phoenix-frame-gaming::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            width: 55px;
-            height: 75px;
-            background: linear-gradient(135deg, #ff8c00, #ff0044);
-            transition: all 0.4s ease;
-            z-index: -1;
-            filter: drop-shadow(0 0 10px #ffaa00);
+        /* SVG LOGO CHIM CÚ & KHIÊN VẼ BẰNG ĐƯỜNG NÉT (VECTOR SVG) */
+        .logo-svg {
+            width: 240px;
+            height: 220px;
+            filter: drop-shadow(0 0 15px rgba(0, 136, 255, 0.6)) drop-shadow(0 0 5px rgba(255, 170, 0, 0.8));
+            transition: transform 0.4s ease, filter 0.4s ease;
         }
 
-        /* Cánh trái xòe lông vũ */
-        .phoenix-frame-gaming::before {
-            left: -45px;
-            transform: translateY(-50%) rotate(-15deg);
-            clip-path: polygon(100% 0, 0 20%, 30% 50%, 0 70%, 40% 85%, 100% 100%);
+        .esports-logo-wrapper:hover .logo-svg {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 25px rgba(0, 240, 255, 0.9)) drop-shadow(0 0 10px rgba(255, 200, 0, 1));
         }
 
-        /* Cánh phải xòe lông vũ */
-        .phoenix-frame-gaming::after {
-            right: -45px;
-            transform: translateY(-50%) rotate(15deg) scaleX(-1);
-            clip-path: polygon(100% 0, 0 20%, 30% 50%, 0 70%, 40% 85%, 100% 100%);
+        /* NỔI BẬT TIÊU ĐỀ PLAT • DEX NẰM NỀN TRÊN KHIÊN (ĐÚNG PHONG CÁCH TRONG ẢNH) */
+        .title-container {
+            margin-top: -45px; /* Đè nhẹ lên phần chân khiên */
+            z-index: 2;
+            position: relative;
+            background: rgba(5, 10, 25, 0.85);
+            padding: 6px 25px;
+            border-radius: 8px;
+            border: 1px solid var(--esports-gold);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.9), inset 0 0 10px rgba(255, 170, 0, 0.3);
         }
 
-        .phoenix-frame-gaming:hover {
-            transform: translateY(-3px) scale(1.03);
-            border-color: #ffe600;
-            box-shadow: 
-                0 0 35px rgba(255, 200, 0, 0.9),
-                inset 0 0 25px rgba(255, 100, 0, 0.6);
-        }
-
-        .phoenix-frame-gaming:hover::before,
-        .phoenix-frame-gaming:hover::after {
-            filter: drop-shadow(0 0 18px #ffe600);
-            background: linear-gradient(135deg, #ffe600, #ff0055);
-        }
-
-        /* TIÊU ĐỀ PLAT • DEX */
         .rainbow-3d-title {
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 3px;
@@ -167,13 +138,16 @@
             }
         }
 
-        header p {
-            font-size: 1.1rem;
-            color: #00f0ff;
+        /* DÒNG PHỤ NƠI CÁC SIÊU NHÂN ĐẺ RA */
+        header p.sub-title {
+            font-size: 0.95rem;
+            color: #ffffff;
             text-transform: uppercase;
             font-weight: bold;
-            margin-top: 5px;
-            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+            letter-spacing: 2px;
+            margin-top: 12px;
+            text-shadow: 0 0 8px rgba(0, 240, 255, 0.8);
+            z-index: 2;
         }
 
         /* DANH SÁCH BANNER */
@@ -368,10 +342,41 @@
     <div class="container">
         <!-- Header -->
         <header>
-            <div class="phoenix-frame-gaming">
-                <h1 class="rainbow-3d-title">Plat • Dex</h1>
+            <div class="esports-logo-wrapper">
+                <!-- SVG VẼ LOGO ESPORTS CHIM CÚ & KHIÊN (GIỐNG MẪU ẢNH) -->
+                <svg class="logo-svg" viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Khung khiên nền tối -->
+                    <path d="M150 10 L270 50 L250 200 L150 270 L50 200 L30 50 Z" fill="#040a1a" stroke="#0088ff" stroke-width="4"/>
+                    <!-- Viền khiên màu vàng ánh kim -->
+                    <path d="M150 25 L250 60 L232 190 L150 250 L68 190 L50 60 Z" fill="none" stroke="#ffaa00" stroke-width="6" stroke-linejoin="round"/>
+                    
+                    <!-- Cánh trái (Blue feathers with gold tips) -->
+                    <g fill="#0077ff" stroke="#ffaa00" stroke-width="1.5">
+                        <path d="M140 100 Q80 40 20 65 Q60 100 85 125 Q50 105 10 115 Q55 140 90 145 M130 110 L40 160 L100 165 M125 130 L60 195 L110 180" />
+                    </g>
+                    <!-- Cánh phải (Lật ngược) -->
+                    <g fill="#0077ff" stroke="#ffaa00" stroke-width="1.5">
+                        <path d="M160 100 Q220 40 280 65 Q240 100 215 125 Q250 105 290 115 Q245 140 210 145 M170 110 L260 160 L200 165 M175 130 L240 195 L190 180" />
+                    </g>
+                    
+                    <!-- Đầu Cú / Đại Điêu (Chính giữa) -->
+                    <path d="M150 70 L130 95 L120 85 L135 115 L150 120 L165 115 L180 85 L170 95 Z" fill="#00a2ff" stroke="#ffaa00" stroke-width="2"/>
+                    <!-- Mắt cú phát sáng -->
+                    <polygon points="138,100 146,102 142,108" fill="#ffea00"/>
+                    <polygon points="162,100 154,102 158,108" fill="#ffea00"/>
+                    <!-- Mỏ vàng -->
+                    <polygon points="150,105 145,118 155,118" fill="#ffaa00"/>
+                    <!-- Lông ngực & Đuôi -->
+                    <path d="M135 130 Q150 170 165 130 M140 145 Q150 190 160 145 M145 160 L150 210 L155 160" stroke="#00d4ff" stroke-width="3" fill="none"/>
+                </svg>
+
+                <!-- Tiêu đề Plat Dex đè lên chân khiên -->
+                <div class="title-container">
+                    <h1 class="rainbow-3d-title">Plat • Dex</h1>
+                </div>
+
+                <p class="sub-title">Nơi Các Siêu Nhân Đẻ Ra</p>
             </div>
-            <p>Nơi Các Siêu Nhân Đẻ Ra</p>
         </header>
 
         <!-- Danh sách Banner -->
@@ -441,7 +446,7 @@
             
             <div class="map-container">
                 <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d476859.1023737525!2d105.37248386807498!3d20.97344611400609!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab9bd9861ca1%3A0x3233d6118b3cb358!2zSMOgIE7hu5lpLCBWaeG7h3QgTmFt!5e0!3m2!1svi!2s!4v1700000000000!5m2!1svi!2s" 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d476859.1023737525!2d105.37248386807498!3d20.97344611400609!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab9bd9861ca1%3A0x3233d6118b3cb358!2zSMOgIE7hu5lpLCBWaeG7h3QgNam!5e0!3m2!1svi!2s!4v1700000000000!5m2!1svi!2s" 
                     allowfullscreen="" 
                     loading="lazy">
                 </iframe>
@@ -456,7 +461,7 @@
         </svg>
     </a>
 
-    <!-- SCRIPT MATRIX CODE -->
+    <!-- SCRIPT MATRIX CODE BACKGROUND -->
     <script>
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
