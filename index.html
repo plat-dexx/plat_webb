@@ -93,24 +93,25 @@
             text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
         }
 
-        /* BANNER CARD GÓC CẠNH HẦM HỐ */
+        /* DANH SÁCH BANNER CARD */
         .banner-list {
             display: flex;
             flex-direction: column;
-            gap: 25px;
+            gap: 30px;
         }
 
+        /* KHUNG TỔNG THỂ BANNER CARD */
         .banner-card {
             background: var(--bg-card);
             position: relative;
-            padding: 15px;
+            padding: 16px;
             clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
             border: 2px solid rgba(0, 240, 255, 0.4);
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
             transition: all 0.3s ease;
             display: flex;
             flex-direction: column;
-            align-items: center; /* Căn giữa các thành phần con */
+            gap: 12px; /* Khoảng cách giữa 3 khung con */
         }
 
         .banner-card::before {
@@ -130,31 +131,38 @@
             box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
         }
 
-        /* Tiêu đề banner nằm TRÊN CÙNG và CĂN GIỮA */
+        /* 1. KHUNG CHỮ (TIÊU ĐỀ) */
+        .banner-title-box {
+            width: 100%;
+            background: rgba(0, 240, 255, 0.05);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            border-left: 4px solid #ff0055;
+            padding: 10px 15px;
+            text-align: center;
+            clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+        }
+
         .banner-title {
             font-size: 1.1rem;
             font-weight: bold;
             color: #ffffff;
-            margin-bottom: 12px;
-            text-align: center;
-            width: 100%;
-            padding: 5px 0;
-            border-bottom: 2px solid #ff0055;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
         }
 
-        /* KHUNG ẢNH 16:9 */
-        .banner-img-container {
+        /* 2. KHUNG BANNER (ẢNH 16:9) */
+        .banner-img-box {
             width: 100%;
             aspect-ratio: 16 / 9;
             overflow: hidden;
             background-color: #020611;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 240, 255, 0.2);
             clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);
         }
 
-        .banner-img-container img {
+        .banner-img-box img {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -162,24 +170,28 @@
             transition: transform 0.4s ease;
         }
 
-        .banner-card:hover .banner-img-container img {
+        .banner-card:hover .banner-img-box img {
             transform: scale(1.05);
         }
 
-        /* Khung chứa nút Xem Ngay CĂN GIỮA */
-        .banner-actions {
+        /* 3. KHUNG PHẦN XEM NGAY (CHỨA NÚT) */
+        .banner-action-box {
+            width: 100%;
+            background: rgba(3, 7, 18, 0.6);
+            border: 1px dashed rgba(0, 240, 255, 0.3);
+            padding: 10px;
             display: flex;
             justify-content: center;
-            width: 100%;
-            margin-top: 5px;
+            align-items: center;
+            clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
         }
 
-        /* Nút Xem Ngay nằm giữa */
+        /* Nút Xem Ngay nằm trong Khung Xem Ngay */
         .btn-view {
             position: relative;
             background: linear-gradient(135deg, #ff0055 0%, #7a00ff 100%);
             color: #ffffff;
-            padding: 10px 30px;
+            padding: 10px 32px;
             text-decoration: none;
             font-weight: bold;
             font-size: 1.1rem;
@@ -290,44 +302,72 @@
             
             <!-- Banner 1 -->
             <div class="banner-card">
-                <div class="banner-title">1.Hack Liên Quân IOS Miễn Phí</div>
-                <div class="banner-img-container">
+                <!-- 1. Khung Chữ -->
+                <div class="banner-title-box">
+                    <span class="banner-title">1. Hack Liên Quân IOS Miễn Phí</span>
+                </div>
+                
+                <!-- 2. Khung Banner (Ảnh) -->
+                <div class="banner-img-box">
                     <img src="LQ.PNG" alt="Liên Quân IOS Miễn Phí">
                 </div>
-                <div class="banner-actions">
+                
+                <!-- 3. Khung Phần Xem Ngay -->
+                <div class="banner-action-box">
                     <a href="#" class="btn-view">Xem Ngay</a>
                 </div>
             </div>
 
             <!-- Banner 2 -->
             <div class="banner-card">
-                <div class="banner-title">2.Hack Free Fire IOS Miễn Phí</div>
-                <div class="banner-img-container">
+                <!-- 1. Khung Chữ -->
+                <div class="banner-title-box">
+                    <span class="banner-title">2. Hack Free Fire IOS Miễn Phí</span>
+                </div>
+                
+                <!-- 2. Khung Banner (Ảnh) -->
+                <div class="banner-img-box">
                     <img src="FF.PNG" alt="Free Fire IOS Miễn Phí">
                 </div>
-                <div class="banner-actions">
+                
+                <!-- 3. Khung Phần Xem Ngay -->
+                <div class="banner-action-box">
                     <a href="#" class="btn-view">Xem Ngay</a>
                 </div>
             </div>
 
             <!-- Banner 3 -->
             <div class="banner-card">
-                <div class="banner-title">3.Hack Play Together IOS Miễn Phí</div>
-                <div class="banner-img-container">
+                <!-- 1. Khung Chữ -->
+                <div class="banner-title-box">
+                    <span class="banner-title">3. Hack Play Together IOS Miễn Phí</span>
+                </div>
+                
+                <!-- 2. Khung Banner (Ảnh) -->
+                <div class="banner-img-box">
                     <img src="PLT.PNG" alt="Play Together IOS Miễn Phí">
                 </div>
-                <div class="banner-actions">
+                
+                <!-- 3. Khung Phần Xem Ngay -->
+                <div class="banner-action-box">
                     <a href="#" class="btn-view">Xem Ngay</a>
                 </div>
             </div>
 
             <!-- Banner 4 -->
             <div class="banner-card">
-                <div class="banner-title">4. Tải Và Hướng Dẫn Cài TFT Pbe IOS Miễn Phí</div>
-                <div class="banner-img-container">
+                <!-- 1. Khung Chữ -->
+                <div class="banner-title-box">
+                    <span class="banner-title">4. Tải Và Hướng Dẫn Cài TFT Pbe IOS Miễn Phí</span>
+                </div>
+                
+                <!-- 2. Khung Banner (Ảnh) -->
+                <div class="banner-img-box">
                     <img src="TFTPBE.PNG" alt="Tải Và Hướng Dẫn Cài TFT Pbe IOS Miễn Phí">
                 </div>
-                <div class="banner-actions">
+                
+                <!-- 3. Khung Phần Xem Ngay -->
+                <div class="banner-action-box">
                     <a href="#" class="btn-view">Xem Ngay</a>
                 </div>
             </div>
