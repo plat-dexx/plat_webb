@@ -5,32 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plat • Dex - Gaming Hub</title>
     <style>
-        /* CSS Reset & Variable */
         :root {
-            --bg-main: #050b14;
-            --bg-card: #0a172c;
-            --border-neon: #00f3ff;
-            --primary-blue: #0088ff;
-            --glow-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
-            --glow-strong: 0 0 25px rgba(0, 243, 255, 0.8);
-            --text-main: #f0f6fc;
+            --bg-main: #030712;
+            --bg-card: #0b132b;
+            --border-cyan: #00f0ff;
+            --text-main: #ffffff;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Segoe UI', Impact, Arial, sans-serif;
         }
 
         body {
             background-color: var(--bg-main);
-            /* Nền hoạ tiết lưới Gaming */
+            /* Nền họa tiết lưới công nghệ */
             background-image: 
-                radial-gradient(circle at 50% 0%, rgba(0, 136, 255, 0.15) 0%, transparent 70%),
-                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
-            background-size: 100% 100%, 30px 30px, 30px 30px;
+                radial-gradient(circle at 50% 10%, rgba(0, 240, 255, 0.12) 0%, transparent 60%),
+                linear-gradient(rgba(0, 240, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.04) 1px, transparent 1px);
+            background-size: 100% 100%, 25px 25px, 25px 25px;
             color: var(--text-main);
             display: flex;
             flex-direction: column;
@@ -41,37 +37,67 @@
         .container {
             width: 100%;
             max-width: 650px;
-            padding: 20px 15px;
+            padding: 25px 15px;
             flex: 1;
         }
 
-        /* Header Gaming */
+        /* HEADER & CHỮ 3D NHẤP NHÁY MÀU CẦU VỒNG */
         header {
             text-align: center;
-            margin-bottom: 35px;
-            position: relative;
+            margin-bottom: 40px;
         }
 
-        header h1 {
-            font-size: 2.5rem;
+        .rainbow-3d-title {
+            font-size: 3rem;
             font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            color: #ffffff;
-            text-shadow: 0 0 10px var(--border-neon), 0 0 20px var(--primary-blue);
-            margin-bottom: 5px;
+            letter-spacing: 4px;
+            
+            /* Dải màu cầu vồng */
+            background: linear-gradient(
+                90deg, 
+                #ff0055, #ff7300, #fffb00, #48ff00, #00ffd5, #002bfd, #7a00ff, #ff00c8, #ff0055
+            );
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            
+            /* Đổ bóng 3D nổi khối đa tầng */
+            filter: drop-shadow(2px 2px 0px #000) 
+                    drop-shadow(-1px -1px 0px #000)
+                    drop-shadow(0px 0px 15px rgba(0, 240, 255, 0.6));
+
+            /* Animation chuyển màu & nhấp nháy */
+            animation: rainbowFlow 3s linear infinite, glowPulse 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes rainbowFlow {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        @keyframes glowPulse {
+            0% {
+                filter: drop-shadow(2px 2px 0px #000) 
+                        drop-shadow(0px 0px 10px rgba(255, 0, 128, 0.8));
+            }
+            100% {
+                filter: drop-shadow(3px 3px 0px #000) 
+                        drop-shadow(0px 0px 25px rgba(0, 240, 255, 1));
+            }
         }
 
         header p {
-            font-size: 1.1rem;
-            color: #7dd3fc;
+            font-size: 1.15rem;
+            color: #00f0ff;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 600;
-            text-shadow: 0 0 5px rgba(0, 243, 255, 0.5);
+            letter-spacing: 2px;
+            font-weight: 700;
+            margin-top: 5px;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
         }
 
-        /* Banner List Gaming */
+        /* BANNER CARD GÓC CẠNH HẦM HỐ */
         .banner-list {
             display: flex;
             flex-direction: column;
@@ -80,31 +106,46 @@
 
         .banner-card {
             background: var(--bg-card);
-            border: 1px solid rgba(0, 243, 255, 0.3);
-            border-radius: 14px;
-            padding: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
-            transition: all 0.3s ease;
             position: relative;
-            overflow: hidden;
+            padding: 15px;
+            
+            /* Cắt góc hầm hố (Cyberpunk Polygon Cut) */
+            clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+            
+            border: 2px solid rgba(0, 240, 255, 0.4);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        /* Lớp viền góc cạnh hỗ trợ */
+        .banner-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100%;
+            background: var(--border-cyan);
+            box-shadow: 0 0 10px var(--border-cyan);
         }
 
         .banner-card:hover {
-            border-color: var(--border-neon);
-            box-shadow: var(--glow-shadow);
-            transform: translateY(-4px);
+            transform: translateY(-4px) scale(1.01);
+            border-color: var(--border-cyan);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
         }
 
-        /* Khung ảnh tỷ lệ 16:9 */
+        /* KHUNG ẢNH 16:9 */
         .banner-img-container {
             width: 100%;
             aspect-ratio: 16 / 9;
-            border-radius: 10px;
             overflow: hidden;
-            background-color: #020813;
+            background-color: #020611;
+            margin-bottom: 15px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            margin-bottom: 12px;
+            
+            /* Cắt góc cho ảnh */
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
         }
 
         .banner-img-container img {
@@ -116,93 +157,61 @@
         }
 
         .banner-card:hover .banner-img-container img {
-            transform: scale(1.03);
+            transform: scale(1.05);
         }
 
         .banner-title {
             font-size: 1.2rem;
-            font-weight: 700;
+            font-weight: 800;
             color: #ffffff;
-            margin-bottom: 12px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding-left: 10px;
+            border-left: 3px solid #ff0055;
         }
 
+        /* NÚT XEM NGAY GÓC CẠNH HẦM HỐ NỔI BẬT */
         .banner-actions {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
+            justify-content: flex-end;
         }
 
-        /* Nút Upload Ảnh */
-        .upload-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px dashed var(--border-neon);
-            color: #7dd3fc;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 0.82rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .upload-btn:hover {
-            background: rgba(0, 243, 255, 0.15);
-            color: #fff;
-        }
-
-        /* Nút Xem Ngay Gaming Nổi Đẹp */
         .btn-view {
             position: relative;
-            background: linear-gradient(135deg, #00d2ff 0%, #0066ff 100%);
+            background: linear-gradient(135deg, #ff0055 0%, #7a00ff 100%);
             color: #ffffff;
-            padding: 10px 24px;
-            border-radius: 8px;
+            padding: 12px 32px;
             text-decoration: none;
-            font-weight: 800;
-            font-size: 0.95rem;
+            font-weight: 900;
+            font-size: 1rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 0 10px rgba(0, 136, 255, 0.5);
+            letter-spacing: 1.5px;
+            
+            /* Cắt góc nút bấm kiểu mech/gaming */
+            clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+            
+            box-shadow: 0 0 15px rgba(255, 0, 85, 0.4);
             transition: all 0.3s ease;
-            overflow: hidden;
             display: inline-block;
             border: none;
         }
 
-        /* Hiệu ứng tia sáng lướt qua nút */
-        .btn-view::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: 0.5s;
-        }
-
-        .btn-view:hover::before {
-            left: 100%;
-        }
-
         .btn-view:hover {
-            transform: scale(1.05);
-            box-shadow: var(--glow-strong);
-            background: linear-gradient(135deg, #00f3ff 0%, #0088ff 100%);
+            background: linear-gradient(135deg, #00f0ff 0%, #0044ff 100%);
             color: #000;
+            font-weight: 900;
+            transform: scale(1.08);
+            box-shadow: 0 0 25px rgba(0, 240, 250, 0.8);
         }
 
-        /* Footer & Google Maps */
+        /* FOOTER & GOOGLE MAPS */
         footer {
             width: 100%;
-            background: #020712;
-            border-top: 1px solid rgba(0, 243, 255, 0.2);
-            padding: 30px 20px;
-            margin-top: 40px;
+            background: #01040a;
+            border-top: 2px solid var(--border-cyan);
+            padding: 35px 20px;
+            margin-top: 50px;
             text-align: center;
         }
 
@@ -212,56 +221,59 @@
         }
 
         .footer-info h3 {
-            color: var(--border-neon);
+            color: var(--border-cyan);
             margin-bottom: 12px;
-            font-size: 1.2rem;
-            letter-spacing: 1px;
-            text-shadow: 0 0 8px rgba(0, 243, 255, 0.4);
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
         }
 
         .footer-info p {
             margin-bottom: 8px;
             color: #94a3b8;
-            font-size: 0.95rem;
+            font-size: 1rem;
         }
 
         .map-container {
             margin-top: 20px;
             width: 100%;
-            border-radius: 12px;
             overflow: hidden;
-            border: 1px solid rgba(0, 243, 255, 0.3);
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--border-cyan);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.9);
+            
+            /* Cắt góc khung bản đồ */
+            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
         }
 
         .map-container iframe {
             width: 100%;
-            height: 200px;
+            height: 220px;
             border: 0;
-            filter: grayscale(20%) invert(90%) hue-rotate(180deg); /* Style map tối phong cách gaming */
+            filter: invert(90%) hue-rotate(180deg) contrast(1.2); /* Chuyển màu map sang phong cách Gaming Tối */
         }
 
-        /* Nút Telegram Tròn Phát Sáng */
+        /* NÚT TELEGRAM TRÒN PHÁT SÁNG */
         .telegram-btn {
             position: fixed;
             bottom: 25px;
             right: 25px;
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, #29a9eb, #0077ff);
+            background: linear-gradient(135deg, #00f0ff, #0044ff);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 15px rgba(41, 169, 235, 0.6);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
             transition: transform 0.3s, box-shadow 0.3s;
             z-index: 1000;
-            border: 2px solid var(--border-neon);
+            border: 2px solid #ffffff;
         }
 
         .telegram-btn:hover {
-            transform: scale(1.12);
-            box-shadow: 0 0 25px var(--border-neon);
+            transform: scale(1.15) rotate(10deg);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 1);
         }
 
         .telegram-btn svg {
@@ -277,7 +289,7 @@
     <div class="container">
         <!-- Header -->
         <header>
-            <h1>Plat • Dex</h1>
+            <h1 class="rainbow-3d-title">Plat • Dex</h1>
             <p>Nơi Các Siêu Nhân Đẻ Ra</p>
         </header>
 
@@ -287,14 +299,10 @@
             <!-- Banner 1 -->
             <div class="banner-card">
                 <div class="banner-img-container">
-                    <img id="img-1" src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&auto=format&fit=crop&q=60" alt="Liên Quân IOS">
+                    <img src="LQ.PNG" alt="Liên Quân IOS Miễn Phí">
                 </div>
                 <div class="banner-title">1. Liên Quân IOS Miễn Phí</div>
                 <div class="banner-actions">
-                    <label class="upload-btn">
-                        📁 Tải ảnh lên
-                        <input type="file" accept="image/*" style="display:none" onchange="previewImage(event, 'img-1')">
-                    </label>
                     <a href="#" class="btn-view">Xem Ngay</a>
                 </div>
             </div>
@@ -302,14 +310,10 @@
             <!-- Banner 2 -->
             <div class="banner-card">
                 <div class="banner-img-container">
-                    <img id="img-2" src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&auto=format&fit=crop&q=60" alt="Free Fire IOS">
+                    <img src="FF.PNG" alt="Free Fire IOS Miễn Phí">
                 </div>
                 <div class="banner-title">2. Free Fire IOS Miễn Phí</div>
                 <div class="banner-actions">
-                    <label class="upload-btn">
-                        📁 Tải ảnh lên
-                        <input type="file" accept="image/*" style="display:none" onchange="previewImage(event, 'img-2')">
-                    </label>
                     <a href="#" class="btn-view">Xem Ngay</a>
                 </div>
             </div>
@@ -317,14 +321,10 @@
             <!-- Banner 3 -->
             <div class="banner-card">
                 <div class="banner-img-container">
-                    <img id="img-3" src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800&auto=format&fit=crop&q=60" alt="Play Together IOS">
+                    <img src="PLT.PNG" alt="Play Together IOS Miễn Phí">
                 </div>
                 <div class="banner-title">3. Play Together IOS Miễn Phí</div>
                 <div class="banner-actions">
-                    <label class="upload-btn">
-                        📁 Tải ảnh lên
-                        <input type="file" accept="image/*" style="display:none" onchange="previewImage(event, 'img-3')">
-                    </label>
                     <a href="#" class="btn-view">Xem Ngay</a>
                 </div>
             </div>
@@ -332,14 +332,10 @@
             <!-- Banner 4 -->
             <div class="banner-card">
                 <div class="banner-img-container">
-                    <img id="img-4" src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&auto=format&fit=crop&q=60" alt="TFT Pbe IOS">
+                    <img src="TFTPBE.PNG" alt="Tải Và Hướng Dẫn Cài TFT Pbe IOS Miễn Phí">
                 </div>
                 <div class="banner-title">4. Tải Và Hướng Dẫn Cài TFT Pbe IOS Miễn Phí</div>
                 <div class="banner-actions">
-                    <label class="upload-btn">
-                        📁 Tải ảnh lên
-                        <input type="file" accept="image/*" style="display:none" onchange="previewImage(event, 'img-4')">
-                    </label>
                     <a href="#" class="btn-view">Xem Ngay</a>
                 </div>
             </div>
@@ -364,25 +360,12 @@
         </div>
     </footer>
 
-    <!-- Icon Telegram Tròn Bỏ Chữ -->
+    <!-- Icon Telegram Tròn -->
     <a href="https://t.me/your_telegram" class="telegram-btn" target="_blank" aria-label="Telegram">
         <svg viewBox="0 0 24 24">
             <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.56 8.16l-2.01 9.48c-.15.68-.55.84-1.12.52l-3.1-2.28-1.5 1.44c-.17.17-.31.31-.63.31l.22-3.17 5.77-5.21c.25-.22-.05-.34-.39-.12l-7.13 4.49-3.07-.96c-.67-.21-.68-.67.14-.99l12.01-4.63c.56-.21 1.05.13.83.92z"/>
         </svg>
     </a>
 
-    <!-- JS Đổi ảnh xem trước ngay lập tức -->
-    <script>
-        function previewImage(event, imgId) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById(imgId).src = e.target.result;
-                }
-                reader.readAsDataURL(file);
-            }
-        }
-    </script>
 </body>
 </html>
