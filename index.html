@@ -157,7 +157,7 @@
             }
         }
 
-        /* STYLES DÀNH CHO NÚT CỘNG ĐỒNG TELEGRAM MỚI THÊM */
+        /* STYLES CHO NÚT CỘNG ĐỒNG TELEGRAM 2 DÒNG + 2 ICON */
         .community-btn-wrapper {
             width: 100%;
             display: flex;
@@ -168,23 +168,18 @@
         .btn-telegram-community {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
+            justify-content: space-between;
+            gap: 12px;
             width: 100%;
-            max-width: 450px;
-            padding: 12px 20px;
+            max-width: 320px; /* Thu ngắn lại chiều rộng */
+            padding: 12px 18px; /* Tăng độ cao nút */
             background: linear-gradient(135deg, #0088cc 0%, #0055ff 100%);
             color: #ffffff;
             text-decoration: none;
-            font-weight: bold;
-            font-size: clamp(0.9rem, 3.5vw, 1.1rem);
-            text-transform: uppercase;
-            border-radius: 8px;
+            border-radius: 10px;
             border: 1px solid #00f0ff;
             box-shadow: 0 0 15px rgba(0, 136, 204, 0.6);
             transition: all 0.3s ease;
-            text-align: center;
-            line-height: 1.2;
         }
 
         .btn-telegram-community:hover {
@@ -194,11 +189,25 @@
             transform: translateY(-2px) scale(1.02);
         }
 
+        .btn-text-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+            line-height: 1.25;
+            font-size: clamp(0.85rem, 3.2vw, 0.95rem);
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
         .btn-telegram-community svg {
-            width: 24px;
-            height: 24px;
+            width: 38px; /* Kích thước icon bằng độ cao 2 dòng chữ */
+            height: 38px;
             fill: #ffffff;
             flex-shrink: 0;
+            filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
         }
 
         /* DANH SÁCH BANNER */
@@ -429,13 +438,22 @@
             </div>
         </header>
 
-        <!-- NÚT MỚI THÊM: CỘNG ĐỒNG SHARE MOD HACK IOS -->
+        <!-- NÚT CỘNG ĐỒNG TELEGRAM 2 DÒNG + 2 ICON -->
         <div class="community-btn-wrapper">
             <a href="https://t.me/plat_shareios" class="btn-telegram-community" target="_blank">
+                <!-- Icon Trái -->
                 <svg viewBox="0 0 24 24">
                     <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.56 8.16l-2.01 9.48c-.15.68-.55.84-1.12.52l-3.1-2.28-1.5 1.44c-.17.17-.31.31-.63.31l.22-3.17 5.77-5.21c.25-.22-.05-.34-.39-.12l-7.13 4.49-3.07-.96c-.67-.21-.68-.67.14-.99l12.01-4.63c.56-.21 1.05.13.83.92z"/>
                 </svg>
-                Cộng Đồng Share Mod Hack IOS
+                <!-- Chữ 2 Dòng -->
+                <div class="btn-text-content">
+                    <span>Tham Gia Cộng Đồng</span>
+                    <span>Share Mod Hack IOS</span>
+                </div>
+                <!-- Icon Phải -->
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.56 8.16l-2.01 9.48c-.15.68-.55.84-1.12.52l-3.1-2.28-1.5 1.44c-.17.17-.31.31-.63.31l.22-3.17 5.77-5.21c.25-.22-.05-.34-.39-.12l-7.13 4.49-3.07-.96c-.67-.21-.68-.67.14-.99l12.01-4.63c.56-.21 1.05.13.83.92z"/>
+                </svg>
             </a>
         </div>
 
