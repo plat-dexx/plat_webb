@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plat • Dex</title>
+    <!-- Cloudflare Turnstile Script -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
     <style>
         :root {
             --border-cyan: #00f0ff;
@@ -30,6 +33,62 @@
             align-items: center;
             position: relative;
             overflow-x: hidden;
+        }
+
+        /* OVERLAY TURNSTILE - che toàn bộ trang */
+        #turnstile-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease;
+        }
+
+        #turnstile-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .turnstile-box {
+            background: rgba(10, 15, 30, 0.9);
+            padding: 40px 30px;
+            border-radius: 24px;
+            border: 2px solid #00f0ff;
+            box-shadow: 0 0 50px rgba(0, 240, 255, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .turnstile-box h2 {
+            color: #ffffff;
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+        }
+
+        .turnstile-box p {
+            color: #aab;
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .turnstile-box .cf-turnstile {
+            display: flex;
+            justify-content: center;
         }
 
         /* CANVAS MATRIX CODE BACKGROUND */
@@ -388,6 +447,16 @@
 </head>
 <body>
 
+    <!-- OVERLAY TURNSTILE -->
+    <div id="turnstile-overlay">
+        <div class="turnstile-box">
+            <h2>🔒 Xác minh truy cập</h2>
+            <p>Vui lòng hoàn tất xác minh để vào trang</p>
+            <!-- Widget Turnstile với Site Key mới -->
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAAEc9ewrv4yt_-nMA" data-callback="onTurnstileSuccess"></div>
+        </div>
+    </div>
+
     <!-- Canvas Matrix phủ toàn bộ màn hình -->
     <canvas id="matrix-canvas"></canvas>
 
@@ -624,6 +693,15 @@
         }
 
         setInterval(drawMatrix, 33);
+
+        // ========== TURNSTILE CALLBACK ==========
+        function onTurnstileSuccess(token) {
+            // Ẩn overlay khi xác minh thành công
+            const overlay = document.getElementById('turnstile-overlay');
+            overlay.classList.add('hidden');
+            // Sau khi ẩn, có thể lưu token vào cookie hoặc localStorage nếu cần kiểm tra sau
+            console.log('Turnstile verified, token:', token);
+        }
     </script>
 </body>
 </html>
