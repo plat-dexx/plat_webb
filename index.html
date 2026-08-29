@@ -225,7 +225,7 @@
             filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
         }
 
-        /* ===== NÚT CẤU HÌNH - ĐÃ THÊM KHIÊN ===== */
+        /* ===== NÚT CẤU HÌNH ===== */
         .config-btn-wrapper {
             width: 100%;
             display: flex;
@@ -265,20 +265,34 @@
             font-size: clamp(0.75rem, 2.8vw, 0.9rem);
             text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
         }
-        .btn-config svg {
-            width: 38px;
-            height: 38px;
-            fill: #ffffff;
-            flex-shrink: 0;
-            filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
-        }
-        /* Icon khiên trong nút config */
         .btn-config .shield-icon {
             width: 38px;
             height: 38px;
             fill: #ffffff;
             flex-shrink: 0;
             filter: drop-shadow(0 0 5px rgba(255, 170, 0, 0.5));
+        }
+
+        /* ===== NÚT REPO (MÀU ĐỎ) ===== */
+        .btn-repo {
+            background: linear-gradient(135deg, #cc0000 0%, #ff0000 100%);
+            border-color: #ff4444;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+        }
+        .btn-repo:hover {
+            background: linear-gradient(135deg, #ff0000 0%, #ff6666 100%);
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.9);
+            border-color: #ff6666;
+        }
+        .btn-repo .book-icon {
+            width: 38px;
+            height: 38px;
+            fill: #ffffff;
+            flex-shrink: 0;
+            filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.5));
+        }
+        .btn-repo .btn-text-content {
+            font-size: clamp(0.8rem, 3vw, 1rem);
         }
 
         .banner-list {
@@ -476,7 +490,7 @@
             </div>
         </header>
 
-        <!-- NÚT CỘNG ĐỒNG TELEGRAM -->
+        <!-- NÚT CỘNG ĐỒNG TELEGRAM (giữ nguyên) -->
         <div class="community-btn-wrapper">
             <a href="https://t.me/plat_shareios" class="btn-telegram-community" target="_blank">
                 <svg viewBox="0 0 24 24">
@@ -492,10 +506,9 @@
             </a>
         </div>
 
-        <!-- ===== NÚT CẤU HÌNH (ĐÃ THÊM KHIÊN) ===== -->
+        <!-- ===== NÚT CẤU HÌNH CHẶN QUẢNG CÁO (đã đổi link) ===== -->
         <div class="config-btn-wrapper">
-            <a href="https://link4m.org/Cvb8ix5" class="btn-config" target="_blank">
-                <!-- Icon khiên -->
+            <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-config" target="_blank">
                 <svg class="shield-icon" viewBox="0 0 24 24">
                     <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5L12 1zm0 2.18l7 3.12v4.7c0 4.83-3.93 9.11-7 10.12-3.07-1.01-7-5.29-7-10.12V6.3l7-3.12z"/>
                     <path d="M12 5.32L7 7.88v3.12c0 3.62 2.92 6.83 5 7.88 2.08-1.05 5-4.26 5-7.88V7.88L12 5.32z"/>
@@ -505,27 +518,25 @@
                     <span>Cấu Hình Chặn Quảng Cáo</span>
                     <span>& Anti Thu Hồi Chứng Chỉ</span>
                 </div>
-                <svg viewBox="0 0 24 24" style="width:24px; height:24px; fill:#ffffff; flex-shrink:0;">
-                    <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.56 8.16l-2.01 9.48c-.15.68-.55.84-1.12.52l-3.1-2.28-1.5 1.44c-.17.17-.31.31-.63.31l.22-3.17 5.77-5.21c.25-.22-.05-.34-.39-.12l-7.13 4.49-3.07-.96c-.67-.21-.68-.67.14-.99l12.01-4.63c.56-.21 1.05.13.83.92z"/>
-                </svg>
-            </a>
-        </div>
-
-        <!-- ===== NÚT REPO ESIGN (MỚI) ===== -->
-        <div class="config-btn-wrapper">
-            <a href="https://hihi.com" class="btn-config" target="_blank">
-                <!-- Icon khiên (giữ nguyên để đồng bộ) -->
                 <svg class="shield-icon" viewBox="0 0 24 24">
                     <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5L12 1zm0 2.18l7 3.12v4.7c0 4.83-3.93 9.11-7 10.12-3.07-1.01-7-5.29-7-10.12V6.3l7-3.12z"/>
                     <path d="M12 5.32L7 7.88v3.12c0 3.62 2.92 6.83 5 7.88 2.08-1.05 5-4.26 5-7.88V7.88L12 5.32z"/>
                     <path d="M12 7.76L9 9.24v2.28c0 2.32 1.87 4.38 3 4.88 1.13-.5 3-2.56 3-4.88V9.24L12 7.76z"/>
                 </svg>
+            </a>
+        </div>
+
+        <!-- ===== NÚT REPO ESIGN (cũng đã có link giống) ===== -->
+        <div class="config-btn-wrapper">
+            <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-config btn-repo" target="_blank">
+                <svg class="book-icon" viewBox="0 0 24 24" fill="white">
+                    <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/>
+                </svg>
                 <div class="btn-text-content">
                     <span>Repo Esign By Plat</span>
-                    <span>Truy cập ngay</span>
                 </div>
-                <svg viewBox="0 0 24 24" style="width:24px; height:24px; fill:#ffffff; flex-shrink:0;">
-                    <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.56 8.16l-2.01 9.48c-.15.68-.55.84-1.12.52l-3.1-2.28-1.5 1.44c-.17.17-.31.31-.63.31l.22-3.17 5.77-5.21c.25-.22-.05-.34-.39-.12l-7.13 4.49-3.07-.96c-.67-.21-.68-.67.14-.99l12.01-4.63c.56-.21 1.05.13.83.92z"/>
+                <svg class="book-icon" viewBox="0 0 24 24" fill="white">
+                    <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/>
                 </svg>
             </a>
         </div>
