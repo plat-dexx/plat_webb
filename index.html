@@ -47,6 +47,7 @@
         }
         #turnstile-overlay.hidden {
             opacity: 0;
+            visibility: hidden;
             pointer-events: none;
         }
         .turnstile-box {
@@ -58,6 +59,20 @@
             text-align: center;
             max-width: 400px;
             width: 90%;
+            position: relative;
+        }
+        .btn-skip-test {
+            margin-top: 15px;
+            background: transparent;
+            border: 1px dashed #00f0ff;
+            color: #00f0ff;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .btn-skip-test:hover {
+            background: rgba(0, 240, 255, 0.2);
         }
         .turnstile-box h2 {
             color: #ffffff;
@@ -225,7 +240,6 @@
             filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
         }
 
-        /* ===== NÚT CẤU HÌNH ===== */
         .config-btn-wrapper {
             width: 100%;
             display: flex;
@@ -273,7 +287,6 @@
             filter: drop-shadow(0 0 5px rgba(255, 170, 0, 0.5));
         }
 
-        /* ===== NÚT REPO (MÀU ĐỎ) ===== */
         .btn-repo {
             background: linear-gradient(135deg, #cc0000 0%, #ff0000 100%);
             border-color: #ff4444;
@@ -447,6 +460,7 @@
             <h2>🔒 Xác minh truy cập</h2>
             <p>Vui lòng tích chọn <strong>"Tôi không phải robot"</strong> để tiếp tục</p>
             <div id="turnstile-container"></div>
+            <button class="btn-skip-test" onclick="document.getElementById('turnstile-overlay').classList.add('hidden')">Bỏ qua để xem trước</button>
         </div>
     </div>
 
@@ -490,7 +504,7 @@
             </div>
         </header>
 
-        <!-- NÚT CỘNG ĐỒNG TELEGRAM (giữ nguyên) -->
+        <!-- NÚT CỘNG ĐỒNG TELEGRAM -->
         <div class="community-btn-wrapper">
             <a href="https://t.me/plat_shareios" class="btn-telegram-community" target="_blank">
                 <svg viewBox="0 0 24 24">
@@ -506,7 +520,7 @@
             </a>
         </div>
 
-        <!-- ===== NÚT CẤU HÌNH CHẶN QUẢNG CÁO (đã đổi link) ===== -->
+        <!-- NÚT CẤU HÌNH CHẶN QUẢNG CÁO -->
         <div class="config-btn-wrapper">
             <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-config" target="_blank">
                 <svg class="shield-icon" viewBox="0 0 24 24">
@@ -526,7 +540,7 @@
             </a>
         </div>
 
-        <!-- ===== NÚT REPO ESIGN (cũng đã có link giống) ===== -->
+        <!-- NÚT REPO ESIGN -->
         <div class="config-btn-wrapper">
             <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-config btn-repo" target="_blank">
                 <svg class="book-icon" viewBox="0 0 24 24" fill="white">
@@ -543,6 +557,7 @@
 
         <!-- Danh sách Banner -->
         <main class="banner-list">
+            <!-- Banner Liên Quân -->
             <div class="banner-item">
                 <div class="banner-title-box">
                     <span class="banner-title">1. Hack Liên Quân IOS Miễn Phí</span>
@@ -554,20 +569,11 @@
                     <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-view" target="_blank">Xem Ngay</a>
                 </div>
             </div>
+
+            <!-- Banner TFT -->
             <div class="banner-item">
                 <div class="banner-title-box">
-                    <span class="banner-title">2. Hack Free Fire IOS Miễn Phí</span>
-                </div>
-                <div class="banner-img-box">
-                    <img src="FF.PNG" alt="Free Fire IOS Miễn Phí">
-                </div>
-                <div class="banner-action-box">
-                    <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-view" target="_blank">Xem Ngay</a>
-                </div>
-            </div>
-            <div class="banner-item">
-                <div class="banner-title-box">
-                    <span class="banner-title">3. Tải Và Hướng Dẫn Cài TFT Pbe IOS Miễn Phí</span>
+                    <span class="banner-title">2. Tải Và Hướng Dẫn Cài TFT Pbe IOS Miễn Phí</span>
                 </div>
                 <div class="banner-img-box">
                     <img src="TFTPBE.PNG" alt="Tải Và Hướng Dẫn Cài TFT Pbe IOS Miễn Phí">
@@ -646,14 +652,17 @@
         }
         setInterval(drawMatrix, 33);
 
-        // ===== TURNSTILE EXPLICIT RENDER =====
+        // Tự động kiểm tra môi trường: nếu mở qua file:// trên máy sẽ tự tắt màn hình che
         window.onload = function() {
+            if (location.protocol === 'file:') {
+                document.getElementById('turnstile-overlay').classList.add('hidden');
+                return;
+            }
             if (typeof turnstile !== 'undefined') {
                 turnstile.render('#turnstile-container', {
                     sitekey: '0x4AAAAAAEc9ewrv4yt_-nMA',
                     callback: function(token) {
                         document.getElementById('turnstile-overlay').classList.add('hidden');
-                        console.log('✅ Verified, token:', token);
                     },
                     'expired-callback': function() {
                         turnstile.reset('#turnstile-container');
@@ -662,10 +671,6 @@
                         console.error('Turnstile error');
                     }
                 });
-            } else {
-                document.getElementById('turnstile-container').innerHTML = 
-                    '<p style="color:#ff6b6b;">⚠️ Không thể tải xác minh. Vui lòng tải lại trang.</p>';
-                console.error('Turnstile script not loaded.');
             }
         };
     </script>
