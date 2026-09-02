@@ -7,43 +7,54 @@
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
     <style>
         :root {
-            --border-cyan: #00f0ff;
-            --text-main: #ffffff;
-            --esports-gold: #ffaa00;
-            --esports-blue: #0088ff;
-            --esports-dark: #0a1128;
+            --red-main: #ff003c;
+            --red-deep: #b30027;
+            --red-dark: #4a000e;
+            --bg-void: #070709;
+            --bg-panel: #0f0f14;
+            --border-tech: #ff003c;
+            --text-pure: #ffffff;
+            --text-dim: #9aa0a6;
         }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Times New Roman', Times, serif !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Arial Black', sans-serif;
         }
+
+        /* NỀN GAMING ĐỎ ĐEN CHIẾN THUẬT */
         body {
-            background-color: #000000;
-            color: var(--text-main);
+            background-color: var(--bg-void);
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(255, 0, 60, 0.22) 0%, transparent 65%),
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 35px 35px, 35px 35px;
+            background-attachment: fixed;
+            color: var(--text-pure);
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
             align-items: center;
-            position: relative;
             overflow-x: hidden;
         }
+
+        /* OVERLAY TURNSTILE GÓC CẠNH */
         #turnstile-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            background: rgba(4, 4, 6, 0.94);
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             z-index: 10000;
-            transition: opacity 0.5s ease;
+            backdrop-filter: blur(6px);
+            transition: opacity 0.4s ease;
         }
         #turnstile-overlay.hidden {
             opacity: 0;
@@ -51,401 +62,309 @@
             pointer-events: none;
         }
         .turnstile-box {
-            background: rgba(10, 15, 30, 0.95);
-            padding: 40px 30px;
-            border-radius: 24px;
-            border: 2px solid #00f0ff;
-            box-shadow: 0 0 50px rgba(0, 240, 255, 0.2);
+            background: #0d0d12;
+            padding: 35px 28px;
+            border: 2px solid var(--red-main);
+            clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+            box-shadow: 0 0 35px rgba(255, 0, 60, 0.35), inset 0 0 25px rgba(255, 0, 60, 0.1);
             text-align: center;
-            max-width: 400px;
+            max-width: 420px;
             width: 90%;
             position: relative;
         }
-        .btn-skip-test {
-            margin-top: 15px;
-            background: transparent;
-            border: 1px dashed #00f0ff;
-            color: #00f0ff;
-            padding: 6px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-        }
-        .btn-skip-test:hover {
-            background: rgba(0, 240, 255, 0.2);
-        }
         .turnstile-box h2 {
-            color: #ffffff;
-            font-size: 1.5rem;
-            margin-bottom: 12px;
+            font-size: 1.35rem;
+            color: #fff;
             text-transform: uppercase;
             letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+            margin-bottom: 10px;
         }
         .turnstile-box p {
-            color: #aab;
-            font-size: 0.95rem;
-            margin-bottom: 25px;
-            line-height: 1.5;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
         }
-        #turnstile-container {
-            display: flex;
-            justify-content: center;
-            min-height: 85px;
-            align-items: center;
+        .btn-skip-test {
+            margin-top: 18px;
+            background: #14141d;
+            border: 1px solid #444;
+            color: #bbb;
+            padding: 8px 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+            transition: all 0.2s;
         }
-        #matrix-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
-            pointer-events: none;
-            opacity: 0.35;
+        .btn-skip-test:hover {
+            background: var(--red-main);
+            color: #fff;
+            border-color: var(--red-main);
         }
+
+        /* CONTAINER CHÍNH */
         .container {
             width: 100%;
-            max-width: 650px;
-            padding: 25px 15px;
+            max-width: 620px;
+            padding: 30px 18px;
             flex: 1;
             position: relative;
-            z-index: 1;
+            z-index: 2;
         }
+
+        /* HEADER & LOGO */
         header {
-            text-align: center;
-            margin-bottom: 25px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            position: relative;
+            margin-bottom: 30px;
         }
-        .esports-logo-wrapper {
+        .logo-wrapper {
             position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            max-width: 450px;
             padding: 10px;
         }
         .logo-svg {
-            width: 130px;
-            height: 130px;
-            filter: drop-shadow(0 0 15px rgba(0, 136, 255, 0.6)) drop-shadow(0 0 4px rgba(255, 170, 0, 0.8));
-            transition: transform 0.4s ease, filter 0.4s ease;
+            width: 120px;
+            height: 120px;
+            filter: drop-shadow(0 0 18px rgba(255, 0, 60, 0.75));
+            transition: transform 0.3s ease;
         }
-        .esports-logo-wrapper:hover .logo-svg {
-            transform: scale(1.08);
-            filter: drop-shadow(0 0 20px rgba(0, 240, 255, 0.9)) drop-shadow(0 0 8px rgba(255, 200, 0, 1));
+        .logo-wrapper:hover .logo-svg {
+            transform: scale(1.06);
         }
-        .title-container {
-            margin-top: -15px;
-            z-index: 2;
-            position: relative;
-            background: rgba(5, 10, 25, 0.85);
-            padding: 12px 25px;
-            border-radius: 12px;
-            border: 1px solid var(--esports-gold);
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.9), inset 0 0 10px rgba(255, 170, 0, 0.3);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            width: 100%;
+        .title-badge {
+            margin-top: -10px;
+            background: #0d0d14;
+            border: 1px solid var(--red-main);
+            border-top: 2px solid var(--red-main);
+            padding: 10px 30px;
+            text-align: center;
+            clip-path: polygon(14px 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 14px 100%, 0 50%);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.9), 0 0 15px rgba(255, 0, 60, 0.25);
         }
-        .rainbow-3d-title {
-            font-size: clamp(1.8rem, 6vw, 2.5rem);
-            font-weight: bold;
+        .title-badge h1 {
+            font-size: 2.1rem;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: 4px;
             text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255, 0, 60, 0.8);
+        }
+        .title-badge p {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--red-main);
             letter-spacing: 3px;
-            line-height: 1.1;
-            white-space: nowrap;
-            background: linear-gradient(
-                90deg, 
-                #ff0055, #ff7300, #fffb00, #48ff00, #00ffd5, #002bfd, #7a00ff, #ff00c8, #ff0055
-            );
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(2px 2px 0px #000) 
-                    drop-shadow(-1px -1px 0px #000)
-                    drop-shadow(0px 0px 15px rgba(0, 240, 255, 0.8));
-            animation: rainbowFlow 3s linear infinite, glowPulse 1.5s ease-in-out infinite alternate;
-        }
-        .sub-title-in-box {
-            font-size: clamp(0.75rem, 3vw, 0.95rem);
-            color: #ffffff;
             text-transform: uppercase;
-            font-weight: bold;
-            letter-spacing: 2px;
-            white-space: nowrap;
-            text-shadow: 0 0 8px rgba(0, 240, 255, 0.9);
-            opacity: 0.95;
+            margin-top: 3px;
         }
-        @keyframes rainbowFlow {
-            0% { background-position: 0% center; }
-            100% { background-position: 200% center; }
-        }
-        @keyframes glowPulse {
-            0% { filter: drop-shadow(2px 2px 0px #000) drop-shadow(0px 0px 10px rgba(255, 0, 128, 0.8)); }
-            100% { filter: drop-shadow(3px 3px 0px #000) drop-shadow(0px 0px 25px rgba(0, 240, 255, 1)); }
-        }
-        .community-btn-wrapper {
-            width: 100%;
+
+        /* PHẦN CÁC NÚT BẤM (BUTTONS) */
+        .action-group {
             display: flex;
-            justify-content: center;
-            margin-bottom: 25px;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+            margin-bottom: 40px;
         }
-        .btn-telegram-community {
+
+        .btn-panel {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 12px;
-            width: 100%;
-            max-width: 320px;
-            padding: 12px 18px;
-            color: #ffffff;
+            padding: 14px 20px;
             text-decoration: none;
-            border-radius: 10px;
-            border: 1px solid #00f0ff;
-            transition: all 0.3s ease;
-            background: linear-gradient(135deg, #0088cc 0%, #0055ff 100%);
-            box-shadow: 0 0 15px rgba(0, 136, 204, 0.6);
+            color: #fff;
+            background: #111118;
+            border: 1px solid #282833;
+            border-left: 5px solid var(--btn-accent, var(--red-main));
+            clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
         }
-        .btn-telegram-community:hover {
-            background: linear-gradient(135deg, #00f0ff 0%, #0088cc 100%);
-            box-shadow: 0 0 25px rgba(0, 240, 255, 0.9);
-            transform: translateY(-2px) scale(1.02);
+        .btn-panel:hover {
+            transform: translateX(4px);
+            background: #181824;
+            border-color: var(--btn-accent, var(--red-main));
+            box-shadow: 0 0 20px rgba(255, 0, 60, 0.3);
         }
-        .btn-text-content {
+
+        /* Nút Telegram Cộng Đồng (Giữ màu xanh đặc trưng nhưng vát góc gaming) */
+        .btn-community {
+            --btn-accent: #0088cc;
+            background: linear-gradient(90deg, #09131f 0%, #0d1a29 100%);
+        }
+        .btn-community:hover {
+            box-shadow: 0 0 20px rgba(0, 136, 204, 0.4);
+        }
+
+        /* Nút Cấu hình & Repo */
+        .btn-config-red {
+            --btn-accent: var(--red-main);
+            background: linear-gradient(90deg, #180509 0%, #111117 100%);
+        }
+        .btn-repo-red {
+            --btn-accent: #ff4d00;
+            background: linear-gradient(90deg, #1c0803 0%, #111117 100%);
+        }
+
+        .btn-panel-content {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            flex: 1;
             text-align: center;
-            font-weight: bold;
+            padding: 0 12px;
+        }
+        .btn-panel-title {
+            font-size: 0.95rem;
+            font-weight: 900;
             text-transform: uppercase;
-            line-height: 1.25;
-            font-size: clamp(0.85rem, 3.2vw, 0.95rem);
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            letter-spacing: 1px;
         }
-        .btn-telegram-community svg {
-            width: 38px;
-            height: 38px;
-            fill: #ffffff;
-            flex-shrink: 0;
-            filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
-        }
-
-        .config-btn-wrapper {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            margin-bottom: 25px;
-        }
-        .btn-config {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            width: 100%;
-            max-width: 320px;
-            padding: 12px 18px;
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 10px;
-            border: 1px solid #ffaa00;
-            transition: all 0.3s ease;
-            background: linear-gradient(135deg, #ff7300 0%, #ffaa00 100%);
-            box-shadow: 0 0 15px rgba(255, 170, 0, 0.6);
-        }
-        .btn-config:hover {
-            background: linear-gradient(135deg, #ffaa00 0%, #ffcc00 100%);
-            box-shadow: 0 0 25px rgba(255, 170, 0, 0.9);
-            transform: translateY(-2px) scale(1.02);
-        }
-        .btn-config .btn-text-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-weight: bold;
+        .btn-panel-sub {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            font-weight: 700;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            line-height: 1.25;
-            font-size: clamp(0.75rem, 2.8vw, 0.9rem);
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            margin-top: 2px;
         }
-        .btn-config .shield-icon {
-            width: 38px;
-            height: 38px;
-            fill: #ffffff;
+        .btn-panel svg {
+            width: 32px;
+            height: 32px;
+            fill: #fff;
             flex-shrink: 0;
-            filter: drop-shadow(0 0 5px rgba(255, 170, 0, 0.5));
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8));
         }
 
-        .btn-repo {
-            background: linear-gradient(135deg, #cc0000 0%, #ff0000 100%);
-            border-color: #ff4444;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
-        }
-        .btn-repo:hover {
-            background: linear-gradient(135deg, #ff0000 0%, #ff6666 100%);
-            box-shadow: 0 0 25px rgba(255, 0, 0, 0.9);
-            border-color: #ff6666;
-        }
-        .btn-repo .book-icon {
-            width: 38px;
-            height: 38px;
-            fill: #ffffff;
-            flex-shrink: 0;
-            filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.5));
-        }
-        .btn-repo .btn-text-content {
-            font-size: clamp(0.8rem, 3vw, 1rem);
-        }
-
+        /* DANH SÁCH BANNER */
         .banner-list {
             display: flex;
             flex-direction: column;
-            gap: 35px;
+            gap: 40px;
+            width: 100%;
         }
-        .banner-item {
+        .banner-card {
+            background: var(--bg-panel);
+            border: 1px solid #262633;
+            border-top: 3px solid var(--red-main);
+            padding: 12px;
+            clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 12px;
+            position: relative;
+        }
+        .banner-card-header {
+            background: #08080c;
+            padding: 8px 14px;
+            border-left: 4px solid var(--red-main);
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
             align-items: center;
         }
-        .banner-title-box {
-            width: 100%;
-            background: linear-gradient(to right, #8b0000 0%, #3a0007 40%, #000000 100%);
-            border: 1px solid #ff0055;
-            border-left: 5px solid #ff0055;
-            padding: 12px 15px;
-            text-align: center;
-            clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
-            box-shadow: 0 0 10px rgba(255, 0, 85, 0.4);
-            transition: all 0.3s ease;
-        }
-        .banner-title-box:hover {
-            box-shadow: 0 0 20px rgba(255, 0, 85, 0.8);
-            border-color: #ff3377;
-        }
-        .banner-title {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #ffffff;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            text-shadow: 0 0 8px rgba(255, 0, 85, 0.8);
-        }
-        .banner-img-box {
-            display: block;
-            text-decoration: none;
-            cursor: pointer;
+        .banner-view-box {
             width: 100%;
             aspect-ratio: 16 / 9;
             overflow: hidden;
-            background-color: #020611;
-            border: 2px solid var(--border-cyan);
-            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
-            transition: all 0.3s ease;
+            display: block;
+            background: #000;
+            position: relative;
+            border: 1px solid #222;
         }
-        .banner-img-box:hover {
-            box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
-            transform: scale(1.01);
-        }
-        .banner-img-box img {
+        .banner-view-box img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
-            transition: transform 0.4s ease;
+            transition: transform 0.4s ease, filter 0.4s ease;
         }
-        .banner-img-box:hover img {
-            transform: scale(1.05);
+        .banner-card:hover .banner-view-box img {
+            transform: scale(1.04);
+            filter: contrast(1.08);
         }
-        .banner-action-box {
-            width: 100%;
+        .banner-footer-btn {
             display: flex;
             justify-content: center;
-            align-items: center;
-            margin-top: 5px;
+            padding-top: 4px;
         }
-        .btn-view {
-            position: relative;
-            background: linear-gradient(135deg, #ff0055 0%, #7a00ff 100%);
+        .btn-action-view {
+            width: 100%;
+            background: linear-gradient(90deg, #a6001e 0%, var(--red-main) 50%, #a6001e 100%);
             color: #ffffff;
-            padding: 10px 35px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.1rem;
+            font-weight: 900;
             text-transform: uppercase;
-            clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
-            box-shadow: 0 0 15px rgba(255, 0, 85, 0.4);
-            transition: all 0.3s ease;
-            display: inline-block;
-            border: none;
             text-align: center;
-            cursor: pointer;
+            text-decoration: none;
+            padding: 12px 20px;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px rgba(255, 0, 60, 0.4);
+            border: none;
         }
-        .btn-view:hover {
-            background: linear-gradient(135deg, #00f0ff 0%, #0044ff 100%);
-            color: #000;
-            transform: scale(1.08);
-            box-shadow: 0 0 25px rgba(0, 240, 250, 0.8);
+        .btn-action-view:hover {
+            background: #ffffff;
+            color: #000000;
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
+            transform: translateY(-2px);
         }
+
+        /* FOOTER */
         footer {
             width: 100%;
-            background: transparent;
-            border-top: 2px solid var(--border-cyan);
-            padding: 35px 20px;
+            border-top: 1px solid #20202b;
+            padding: 30px 15px;
             margin-top: 50px;
             text-align: center;
-            position: relative;
-            z-index: 1;
+            background: #050508;
         }
-        .footer-info {
-            max-width: 650px;
-            margin: 0 auto;
-        }
-        .footer-info h3 {
-            color: var(--border-cyan);
-            margin-bottom: 12px;
-            font-size: 1.1rem;
-            font-weight: bold;
+        .footer-content h4 {
+            color: var(--red-main);
+            font-size: 0.85rem;
+            font-weight: 900;
             text-transform: uppercase;
-            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+            letter-spacing: 2px;
+            margin-bottom: 6px;
         }
-        .footer-info p {
-            margin-bottom: 8px;
-            color: #ffffff;
-            font-size: 1.1rem;
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.9);
+        .footer-content p {
+            color: #fff;
+            font-size: 0.95rem;
+            font-weight: 700;
         }
+
+        /* NÚT TELEGRAM TRÒN (GIỮ NGUYÊN) */
         .telegram-btn {
             position: fixed;
             bottom: 25px;
             right: 25px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #00f0ff, #0044ff);
+            width: 58px;
+            height: 58px;
+            background: linear-gradient(135deg, #0088cc, #0055ff);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+            box-shadow: 0 0 20px rgba(0, 136, 204, 0.6);
             transition: transform 0.3s, box-shadow 0.3s;
             z-index: 1000;
             border: 2px solid #ffffff;
         }
         .telegram-btn:hover {
-            transform: scale(1.15) rotate(10deg);
-            box-shadow: 0 0 30px rgba(0, 240, 255, 1);
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 0 25px rgba(0, 136, 204, 1);
         }
         .telegram-btn svg {
             width: 30px;
@@ -457,141 +376,127 @@
 </head>
 <body>
 
-    <!-- OVERLAY TURNSTILE -->
+    <!-- OVERLAY XÁC MINH TURNSTILE -->
     <div id="turnstile-overlay">
         <div class="turnstile-box">
-            <h2>🔒 Xác minh truy cập</h2>
-            <p>Vui lòng tích chọn <strong>"Tôi không phải robot"</strong> để tiếp tục</p>
+            <h2>Hệ Thống Xác Minh</h2>
+            <p>Vui lòng xác minh để truy cập hệ thống</p>
             <div id="turnstile-container"></div>
-            <button class="btn-skip-test" onclick="document.getElementById('turnstile-overlay').classList.add('hidden')">Bỏ qua để xem trước</button>
+            <button class="btn-skip-test" onclick="document.getElementById('turnstile-overlay').classList.add('hidden')">Bỏ Qua Để Xem Trước</button>
         </div>
     </div>
 
-    <!-- Matrix Canvas -->
-    <canvas id="matrix-canvas"></canvas>
-
     <div class="container">
+        <!-- HEADER -->
         <header>
-            <div class="esports-logo-wrapper">
+            <div class="logo-wrapper">
                 <svg class="logo-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <filter id="glowLogo" x="-20%" y="-20%" width="140%" height="140%">
-                            <feGaussianBlur stdDeviation="6" result="blur" />
-                            <feMerge>
-                                <feMergeNode in="blur" />
-                                <feMergeNode in="SourceGraphic" />
-                            </feMerge>
-                        </filter>
-                    </defs>
-                    <polygon points="200,120 280,150 300,260 200,320 100,260 120,150" fill="none" stroke="#fca530" stroke-width="8" filter="url(#glowLogo)"/>
-                    <polygon points="200,135 270,162 285,255 200,310 115,255 130,162" fill="#0f1b30" />
-                    <g fill="#3284fa">
+                    <polygon points="200,120 280,150 300,260 200,320 100,260 120,150" fill="none" stroke="#ff003c" stroke-width="8"/>
+                    <polygon points="200,135 270,162 285,255 200,310 115,255 130,162" fill="#0f1118" />
+                    <g fill="#ff003c">
                         <path d="M 170,200 Q 120,140 85,170 Q 60,200 120,220 Q 140,230 110,250 Q 150,240 180,240 Z" />
                         <path d="M 230,200 Q 280,140 315,170 Q 340,200 280,220 Q 260,230 290,250 Q 250,240 220,240 Z" />
                         <polygon points="200,160 175,195 225,195" />
                         <path d="M 185,195 L 215,195 L 215,240 L 185,240 Z" />
                         <path d="M 180,240 L 220,240 L 205,290 L 195,290 Z" />
                     </g>
-                    <g fill="#f9e547">
+                    <g fill="#ffffff">
                         <polygon points="190,184 194,190 186,192" />
                         <polygon points="210,184 206,190 214,192" />
                     </g>
-                    <path d="M 195,240 L 205,240 L 201,265 L 199,265 Z" fill="#6bc9ff" />
-                    <path d="M 194,290 L 206,290 L 200,305 Z" fill="#6bc9ff" />
-                    <path d="M 170,285 L 140,295 L 145,310 Z M 230,285 L 260,295 L 255,310 Z" fill="#3284fa" />
+                    <path d="M 195,240 L 205,240 L 201,265 L 199,265 Z" fill="#ff4d6d" />
+                    <path d="M 194,290 L 206,290 L 200,305 Z" fill="#ff4d6d" />
+                    <path d="M 170,285 L 140,295 L 145,310 Z M 230,285 L 260,295 L 255,310 Z" fill="#ff003c" />
                 </svg>
-                <div class="title-container">
-                    <h1 class="rainbow-3d-title">Plat • Dex</h1>
-                    <p class="sub-title-in-box">NƠI CÁC SIÊU NHÂN ĐẺ RA</p>
-                </div>
+            </div>
+            <div class="title-badge">
+                <h1>PLAT • DEX</h1>
+                <p>Nơi Các Siêu Nhân Ra Đời</p>
             </div>
         </header>
 
-        <!-- NÚT CỘNG ĐỒNG TELEGRAM (GIỮ NGUYÊN) -->
-        <div class="community-btn-wrapper">
-            <a href="https://t.me/plat_shareios" class="btn-telegram-community" target="_blank">
+        <!-- KHỐI NÚT CHỨC NĂNG -->
+        <div class="action-group">
+            <!-- Nút Cộng Đồng Telegram (Giữ nguyên) -->
+            <a href="https://t.me/plat_shareios" class="btn-panel btn-community" target="_blank">
                 <svg viewBox="0 0 24 24">
                     <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.56 8.16l-2.01 9.48c-.15.68-.55.84-1.12.52l-3.1-2.28-1.5 1.44c-.17.17-.31.31-.63.31l.22-3.17 5.77-5.21c.25-.22-.05-.34-.39-.12l-7.13 4.49-3.07-.96c-.67-.21-.68-.67.14-.99l12.01-4.63c.56-.21 1.05.13.83.92z"/>
                 </svg>
-                <div class="btn-text-content">
-                    <span>Tham Gia Cộng Đồng</span>
-                    <span>Share Mod Hack IOS</span>
+                <div class="btn-panel-content">
+                    <span class="btn-panel-title">Tham Gia Cộng Đồng</span>
+                    <span class="btn-panel-sub">Share Mod Hack IOS</span>
                 </div>
                 <svg viewBox="0 0 24 24">
                     <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.56 8.16l-2.01 9.48c-.15.68-.55.84-1.12.52l-3.1-2.28-1.5 1.44c-.17.17-.31.31-.63.31l.22-3.17 5.77-5.21c.25-.22-.05-.34-.39-.12l-7.13 4.49-3.07-.96c-.67-.21-.68-.67.14-.99l12.01-4.63c.56-.21 1.05.13.83.92z"/>
                 </svg>
             </a>
-        </div>
 
-        <!-- NÚT CẤU HÌNH CHẶN QUẢNG CÁO -->
-        <div class="config-btn-wrapper">
-            <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-config" target="_blank">
-                <svg class="shield-icon" viewBox="0 0 24 24">
+            <!-- Nút Cấu Hình Chặn Quảng Cáo (Trỏ về link mới) -->
+            <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-panel btn-config-red" target="_blank">
+                <svg viewBox="0 0 24 24">
                     <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5L12 1zm0 2.18l7 3.12v4.7c0 4.83-3.93 9.11-7 10.12-3.07-1.01-7-5.29-7-10.12V6.3l7-3.12z"/>
                     <path d="M12 5.32L7 7.88v3.12c0 3.62 2.92 6.83 5 7.88 2.08-1.05 5-4.26 5-7.88V7.88L12 5.32z"/>
-                    <path d="M12 7.76L9 9.24v2.28c0 2.32 1.87 4.38 3 4.88 1.13-.5 3-2.56 3-4.88V9.24L12 7.76z"/>
                 </svg>
-                <div class="btn-text-content">
-                    <span>Cấu Hình Chặn Quảng Cáo</span>
-                    <span>& Anti Thu Hồi Chứng Chỉ</span>
+                <div class="btn-panel-content">
+                    <span class="btn-panel-title">Cấu Hình Chặn Quảng Cáo</span>
+                    <span class="btn-panel-sub">Anti Thu Hồi Chứng Chỉ</span>
                 </div>
-                <svg class="shield-icon" viewBox="0 0 24 24">
+                <svg viewBox="0 0 24 24">
                     <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5L12 1zm0 2.18l7 3.12v4.7c0 4.83-3.93 9.11-7 10.12-3.07-1.01-7-5.29-7-10.12V6.3l7-3.12z"/>
                     <path d="M12 5.32L7 7.88v3.12c0 3.62 2.92 6.83 5 7.88 2.08-1.05 5-4.26 5-7.88V7.88L12 5.32z"/>
-                    <path d="M12 7.76L9 9.24v2.28c0 2.32 1.87 4.38 3 4.88 1.13-.5 3-2.56 3-4.88V9.24L12 7.76z"/>
                 </svg>
             </a>
-        </div>
 
-        <!-- NÚT REPO ESIGN -->
-        <div class="config-btn-wrapper">
-            <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-config btn-repo" target="_blank">
-                <svg class="book-icon" viewBox="0 0 24 24" fill="white">
+            <!-- Nút Repo Esign (Trỏ về link mới) -->
+            <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-panel btn-repo-red" target="_blank">
+                <svg viewBox="0 0 24 24">
                     <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/>
                 </svg>
-                <div class="btn-text-content">
-                    <span>Repo Esign & 3105 By Plat</span>
+                <div class="btn-panel-content">
+                    <span class="btn-panel-title">Repo Esign & 3105</span>
+                    <span class="btn-panel-sub">Tài Nguyên MOD IOS</span>
                 </div>
-                <svg class="book-icon" viewBox="0 0 24 24" fill="white">
+                <svg viewBox="0 0 24 24">
                     <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/>
                 </svg>
             </a>
         </div>
 
-        <!-- Danh sách Banner -->
+        <!-- DANH SÁCH BANNER -->
         <main class="banner-list">
             <!-- Banner 1 -->
-            <div class="banner-item">
-                <div class="banner-title-box">
-                    <span class="banner-title">1. Tổng Hợp Game Hack By Plat</span>
+            <div class="banner-card">
+                <div class="banner-card-header">
+                    01. Tổng Hợp Game Hack By Plat
                 </div>
-                <a href="https://plat-dexx.github.io/plat-unlock/" class="banner-img-box" target="_blank">
+                <a href="https://plat-dexx.github.io/plat-unlock/" class="banner-view-box" target="_blank">
                     <img src="PLAT.PNG" alt="Tổng Hợp Game Hack By Plat">
                 </a>
-                <div class="banner-action-box">
-                    <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-view" target="_blank">Xem Ngay</a>
+                <div class="banner-footer-btn">
+                    <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-action-view" target="_blank">Xem Ngay</a>
                 </div>
             </div>
 
-            <!-- Banner 2 (TFT) -->
-            <div class="banner-item">
-                <div class="banner-title-box">
-                    <span class="banner-title">2. Tải Và Hướng Dẫn Cài TFT Pbe IOS Miễn Phí</span>
+            <!-- Banner 2 -->
+            <div class="banner-card">
+                <div class="banner-card-header">
+                    02. Cài TFT PBE IOS Miễn Phí
                 </div>
-                <a href="https://plat-dexx.github.io/plat-unlock/" class="banner-img-box" target="_blank">
+                <a href="https://plat-dexx.github.io/plat-unlock/" class="banner-view-box" target="_blank">
                     <img src="TFTPBE.PNG" alt="Tải Và Hướng Dẫn Cài TFT Pbe IOS Miễn Phí">
                 </a>
-                <div class="banner-action-box">
-                    <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-view" target="_blank">Xem Ngay</a>
+                <div class="banner-footer-btn">
+                    <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-action-view" target="_blank">Xem Ngay</a>
                 </div>
             </div>
         </main>
     </div>
 
+    <!-- FOOTER -->
     <footer>
-        <div class="footer-info">
-            <h3>THÔNG TIN CHỦ SỞ HỮU</h3>
-            <p><strong>Developer:</strong> Plat • Dex</p>
+        <div class="footer-content">
+            <h4>Bản Quyền Thuộc Về</h4>
+            <p>Developer: Plat • Dex</p>
         </div>
     </footer>
 
@@ -602,60 +507,8 @@
         </svg>
     </a>
 
+    <!-- CLOUDFLARE TURNSTILE SCRIPT -->
     <script>
-        const canvas = document.getElementById('matrix-canvas');
-        const ctx = canvas.getContext('2d');
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-
-        const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ<>/{}[];:*&^%$#@!PLATDEX';
-        const fontSize = 14;
-        const totalStreams = 70;
-        const streams = [];
-        for (let i = 0; i < totalStreams; i++) resetStream(i);
-        function resetStream(i) {
-            const dir = Math.floor(Math.random() * 3);
-            let x, y;
-            if (dir === 0) { x = Math.random() * canvas.width; y = Math.random() * -200; }
-            else if (dir === 1) { x = Math.random() * -200; y = Math.random() * canvas.height; }
-            else { x = canvas.width + Math.random() * 200; y = Math.random() * canvas.height; }
-            streams[i] = {
-                dir, x, y,
-                speed: 2 + Math.random() * 4,
-                length: 8 + Math.floor(Math.random() * 15),
-                chars: Array.from({length: 20}, () => chars.charAt(Math.floor(Math.random() * chars.length)))
-            };
-        }
-        function drawMatrix() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.font = fontSize + 'px monospace';
-            streams.forEach((s, idx) => {
-                for (let j = 0; j < s.length; j++) {
-                    let charX = s.x, charY = s.y;
-                    if (s.dir === 0) charY -= j * fontSize;
-                    else if (s.dir === 1) charX -= j * fontSize;
-                    else if (s.dir === 2) charX += j * fontSize;
-                    ctx.fillStyle = j === 0 ? '#ffffff' : `rgba(0, 240, 255, ${1 - j / s.length})`;
-                    if (Math.random() < 0.05) s.chars[j] = chars.charAt(Math.floor(Math.random() * chars.length));
-                    ctx.fillText(s.chars[j], charX, charY);
-                }
-                if (s.dir === 0) s.y += s.speed;
-                else if (s.dir === 1) s.x += s.speed;
-                else if (s.dir === 2) s.x -= s.speed;
-                if (
-                    (s.dir === 0 && s.y - s.length * fontSize > canvas.height) ||
-                    (s.dir === 1 && s.x - s.length * fontSize > canvas.width) ||
-                    (s.dir === 2 && s.x + s.length * fontSize < 0)
-                ) resetStream(idx);
-            });
-        }
-        setInterval(drawMatrix, 33);
-
         window.onload = function() {
             if (location.protocol === 'file:') {
                 document.getElementById('turnstile-overlay').classList.add('hidden');
