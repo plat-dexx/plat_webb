@@ -9,7 +9,6 @@
         :root {
             --red-main: #ff003c;
             --bg-void: #000000;
-            --bg-panel: #0a0a0c;
             --text-pure: #ffffff;
             --text-dim: #8e8e93;
         }
@@ -32,7 +31,7 @@
             overflow-x: hidden;
         }
 
-        /* OVERLAY TURNSTILE GÓC CẠNH */
+        /* OVERLAY TURNSTILE */
         #turnstile-overlay {
             position: fixed;
             top: 0;
@@ -53,11 +52,11 @@
             pointer-events: none;
         }
         .turnstile-box {
-            background: #08080a;
+            background: #0a0c10;
             padding: 35px 28px;
-            border: 2px solid var(--red-main);
-            clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
-            box-shadow: 0 0 35px rgba(255, 0, 60, 0.3), inset 0 0 20px rgba(255, 0, 60, 0.08);
+            border: 2px solid #2f3442;
+            border-top: 3px solid var(--red-main);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9), 0 0 20px rgba(255, 0, 60, 0.2);
             text-align: center;
             max-width: 420px;
             width: 90%;
@@ -77,8 +76,8 @@
         }
         .btn-skip-test {
             margin-top: 18px;
-            background: #111114;
-            border: 1px solid #333339;
+            background: #151821;
+            border: 1px solid #393e50;
             color: #aaa;
             padding: 8px 18px;
             font-weight: 700;
@@ -86,7 +85,6 @@
             letter-spacing: 1px;
             font-size: 0.75rem;
             cursor: pointer;
-            clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
             transition: all 0.2s;
         }
         .btn-skip-test:hover {
@@ -105,61 +103,66 @@
             z-index: 2;
         }
 
-        /* HEADER: KHUNG NEON BẢY MÀU CHẠY TỪ TRÁI SANG PHẢI */
+        /* HEADER: KHUNG CHỮ NHẬT GIÁP ROBOT ĐA TẦNG + DẢI LED NEON 7 MÀU */
         header {
             display: flex;
             justify-content: center;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
             width: 100%;
         }
-        .rainbow-neon-wrapper {
+        .mech-header-outer {
             position: relative;
             width: 100%;
-            max-width: 520px;
-            display: flex;
-            justify-content: center;
-        }
-        .rainbow-neon-glow {
-            position: absolute;
-            inset: -2px;
+            max-width: 530px;
+            padding: 3px;
+            /* Dải LED 7 màu chạy từ trái sang phải */
             background: linear-gradient(90deg, #ff0000, #ff7700, #ffee00, #00ff55, #00e1ff, #0033ff, #8800ff, #ff0000);
             background-size: 200% 100%;
             animation: flowRainbow 3.5s linear infinite;
-            filter: blur(16px);
-            opacity: 0.85;
-            border-radius: 8px;
-            z-index: 1;
+            border-radius: 2px;
+            box-shadow: 
+                0 0 25px rgba(255, 0, 60, 0.4),
+                0 15px 35px rgba(0, 0, 0, 0.95);
         }
-        .rainbow-neon-box {
+        /* Lớp giáp nổi đa tầng bên trong */
+        .mech-header-armor {
             position: relative;
-            width: 100%;
-            padding: 2.5px;
-            background: linear-gradient(90deg, #ff0000, #ff7700, #ffee00, #00ff55, #00e1ff, #0033ff, #8800ff, #ff0000);
-            background-size: 200% 100%;
-            animation: flowRainbow 3.5s linear infinite;
-            clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
-            z-index: 2;
-        }
-        .neon-inner {
-            background: #07070a;
-            clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
-            padding: 25px 20px 22px 20px;
+            background: linear-gradient(180deg, #181b24 0%, #0b0c10 100%);
+            border: 2px solid #363c4e;
+            border-top: 2px solid #5a647d; /* Cạnh phản quang kim loại */
+            border-bottom: 3px solid #050608; /* Bóng chân giáp */
+            padding: 26px 20px 22px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 100%;
-        }
-        @keyframes flowRainbow {
-            0% {
-                background-position: 0% 50%;
-            }
-            100% {
-                background-position: 200% 50%;
-            }
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.25),
+                inset 0 0 15px rgba(0, 0, 0, 0.9),
+                0 0 0 2px #101217;
         }
 
-        /* LOGO ĐƯỢC PHÓNG TO */
+        /* Đinh tán cơ khí 4 góc (Rivets) */
+        .mech-bolt {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #3c4253;
+            border: 1px solid #141720;
+            border-radius: 50%;
+            box-shadow: inset 1px 1px 1px rgba(255, 255, 255, 0.6), 0 1px 2px rgba(0, 0, 0, 0.8);
+        }
+        .bolt-tl { top: 8px; left: 8px; }
+        .bolt-tr { top: 8px; right: 8px; }
+        .bolt-bl { bottom: 8px; left: 8px; }
+        .bolt-br { bottom: 8px; right: 8px; }
+
+        @keyframes flowRainbow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        /* LOGO CỠ LỚN */
         .logo-wrapper {
             position: relative;
             display: flex;
@@ -169,16 +172,16 @@
         .logo-svg {
             width: clamp(140px, 26vw, 175px);
             height: clamp(140px, 26vw, 175px);
-            filter: drop-shadow(0 0 20px rgba(255, 0, 60, 0.85));
+            filter: drop-shadow(0 0 18px rgba(255, 0, 60, 0.85));
             transition: transform 0.3s ease;
         }
         .logo-wrapper:hover .logo-svg {
-            transform: scale(1.06);
+            transform: scale(1.05);
         }
 
-        /* CHỮ 3D IN NỔI ĐỔ BÓNG (EXTRUDED 3D) */
+        /* CHỮ 3D IN NỔI ĐỔ BÓNG ĐA TẦNG */
         .header-main-title {
-            font-size: clamp(2rem, 7vw, 2.8rem);
+            font-size: clamp(2rem, 7vw, 2.7rem);
             font-weight: 900;
             color: #ffffff;
             letter-spacing: 4px;
@@ -186,17 +189,16 @@
             margin-top: 10px;
             line-height: 1.15;
             text-shadow: 
-                1px 1px 0 #cccccc,
-                2px 2px 0 #aaaaaa,
-                3px 3px 0 #888888,
-                4px 4px 0 #555555,
+                1px 1px 0 #d9d9d9,
+                2px 2px 0 #b3b3b3,
+                3px 3px 0 #8c8c8c,
+                4px 4px 0 #595959,
                 5px 5px 0 #333333,
                 6px 6px 0 #111111,
-                7px 7px 12px rgba(0, 0, 0, 0.9),
-                0 0 25px rgba(255, 0, 60, 0.6);
+                7px 7px 14px rgba(0, 0, 0, 0.95),
+                0 0 25px rgba(255, 0, 60, 0.65);
         }
 
-        /* DÒNG PHỤ 3D IN NỔI */
         .header-sub-title {
             font-size: clamp(0.75rem, 2.8vw, 0.95rem);
             font-weight: 900;
@@ -305,37 +307,57 @@
             filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
         }
 
-        /* DANH SÁCH BANNER */
+        /* DANH SÁCH BANNER: KHUNG HÌNH CHỮ NHẬT GIÁP ROBOT ĐA TẦNG */
         .banner-list {
             display: flex;
             flex-direction: column;
             gap: 40px;
             width: 100%;
         }
+
+        /* Khung thân Banner hình chữ nhật nổi đa tầng */
         .banner-card {
-            background: var(--bg-panel);
-            border: 1px solid #1c1c24;
-            border-top: 3px solid var(--red-main);
-            padding: 12px;
-            clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 1);
+            position: relative;
+            background: linear-gradient(180deg, #161822 0%, #090a0e 100%);
+            border: 2px solid #33394a;
+            border-top: 3px solid #5d677f; /* Gờ kim loại phản quang */
+            border-bottom: 3px solid #050507;
+            padding: 14px;
+            box-shadow: 
+                0 0 0 1px #000000,
+                0 0 0 3px #13151c,
+                0 15px 35px rgba(0, 0, 0, 0.95),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15),
+                inset 0 0 15px rgba(0, 0, 0, 0.85);
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            position: relative;
+            gap: 14px;
+            border-radius: 2px;
         }
+
+        /* Khung Tiêu Đề Banner: Hình chữ nhật vỏ robot nổi khối */
         .banner-card-header {
-            background: #000000;
-            padding: 8px 14px;
-            border-left: 4px solid var(--red-main);
+            position: relative;
+            background: linear-gradient(90deg, #22080d 0%, #151722 45%, #0e1017 100%);
+            border: 1px solid #3a4154;
+            border-left: 5px solid var(--red-main);
+            border-top: 1px solid #636f8f;
+            border-bottom: 2px solid #050608;
+            padding: 10px 16px;
             font-size: 0.95rem;
-            font-weight: 800;
+            font-weight: 900;
             color: #ffffff;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             display: flex;
             align-items: center;
+            box-shadow: 
+                0 3px 8px rgba(0, 0, 0, 0.8),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.7);
         }
+
+        /* Khung chứa ảnh chữ nhật dập rãnh sâu */
         .banner-view-box {
             width: 100%;
             aspect-ratio: 16 / 9;
@@ -343,7 +365,9 @@
             display: block;
             background: #000000;
             position: relative;
-            border: 1px solid #1c1c24;
+            border: 2px solid #232733;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9);
+            border-radius: 0;
         }
         .banner-view-box img {
             width: 100%;
@@ -356,14 +380,15 @@
             transform: scale(1.04);
             filter: contrast(1.08);
         }
+
         .banner-footer-btn {
             display: flex;
             justify-content: center;
-            padding-top: 4px;
+            padding-top: 2px;
         }
         .btn-action-view {
             width: 100%;
-            background: linear-gradient(90deg, #a6001e 0%, var(--red-main) 50%, #a6001e 100%);
+            background: linear-gradient(90deg, #94001b 0%, var(--red-main) 50%, #94001b 100%);
             color: #ffffff;
             font-weight: 900;
             text-transform: uppercase;
@@ -372,14 +397,16 @@
             padding: 12px 20px;
             font-size: 1rem;
             letter-spacing: 2px;
-            clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+            border: 1px solid #ff4d6d;
+            border-top: 1px solid #ffffff;
             transition: all 0.25s ease;
             box-shadow: 0 4px 15px rgba(255, 0, 60, 0.35);
-            border: none;
+            border-radius: 2px;
         }
         .btn-action-view:hover {
             background: #ffffff;
             color: #000000;
+            border-color: #ffffff;
             box-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
             transform: translateY(-2px);
         }
@@ -449,35 +476,38 @@
     </div>
 
     <div class="container">
-        <!-- HEADER VỚI LOGO LỚN VÀ CHỮ 3D IN NỔI TRONG KHUNG NEON 7 MÀU -->
+        <!-- HEADER VỎ ROBOT CHỮ NHẬT ĐA TẦNG + KHUNG NEON 7 MÀU -->
         <header>
-            <div class="rainbow-neon-wrapper">
-                <div class="rainbow-neon-glow"></div>
-                <div class="rainbow-neon-box">
-                    <div class="neon-inner">
-                        <div class="logo-wrapper">
-                            <svg class="logo-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-                                <polygon points="200,120 280,150 300,260 200,320 100,260 120,150" fill="none" stroke="#ff003c" stroke-width="8"/>
-                                <polygon points="200,135 270,162 285,255 200,310 115,255 130,162" fill="#08080a" />
-                                <g fill="#ff003c">
-                                    <path d="M 170,200 Q 120,140 85,170 Q 60,200 120,220 Q 140,230 110,250 Q 150,240 180,240 Z" />
-                                    <path d="M 230,200 Q 280,140 315,170 Q 340,200 280,220 Q 260,230 290,250 Q 250,240 220,240 Z" />
-                                    <polygon points="200,160 175,195 225,195" />
-                                    <path d="M 185,195 L 215,195 L 215,240 L 185,240 Z" />
-                                    <path d="M 180,240 L 220,240 L 205,290 L 195,290 Z" />
-                                </g>
-                                <g fill="#ffffff">
-                                    <polygon points="190,184 194,190 186,192" />
-                                    <polygon points="210,184 206,190 214,192" />
-                                </g>
-                                <path d="M 195,240 L 205,240 L 201,265 L 199,265 Z" fill="#ff4d6d" />
-                                <path d="M 194,290 L 206,290 L 200,305 Z" fill="#ff4d6d" />
-                                <path d="M 170,285 L 140,295 L 145,310 Z M 230,285 L 260,295 L 255,310 Z" fill="#ff003c" />
-                            </svg>
-                        </div>
-                        <h1 class="header-main-title">PLAT • DEX</h1>
-                        <p class="header-sub-title">Nơi Các Siêu Nhân Ra Đời</p>
+            <div class="mech-header-outer">
+                <div class="mech-header-armor">
+                    <!-- 4 đinh tán vỏ giáp -->
+                    <span class="mech-bolt bolt-tl"></span>
+                    <span class="mech-bolt bolt-tr"></span>
+                    <span class="mech-bolt bolt-bl"></span>
+                    <span class="mech-bolt bolt-br"></span>
+
+                    <div class="logo-wrapper">
+                        <svg class="logo-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                            <polygon points="200,120 280,150 300,260 200,320 100,260 120,150" fill="none" stroke="#ff003c" stroke-width="8"/>
+                            <polygon points="200,135 270,162 285,255 200,310 115,255 130,162" fill="#08080a" />
+                            <g fill="#ff003c">
+                                <path d="M 170,200 Q 120,140 85,170 Q 60,200 120,220 Q 140,230 110,250 Q 150,240 180,240 Z" />
+                                <path d="M 230,200 Q 280,140 315,170 Q 340,200 280,220 Q 260,230 290,250 Q 250,240 220,240 Z" />
+                                <polygon points="200,160 175,195 225,195" />
+                                <path d="M 185,195 L 215,195 L 215,240 L 185,240 Z" />
+                                <path d="M 180,240 L 220,240 L 205,290 L 195,290 Z" />
+                            </g>
+                            <g fill="#ffffff">
+                                <polygon points="190,184 194,190 186,192" />
+                                <polygon points="210,184 206,190 214,192" />
+                            </g>
+                            <path d="M 195,240 L 205,240 L 201,265 L 199,265 Z" fill="#ff4d6d" />
+                            <path d="M 194,290 L 206,290 L 200,305 Z" fill="#ff4d6d" />
+                            <path d="M 170,285 L 140,295 L 145,310 Z M 230,285 L 260,295 L 255,310 Z" fill="#ff003c" />
+                        </svg>
                     </div>
+                    <h1 class="header-main-title">PLAT • DEX</h1>
+                    <p class="header-sub-title">Nơi Các Siêu Nhân Ra Đời</p>
                 </div>
             </div>
         </header>
@@ -529,7 +559,7 @@
             </a>
         </div>
 
-        <!-- DANH SÁCH BANNER -->
+        <!-- DANH SÁCH BANNER (KHUNG CHỮ NHẬT GIÁP ROBOT ĐA TẦNG) -->
         <main class="banner-list">
             <!-- Banner 1 -->
             <div class="banner-card">
