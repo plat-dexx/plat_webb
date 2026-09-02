@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plat • Dex</title>
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=initTurnstile&render=explicit" async defer></script>
     <style>
         :root {
             --red-main: #ff003c;
-            --bg-void: #000000;
+            --red-glow: rgba(255, 0, 60, 0.45);
+            --bg-void: #050608;
+            --panel-bg: #0d0f14;
+            --border-metal: #2f3545;
             --text-pure: #ffffff;
             --text-dim: #8e8e93;
         }
@@ -18,11 +21,16 @@
             padding: 0;
             box-sizing: border-box;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Arial Black', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* NỀN ĐEN THUẦN */
         body {
-            background: #000000;
+            background-color: var(--bg-void);
+            background-image: 
+                radial-gradient(circle at 50% 20%, rgba(255, 0, 60, 0.08) 0%, transparent 60%),
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 36px 36px, 36px 36px;
             color: var(--text-pure);
             min-height: 100vh;
             display: flex;
@@ -31,20 +39,16 @@
             overflow-x: hidden;
         }
 
-        /* OVERLAY TURNSTILE */
         #turnstile-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.95);
+            inset: 0;
+            background: rgba(3, 4, 6, 0.95);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 10000;
-            backdrop-filter: blur(8px);
-            transition: opacity 0.4s ease;
+            backdrop-filter: blur(10px);
+            transition: opacity 0.35s ease, visibility 0.35s ease;
         }
         #turnstile-overlay.hidden {
             opacity: 0;
@@ -52,48 +56,54 @@
             pointer-events: none;
         }
         .turnstile-box {
-            background: #0a0c10;
-            padding: 35px 28px;
-            border: 2px solid #2f3442;
-            border-top: 3px solid var(--red-main);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9), 0 0 20px rgba(255, 0, 60, 0.2);
+            background: #0d0f14;
+            padding: 35px 24px;
+            border: 2px solid var(--border-metal);
+            border-top: 4px solid var(--red-main);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.95), 0 0 30px rgba(255, 0, 60, 0.25);
             text-align: center;
             max-width: 420px;
             width: 90%;
             position: relative;
+            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 0 100%);
         }
         .turnstile-box h2 {
             font-size: 1.35rem;
             color: #ffffff;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         .turnstile-box p {
             color: var(--text-dim);
-            font-size: 0.9rem;
-            margin-bottom: 20px;
+            font-size: 0.88rem;
+            margin-bottom: 22px;
+        }
+        #turnstile-container {
+            display: flex;
+            justify-content: center;
+            min-height: 65px;
         }
         .btn-skip-test {
-            margin-top: 18px;
-            background: #151821;
-            border: 1px solid #393e50;
+            margin-top: 20px;
+            background: #161922;
+            border: 1px solid #3b4255;
             color: #aaa;
-            padding: 8px 18px;
+            padding: 9px 20px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             font-size: 0.75rem;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
         }
         .btn-skip-test:hover {
             background: var(--red-main);
             color: #ffffff;
             border-color: var(--red-main);
+            box-shadow: 0 0 15px var(--red-glow);
         }
 
-        /* CONTAINER CHÍNH */
         .container {
             width: 100%;
             max-width: 620px;
@@ -103,7 +113,6 @@
             z-index: 2;
         }
 
-        /* HEADER: KHUNG CHỮ NHẬT GIÁP ROBOT ĐA TẦNG + DẢI LED NEON 7 MÀU */
         header {
             display: flex;
             justify-content: center;
@@ -115,22 +124,20 @@
             width: 100%;
             max-width: 530px;
             padding: 3px;
-            /* Dải LED 7 màu chạy từ trái sang phải */
             background: linear-gradient(90deg, #ff0000, #ff7700, #ffee00, #00ff55, #00e1ff, #0033ff, #8800ff, #ff0000);
             background-size: 200% 100%;
             animation: flowRainbow 3.5s linear infinite;
             border-radius: 2px;
             box-shadow: 
-                0 0 25px rgba(255, 0, 60, 0.4),
+                0 0 25px rgba(255, 0, 60, 0.35),
                 0 15px 35px rgba(0, 0, 0, 0.95);
         }
-        /* Lớp giáp nổi đa tầng bên trong */
         .mech-header-armor {
             position: relative;
             background: linear-gradient(180deg, #181b24 0%, #0b0c10 100%);
             border: 2px solid #363c4e;
-            border-top: 2px solid #5a647d; /* Cạnh phản quang kim loại */
-            border-bottom: 3px solid #050608; /* Bóng chân giáp */
+            border-top: 2px solid #5a647d;
+            border-bottom: 3px solid #050608;
             padding: 26px 20px 22px 20px;
             display: flex;
             flex-direction: column;
@@ -142,7 +149,6 @@
                 0 0 0 2px #101217;
         }
 
-        /* Đinh tán cơ khí 4 góc (Rivets) */
         .mech-bolt {
             position: absolute;
             width: 8px;
@@ -162,7 +168,6 @@
             100% { background-position: 200% 50%; }
         }
 
-        /* LOGO CỠ LỚN */
         .logo-wrapper {
             position: relative;
             display: flex;
@@ -170,16 +175,15 @@
             justify-content: center;
         }
         .logo-svg {
-            width: clamp(140px, 26vw, 175px);
-            height: clamp(140px, 26vw, 175px);
-            filter: drop-shadow(0 0 18px rgba(255, 0, 60, 0.85));
-            transition: transform 0.3s ease;
+            width: clamp(160px, 32vw, 210px);
+            height: auto;
+            filter: drop-shadow(0 4px 18px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 12px rgba(255, 0, 60, 0.5));
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .logo-wrapper:hover .logo-svg {
-            transform: scale(1.05);
+            transform: scale(1.06) translateY(-3px);
         }
 
-        /* CHỮ 3D IN NỔI ĐỔ BÓNG ĐA TẦNG */
         .header-main-title {
             font-size: clamp(2rem, 7vw, 2.7rem);
             font-weight: 900;
@@ -214,7 +218,6 @@
                 0 0 12px rgba(255, 0, 60, 0.7);
         }
 
-        /* KHỐI 3 NÚT CHỨC NĂNG */
         .action-group {
             display: flex;
             flex-direction: column;
@@ -230,46 +233,57 @@
             text-decoration: none;
             color: #ffffff;
             clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
-            transition: all 0.25s ease;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
             position: relative;
+            overflow: hidden;
         }
 
-        /* 1. NÚT CỘNG ĐỒNG: XANH DƯƠNG */
+        .btn-panel::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: rotate(25deg);
+            pointer-events: none;
+            transition: left 0.6s ease;
+        }
+        .btn-panel:hover::after {
+            left: 120%;
+        }
+
         .btn-community {
             background: linear-gradient(135deg, #0044aa 0%, #0077ff 100%);
             border: 1px solid #3399ff;
-            box-shadow: 0 4px 15px rgba(0, 119, 255, 0.4);
+            box-shadow: 0 4px 15px rgba(0, 119, 255, 0.35);
         }
         .btn-community:hover {
-            background: linear-gradient(135deg, #005ce6 0%, #3399ff 100%);
             box-shadow: 0 0 25px rgba(0, 119, 255, 0.8);
-            transform: translateY(-2px) scale(1.01);
+            transform: translateY(-2px);
             border-color: #ffffff;
         }
 
-        /* 2. NÚT CẤU HÌNH: XANH LÁ */
         .btn-config-green {
             background: linear-gradient(135deg, #007a33 0%, #00c853 100%);
             border: 1px solid #69f0ae;
-            box-shadow: 0 4px 15px rgba(0, 200, 83, 0.4);
+            box-shadow: 0 4px 15px rgba(0, 200, 83, 0.35);
         }
         .btn-config-green:hover {
-            background: linear-gradient(135deg, #009940 0%, #1ae36b 100%);
             box-shadow: 0 0 25px rgba(0, 200, 83, 0.8);
-            transform: translateY(-2px) scale(1.01);
+            transform: translateY(-2px);
             border-color: #ffffff;
         }
 
-        /* 3. NÚT REPO: ĐỎ */
         .btn-repo-red {
             background: linear-gradient(135deg, #990024 0%, #ff003c 100%);
             border: 1px solid #ff6685;
-            box-shadow: 0 4px 15px rgba(255, 0, 60, 0.4);
+            box-shadow: 0 4px 15px rgba(255, 0, 60, 0.35);
         }
         .btn-repo-red:hover {
-            background: linear-gradient(135deg, #cc0030 0%, #ff3366 100%);
             box-shadow: 0 0 25px rgba(255, 0, 60, 0.8);
-            transform: translateY(-2px) scale(1.01);
+            transform: translateY(-2px);
             border-color: #ffffff;
         }
 
@@ -300,14 +314,13 @@
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
         }
         .btn-panel svg {
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
             fill: #ffffff;
             flex-shrink: 0;
             filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
         }
 
-        /* DANH SÁCH BANNER: KHUNG HÌNH CHỮ NHẬT GIÁP ROBOT ĐA TẦNG */
         .banner-list {
             display: flex;
             flex-direction: column;
@@ -315,12 +328,11 @@
             width: 100%;
         }
 
-        /* Khung thân Banner hình chữ nhật nổi đa tầng */
         .banner-card {
             position: relative;
             background: linear-gradient(180deg, #161822 0%, #090a0e 100%);
             border: 2px solid #33394a;
-            border-top: 3px solid #5d677f; /* Gờ kim loại phản quang */
+            border-top: 3px solid #5d677f;
             border-bottom: 3px solid #050507;
             padding: 14px;
             box-shadow: 
@@ -335,7 +347,6 @@
             border-radius: 2px;
         }
 
-        /* Khung Tiêu Đề Banner: Hình chữ nhật vỏ robot nổi khối */
         .banner-card-header {
             position: relative;
             background: linear-gradient(90deg, #22080d 0%, #151722 45%, #0e1017 100%);
@@ -357,17 +368,15 @@
                 inset 0 -1px 0 rgba(0, 0, 0, 0.7);
         }
 
-        /* Khung chứa ảnh chữ nhật dập rãnh sâu */
         .banner-view-box {
             width: 100%;
             aspect-ratio: 16 / 9;
             overflow: hidden;
             display: block;
-            background: #000000;
+            background: #050608;
             position: relative;
             border: 2px solid #232733;
             box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9);
-            border-radius: 0;
         }
         .banner-view-box img {
             width: 100%;
@@ -377,7 +386,7 @@
             transition: transform 0.4s ease, filter 0.4s ease;
         }
         .banner-card:hover .banner-view-box img {
-            transform: scale(1.04);
+            transform: scale(1.03);
             filter: contrast(1.08);
         }
 
@@ -395,7 +404,7 @@
             text-align: center;
             text-decoration: none;
             padding: 12px 20px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             letter-spacing: 2px;
             border: 1px solid #ff4d6d;
             border-top: 1px solid #ffffff;
@@ -407,18 +416,17 @@
             background: #ffffff;
             color: #000000;
             border-color: #ffffff;
-            box-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.85);
             transform: translateY(-2px);
         }
 
-        /* FOOTER */
         footer {
             width: 100%;
-            border-top: 1px solid #141418;
+            border-top: 1px solid #1c202a;
             padding: 30px 15px;
             margin-top: 50px;
             text-align: center;
-            background: #000000;
+            background: #07080a;
         }
         .footer-content h4 {
             color: var(--red-main);
@@ -434,20 +442,19 @@
             font-weight: 700;
         }
 
-        /* NÚT TELEGRAM TRÒN (GIỮ NGUYÊN) */
         .telegram-btn {
             position: fixed;
             bottom: 25px;
             right: 25px;
-            width: 58px;
-            height: 58px;
+            width: 56px;
+            height: 56px;
             background: linear-gradient(135deg, #0088cc, #0055ff);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             box-shadow: 0 0 20px rgba(0, 136, 204, 0.6);
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             z-index: 1000;
             border: 2px solid #ffffff;
         }
@@ -456,8 +463,8 @@
             box-shadow: 0 0 25px rgba(0, 136, 204, 1);
         }
         .telegram-btn svg {
-            width: 30px;
-            height: 30px;
+            width: 28px;
+            height: 28px;
             fill: #ffffff;
             margin-right: 2px;
         }
@@ -465,57 +472,164 @@
 </head>
 <body>
 
-    <!-- OVERLAY XÁC MINH TURNSTILE -->
     <div id="turnstile-overlay">
         <div class="turnstile-box">
             <h2>Hệ Thống Xác Minh</h2>
-            <p>Vui lòng xác minh để truy cập hệ thống</p>
+            <p>Vui lòng hoàn tất xác thực để truy cập</p>
             <div id="turnstile-container"></div>
-            <button class="btn-skip-test" onclick="document.getElementById('turnstile-overlay').classList.add('hidden')">Bỏ Qua Để Xem Trước</button>
+            <button class="btn-skip-test" type="button" onclick="unlockPage()">Bỏ Qua Để Xem Trước</button>
         </div>
     </div>
 
     <div class="container">
-        <!-- HEADER VỎ ROBOT CHỮ NHẬT ĐA TẦNG + KHUNG NEON 7 MÀU -->
         <header>
             <div class="mech-header-outer">
                 <div class="mech-header-armor">
-                    <!-- 4 đinh tán vỏ giáp -->
                     <span class="mech-bolt bolt-tl"></span>
                     <span class="mech-bolt bolt-tr"></span>
                     <span class="mech-bolt bolt-bl"></span>
                     <span class="mech-bolt bolt-br"></span>
 
+                    <!-- LOGO TAY CẦM CHƠI GAME 3D VECTOR -->
                     <div class="logo-wrapper">
                         <svg class="logo-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-                            <polygon points="200,120 280,150 300,260 200,320 100,260 120,150" fill="none" stroke="#ff003c" stroke-width="8"/>
-                            <polygon points="200,135 270,162 285,255 200,310 115,255 130,162" fill="#08080a" />
-                            <g fill="#ff003c">
-                                <path d="M 170,200 Q 120,140 85,170 Q 60,200 120,220 Q 140,230 110,250 Q 150,240 180,240 Z" />
-                                <path d="M 230,200 Q 280,140 315,170 Q 340,200 280,220 Q 260,230 290,250 Q 250,240 220,240 Z" />
-                                <polygon points="200,160 175,195 225,195" />
-                                <path d="M 185,195 L 215,195 L 215,240 L 185,240 Z" />
-                                <path d="M 180,240 L 220,240 L 205,290 L 195,290 Z" />
+                            <defs>
+                                <radialGradient id="pad-shell-body" cx="50%" cy="35%" r="65%">
+                                    <stop offset="0%" stop-color="#2c3345"/>
+                                    <stop offset="50%" stop-color="#141822"/>
+                                    <stop offset="100%" stop-color="#090b10"/>
+                                </radialGradient>
+
+                                <linearGradient id="pad-chassis-bevel" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#5a6682"/>
+                                    <stop offset="50%" stop-color="#232838"/>
+                                    <stop offset="100%" stop-color="#06070a"/>
+                                </linearGradient>
+
+                                <radialGradient id="grip-3d-left" cx="28%" cy="50%" r="55%">
+                                    <stop offset="0%" stop-color="#3b445c"/>
+                                    <stop offset="60%" stop-color="#151924"/>
+                                    <stop offset="100%" stop-color="#050608"/>
+                                </radialGradient>
+
+                                <radialGradient id="grip-3d-right" cx="72%" cy="50%" r="55%">
+                                    <stop offset="0%" stop-color="#3b445c"/>
+                                    <stop offset="60%" stop-color="#151924"/>
+                                    <stop offset="100%" stop-color="#050608"/>
+                                </radialGradient>
+
+                                <radialGradient id="stick-base-glow" cx="50%" cy="50%" r="50%">
+                                    <stop offset="70%" stop-color="#0d0f15"/>
+                                    <stop offset="90%" stop-color="#ff003c"/>
+                                    <stop offset="100%" stop-color="#660018"/>
+                                </radialGradient>
+
+                                <radialGradient id="stick-cap-concave" cx="40%" cy="35%" r="60%">
+                                    <stop offset="0%" stop-color="#414a60"/>
+                                    <stop offset="50%" stop-color="#181c26"/>
+                                    <stop offset="100%" stop-color="#0b0d12"/>
+                                </radialGradient>
+
+                                <radialGradient id="action-btn-grad" cx="35%" cy="35%" r="60%">
+                                    <stop offset="0%" stop-color="#ff6685"/>
+                                    <stop offset="50%" stop-color="#ff003c"/>
+                                    <stop offset="100%" stop-color="#550014"/>
+                                </radialGradient>
+
+                                <filter id="neon-controller-glow" x="-20%" y="-20%" width="140%" height="140%">
+                                    <feGaussianBlur stdDeviation="6" result="blur"/>
+                                    <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+                                </filter>
+                            </defs>
+
+                            <ellipse cx="200" cy="330" rx="140" ry="24" fill="#000000" opacity="0.85" filter="blur(8px)"/>
+
+                            <g>
+                                <path d="M 115,145 L 140,118 L 178,124 L 165,145 Z" fill="#0f121a" stroke="#48536c" stroke-width="2"/>
+                                <path d="M 125,124 L 142,106 L 168,111 L 160,125 Z" fill="#ff003c" opacity="0.6"/>
+                                <path d="M 285,145 L 260,118 L 222,124 L 235,145 Z" fill="#0f121a" stroke="#48536c" stroke-width="2"/>
+                                <path d="M 275,124 L 258,106 L 232,111 L 240,125 Z" fill="#ff003c" opacity="0.6"/>
                             </g>
-                            <g fill="#ffffff">
-                                <polygon points="190,184 194,190 186,192" />
-                                <polygon points="210,184 206,190 214,192" />
+
+                            <path d="M 148,138 L 252,138 L 298,154 L 345,212 L 358,268 L 338,322 L 295,324 L 252,260 L 200,278 L 148,260 L 105,324 L 62,322 L 42,268 L 55,212 L 102,154 Z"
+                                  fill="url(#pad-chassis-bevel)" stroke="#05060a" stroke-width="4"/>
+
+                            <path d="M 150,140 L 250,140 L 294,156 L 340,212 L 352,265 L 333,316 L 293,318 L 250,256 L 200,274 L 150,256 L 107,318 L 67,316 L 48,265 L 60,212 L 106,156 Z"
+                                  fill="url(#pad-shell-body)"/>
+
+                            <path d="M 106,156 L 60,212 L 48,265 L 67,316 L 107,318 L 132,258 L 106,156 Z" fill="url(#grip-3d-left)" opacity="0.95"/>
+                            <path d="M 294,156 L 340,212 L 352,265 L 333,316 L 293,318 L 268,258 L 294,156 Z" fill="url(#grip-3d-right)" opacity="0.95"/>
+
+                            <g stroke="#ff003c" stroke-width="2" opacity="0.8" filter="url(#neon-controller-glow)">
+                                <line x1="62" y1="240" x2="88" y2="255"/>
+                                <line x1="68" y1="262" x2="94" y2="277"/>
+                                <line x1="338" y1="240" x2="312" y2="255"/>
+                                <line x1="332" y1="262" x2="306" y2="277"/>
                             </g>
-                            <path d="M 195,240 L 205,240 L 201,265 L 199,265 Z" fill="#ff4d6d" />
-                            <path d="M 194,290 L 206,290 L 200,305 Z" fill="#ff4d6d" />
-                            <path d="M 170,285 L 140,295 L 145,310 Z M 230,285 L 260,295 L 255,310 Z" fill="#ff003c" />
+
+                            <polygon points="160,146 240,146 230,192 170,192" fill="#0d0f16" stroke="#48536c" stroke-width="2"/>
+                            <polygon points="163,149 237,149 228,189 172,189" fill="#181c28"/>
+                            <path d="M 178,162 L 200,175 L 222,162" fill="none" stroke="#ff003c" stroke-width="3" stroke-linecap="round" filter="url(#neon-controller-glow)"/>
+
+                            <g transform="translate(112, 195)">
+                                <polygon points="-8,-28 8,-28 8,-8 28,-8 28,8 8,8 8,28 -8,28 -8,8 -28,8 -28,-8 -8,-8" fill="#050608"/>
+                                <polygon points="-7,-26 7,-26 7,-7 26,-7 26,7 7,7 7,26 -7,26 -7,7 -26,7 -26,-7 -7,-7" fill="#1b202c" stroke="#3b445b" stroke-width="1.5"/>
+                                <circle cx="0" cy="0" r="5" fill="#10131a"/>
+                                <path d="M 0,-21 L -3,-14 L 3,-14 Z" fill="#ff003c"/>
+                                <path d="M 0,21 L -3,14 L 3,14 Z" fill="#ff003c"/>
+                                <path d="M -21,0 L -14,-3 L -14,3 Z" fill="#ff003c"/>
+                                <path d="M 21,0 L 14,-3 L 14,3 Z" fill="#ff003c"/>
+                            </g>
+
+                            <g transform="translate(288, 195)">
+                                <circle cx="0" cy="-20" r="8" fill="#0a0c10" stroke="#ff003c" stroke-width="1.5"/>
+                                <circle cx="0" cy="-20" r="6.5" fill="url(#action-btn-grad)"/>
+                                <text x="0" y="-17" font-size="8" font-weight="900" fill="#ffffff" text-anchor="middle" font-family="Arial">Y</text>
+
+                                <circle cx="20" cy="0" r="8" fill="#0a0c10" stroke="#ff003c" stroke-width="1.5"/>
+                                <circle cx="20" cy="0" r="6.5" fill="url(#action-btn-grad)"/>
+                                <text x="20" y="3" font-size="8" font-weight="900" fill="#ffffff" text-anchor="middle" font-family="Arial">B</text>
+
+                                <circle cx="0" cy="20" r="8" fill="#0a0c10" stroke="#ff003c" stroke-width="1.5"/>
+                                <circle cx="0" cy="20" r="6.5" fill="url(#action-btn-grad)"/>
+                                <text x="0" y="23" font-size="8" font-weight="900" fill="#ffffff" text-anchor="middle" font-family="Arial">A</text>
+
+                                <circle cx="-20" cy="0" r="8" fill="#0a0c10" stroke="#ff003c" stroke-width="1.5"/>
+                                <circle cx="-20" cy="0" r="6.5" fill="url(#action-btn-grad)"/>
+                                <text x="-20" y="3" font-size="8" font-weight="900" fill="#ffffff" text-anchor="middle" font-family="Arial">X</text>
+                            </g>
+
+                            <g transform="translate(162, 245)">
+                                <circle cx="0" cy="0" r="25" fill="#050608"/>
+                                <circle cx="0" cy="0" r="23" fill="url(#stick-base-glow)"/>
+                                <circle cx="-1" cy="-2" r="18" fill="url(#stick-cap-concave)" stroke="#525d78" stroke-width="1"/>
+                                <circle cx="-1" cy="-2" r="12" fill="#0e1017" stroke="#ff003c" stroke-dasharray="2 3" stroke-width="1.5"/>
+                                <circle cx="-1" cy="-2" r="4" fill="#ff003c" filter="url(#neon-controller-glow)"/>
+                            </g>
+
+                            <g transform="translate(238, 245)">
+                                <circle cx="0" cy="0" r="25" fill="#050608"/>
+                                <circle cx="0" cy="0" r="23" fill="url(#stick-base-glow)"/>
+                                <circle cx="1" cy="-2" r="18" fill="url(#stick-cap-concave)" stroke="#525d78" stroke-width="1"/>
+                                <circle cx="1" cy="-2" r="12" fill="#0e1017" stroke="#ff003c" stroke-dasharray="2 3" stroke-width="1.5"/>
+                                <circle cx="1" cy="-2" r="4" fill="#ff003c" filter="url(#neon-controller-glow)"/>
+                            </g>
+
+                            <circle cx="120" cy="148" r="2.5" fill="#525d78" stroke="#000000" stroke-width="0.8"/>
+                            <circle cx="280" cy="148" r="2.5" fill="#525d78" stroke="#000000" stroke-width="0.8"/>
+                            <circle cx="140" cy="305" r="2.5" fill="#525d78" stroke="#000000" stroke-width="0.8"/>
+                            <circle cx="260" cy="305" r="2.5" fill="#525d78" stroke="#000000" stroke-width="0.8"/>
                         </svg>
                     </div>
+
                     <h1 class="header-main-title">PLAT • DEX</h1>
                     <p class="header-sub-title">Nơi Các Siêu Nhân Ra Đời</p>
                 </div>
             </div>
         </header>
 
-        <!-- KHỐI 3 NÚT CHỨC NĂNG -->
         <div class="action-group">
-            <!-- 1. NÚT CỘNG ĐỒNG: XANH DƯƠNG (GIỮ NGUYÊN LINK) -->
-            <a href="https://t.me/plat_shareios" class="btn-panel btn-community" target="_blank">
+            <a href="https://t.me/plat_shareios" class="btn-panel btn-community" target="_blank" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24">
                     <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.56 8.16l-2.01 9.48c-.15.68-.55.84-1.12.52l-3.1-2.28-1.5 1.44c-.17.17-.31.31-.63.31l.22-3.17 5.77-5.21c.25-.22-.05-.34-.39-.12l-7.13 4.49-3.07-.96c-.67-.21-.68-.67.14-.99l12.01-4.63c.56-.21 1.05.13.83.92z"/>
                 </svg>
@@ -528,8 +642,7 @@
                 </svg>
             </a>
 
-            <!-- 2. NÚT CẤU HÌNH: XANH LÁ -->
-            <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-panel btn-config-green" target="_blank">
+            <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-panel btn-config-green" target="_blank" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24">
                     <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5L12 1zm0 2.18l7 3.12v4.7c0 4.83-3.93 9.11-7 10.12-3.07-1.01-7-5.29-7-10.12V6.3l7-3.12z"/>
                     <path d="M12 5.32L7 7.88v3.12c0 3.62 2.92 6.83 5 7.88 2.08-1.05 5-4.26 5-7.88V7.88L12 5.32z"/>
@@ -544,8 +657,7 @@
                 </svg>
             </a>
 
-            <!-- 3. NÚT REPO: ĐỎ -->
-            <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-panel btn-repo-red" target="_blank">
+            <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-panel btn-repo-red" target="_blank" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24">
                     <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/>
                 </svg>
@@ -559,37 +671,33 @@
             </a>
         </div>
 
-        <!-- DANH SÁCH BANNER (KHUNG CHỮ NHẬT GIÁP ROBOT ĐA TẦNG) -->
         <main class="banner-list">
-            <!-- Banner 1 -->
             <div class="banner-card">
                 <div class="banner-card-header">
                     01. Tổng Hợp Game Hack By Plat
                 </div>
-                <a href="https://plat-dexx.github.io/plat-unlock/" class="banner-view-box" target="_blank">
-                    <img src="PLAT.PNG" alt="Tổng Hợp Game Hack By Plat">
+                <a href="https://plat-dexx.github.io/plat-unlock/" class="banner-view-box" target="_blank" rel="noopener noreferrer">
+                    <img src="PLAT.PNG" alt="Tổng Hợp Game Hack By Plat" loading="lazy">
                 </a>
                 <div class="banner-footer-btn">
-                    <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-action-view" target="_blank">Xem Ngay</a>
+                    <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-action-view" target="_blank" rel="noopener noreferrer">Xem Ngay</a>
                 </div>
             </div>
 
-            <!-- Banner 2 -->
             <div class="banner-card">
                 <div class="banner-card-header">
                     02. Cài TFT PBE IOS Miễn Phí
                 </div>
-                <a href="https://plat-dexx.github.io/plat-unlock/" class="banner-view-box" target="_blank">
-                    <img src="TFTPBE.PNG" alt="Tải Và Hướng Dẫn Cài TFT Pbe IOS Miễn Phí">
+                <a href="https://plat-dexx.github.io/plat-unlock/" class="banner-view-box" target="_blank" rel="noopener noreferrer">
+                    <img src="TFTPBE.PNG" alt="Tải Và Hướng Dẫn Cài TFT Pbe IOS Miễn Phí" loading="lazy">
                 </a>
                 <div class="banner-footer-btn">
-                    <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-action-view" target="_blank">Xem Ngay</a>
+                    <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-action-view" target="_blank" rel="noopener noreferrer">Xem Ngay</a>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- FOOTER -->
     <footer>
         <div class="footer-content">
             <h4>Bản Quyền Thuộc Về</h4>
@@ -597,35 +705,43 @@
         </div>
     </footer>
 
-    <!-- NÚT TELEGRAM TRÒN (GIỮ NGUYÊN) -->
-    <a href="https://t.me/plat_dex" class="telegram-btn" target="_blank" aria-label="Telegram">
+    <a href="https://t.me/plat_dex" class="telegram-btn" target="_blank" rel="noopener noreferrer" aria-label="Kênh Telegram Plat Dex">
         <svg viewBox="0 0 24 24">
             <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.56 8.16l-2.01 9.48c-.15.68-.55.84-1.12.52l-3.1-2.28-1.5 1.44c-.17.17-.31.31-.63.31l.22-3.17 5.77-5.21c.25-.22-.05-.34-.39-.12l-7.13 4.49-3.07-.96c-.67-.21-.68-.67.14-.99l12.01-4.63c.56-.21 1.05.13.83.92z"/>
         </svg>
     </a>
 
-    <!-- CLOUDFLARE TURNSTILE SCRIPT -->
     <script>
-        window.onload = function() {
+        function unlockPage() {
+            const overlay = document.getElementById('turnstile-overlay');
+            if (overlay) overlay.classList.add('hidden');
+        }
+
+        function initTurnstile() {
             if (location.protocol === 'file:') {
-                document.getElementById('turnstile-overlay').classList.add('hidden');
+                unlockPage();
                 return;
             }
-            if (typeof turnstile !== 'undefined') {
+            if (window.turnstile) {
                 turnstile.render('#turnstile-container', {
                     sitekey: '0x4AAAAAAEc9ewrv4yt_-nMA',
+                    theme: 'dark',
                     callback: function(token) {
-                        document.getElementById('turnstile-overlay').classList.add('hidden');
+                        unlockPage();
                     },
                     'expired-callback': function() {
                         turnstile.reset('#turnstile-container');
                     },
                     'error-callback': function() {
-                        console.error('Turnstile error');
+                        console.warn('Turnstile render error');
                     }
                 });
             }
-        };
+        }
+
+        if (location.protocol === 'file:') {
+            window.addEventListener('DOMContentLoaded', unlockPage);
+        }
     </script>
 </body>
 </html>
