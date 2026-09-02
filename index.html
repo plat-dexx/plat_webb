@@ -9,12 +9,11 @@
         :root {
             --red-main: #ff003c;
             --red-deep: #b30027;
-            --red-dark: #4a000e;
-            --bg-void: #070709;
-            --bg-panel: #0f0f14;
+            --bg-void: #000000;
+            --bg-panel: #0a0a0c;
             --border-tech: #ff003c;
             --text-pure: #ffffff;
-            --text-dim: #9aa0a6;
+            --text-dim: #8e8e93;
         }
 
         * {
@@ -24,15 +23,9 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Arial Black', sans-serif;
         }
 
-        /* NỀN GAMING ĐỎ ĐEN CHIẾN THUẬT */
+        /* NỀN ĐEN THUẦN GAMING */
         body {
-            background-color: var(--bg-void);
-            background-image: 
-                radial-gradient(circle at 50% 0%, rgba(255, 0, 60, 0.22) 0%, transparent 65%),
-                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 100% 100%, 35px 35px, 35px 35px;
-            background-attachment: fixed;
+            background: #000000;
             color: var(--text-pure);
             min-height: 100vh;
             display: flex;
@@ -48,12 +41,12 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(4, 4, 6, 0.94);
+            background: rgba(0, 0, 0, 0.95);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 10000;
-            backdrop-filter: blur(6px);
+            backdrop-filter: blur(8px);
             transition: opacity 0.4s ease;
         }
         #turnstile-overlay.hidden {
@@ -62,11 +55,11 @@
             pointer-events: none;
         }
         .turnstile-box {
-            background: #0d0d12;
+            background: #08080a;
             padding: 35px 28px;
             border: 2px solid var(--red-main);
             clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
-            box-shadow: 0 0 35px rgba(255, 0, 60, 0.35), inset 0 0 25px rgba(255, 0, 60, 0.1);
+            box-shadow: 0 0 35px rgba(255, 0, 60, 0.3), inset 0 0 20px rgba(255, 0, 60, 0.08);
             text-align: center;
             max-width: 420px;
             width: 90%;
@@ -74,7 +67,7 @@
         }
         .turnstile-box h2 {
             font-size: 1.35rem;
-            color: #fff;
+            color: #ffffff;
             text-transform: uppercase;
             letter-spacing: 2px;
             margin-bottom: 10px;
@@ -86,9 +79,9 @@
         }
         .btn-skip-test {
             margin-top: 18px;
-            background: #14141d;
-            border: 1px solid #444;
-            color: #bbb;
+            background: #111114;
+            border: 1px solid #333339;
+            color: #aaa;
             padding: 8px 18px;
             font-weight: 700;
             text-transform: uppercase;
@@ -100,7 +93,7 @@
         }
         .btn-skip-test:hover {
             background: var(--red-main);
-            color: #fff;
+            color: #ffffff;
             border-color: var(--red-main);
         }
 
@@ -136,13 +129,13 @@
         }
         .title-badge {
             margin-top: -10px;
-            background: #0d0d14;
+            background: #08080a;
             border: 1px solid var(--red-main);
             border-top: 2px solid var(--red-main);
             padding: 10px 30px;
             text-align: center;
             clip-path: polygon(14px 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 14px 100%, 0 50%);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.9), 0 0 15px rgba(255, 0, 60, 0.25);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 1), 0 0 15px rgba(255, 0, 60, 0.2);
         }
         .title-badge h1 {
             font-size: 2.1rem;
@@ -150,7 +143,7 @@
             color: #ffffff;
             letter-spacing: 4px;
             text-transform: uppercase;
-            text-shadow: 0 0 10px rgba(255, 0, 60, 0.8);
+            text-shadow: 0 0 12px rgba(255, 0, 60, 0.8);
         }
         .title-badge p {
             font-size: 0.75rem;
@@ -161,7 +154,7 @@
             margin-top: 3px;
         }
 
-        /* PHẦN CÁC NÚT BẤM (BUTTONS) */
+        /* KHỐI NÚT CHỨC NĂNG */
         .action-group {
             display: flex;
             flex-direction: column;
@@ -169,47 +162,48 @@
             width: 100%;
             margin-bottom: 40px;
         }
-
         .btn-panel {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 14px 20px;
             text-decoration: none;
-            color: #fff;
-            background: #111118;
-            border: 1px solid #282833;
+            color: #ffffff;
+            background: #0c0c0f;
+            border: 1px solid #1f1f26;
             border-left: 5px solid var(--btn-accent, var(--red-main));
             clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
             transition: all 0.25s ease;
             position: relative;
-            overflow: hidden;
         }
         .btn-panel:hover {
             transform: translateX(4px);
-            background: #181824;
+            background: #14141a;
             border-color: var(--btn-accent, var(--red-main));
             box-shadow: 0 0 20px rgba(255, 0, 60, 0.3);
         }
 
-        /* Nút Telegram Cộng Đồng (Giữ màu xanh đặc trưng nhưng vát góc gaming) */
+        /* Nút Cộng Đồng Telegram */
         .btn-community {
             --btn-accent: #0088cc;
-            background: linear-gradient(90deg, #09131f 0%, #0d1a29 100%);
+            background: #071018;
+            border-color: #0f273b;
         }
         .btn-community:hover {
             box-shadow: 0 0 20px rgba(0, 136, 204, 0.4);
         }
 
-        /* Nút Cấu hình & Repo */
+        /* Nút Cấu Hình & Repo */
         .btn-config-red {
             --btn-accent: var(--red-main);
-            background: linear-gradient(90deg, #180509 0%, #111117 100%);
+            background: #120306;
+            border-color: #2e0810;
         }
         .btn-repo-red {
             --btn-accent: #ff4d00;
-            background: linear-gradient(90deg, #1c0803 0%, #111117 100%);
+            background: #140702;
+            border-color: #331206;
         }
 
         .btn-panel-content {
@@ -238,7 +232,7 @@
         .btn-panel svg {
             width: 32px;
             height: 32px;
-            fill: #fff;
+            fill: #ffffff;
             flex-shrink: 0;
             filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8));
         }
@@ -252,23 +246,23 @@
         }
         .banner-card {
             background: var(--bg-panel);
-            border: 1px solid #262633;
+            border: 1px solid #1c1c24;
             border-top: 3px solid var(--red-main);
             padding: 12px;
             clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 1);
             display: flex;
             flex-direction: column;
             gap: 12px;
             position: relative;
         }
         .banner-card-header {
-            background: #08080c;
+            background: #000000;
             padding: 8px 14px;
             border-left: 4px solid var(--red-main);
             font-size: 0.95rem;
             font-weight: 800;
-            color: #fff;
+            color: #ffffff;
             text-transform: uppercase;
             letter-spacing: 1px;
             display: flex;
@@ -279,9 +273,9 @@
             aspect-ratio: 16 / 9;
             overflow: hidden;
             display: block;
-            background: #000;
+            background: #000000;
             position: relative;
-            border: 1px solid #222;
+            border: 1px solid #1c1c24;
         }
         .banner-view-box img {
             width: 100%;
@@ -312,7 +306,7 @@
             letter-spacing: 2px;
             clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
             transition: all 0.25s ease;
-            box-shadow: 0 4px 15px rgba(255, 0, 60, 0.4);
+            box-shadow: 0 4px 15px rgba(255, 0, 60, 0.35);
             border: none;
         }
         .btn-action-view:hover {
@@ -325,11 +319,11 @@
         /* FOOTER */
         footer {
             width: 100%;
-            border-top: 1px solid #20202b;
+            border-top: 1px solid #141418;
             padding: 30px 15px;
             margin-top: 50px;
             text-align: center;
-            background: #050508;
+            background: #000000;
         }
         .footer-content h4 {
             color: var(--red-main);
@@ -340,7 +334,7 @@
             margin-bottom: 6px;
         }
         .footer-content p {
-            color: #fff;
+            color: #ffffff;
             font-size: 0.95rem;
             font-weight: 700;
         }
@@ -392,7 +386,7 @@
             <div class="logo-wrapper">
                 <svg class="logo-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
                     <polygon points="200,120 280,150 300,260 200,320 100,260 120,150" fill="none" stroke="#ff003c" stroke-width="8"/>
-                    <polygon points="200,135 270,162 285,255 200,310 115,255 130,162" fill="#0f1118" />
+                    <polygon points="200,135 270,162 285,255 200,310 115,255 130,162" fill="#08080a" />
                     <g fill="#ff003c">
                         <path d="M 170,200 Q 120,140 85,170 Q 60,200 120,220 Q 140,230 110,250 Q 150,240 180,240 Z" />
                         <path d="M 230,200 Q 280,140 315,170 Q 340,200 280,220 Q 260,230 290,250 Q 250,240 220,240 Z" />
@@ -431,7 +425,7 @@
                 </svg>
             </a>
 
-            <!-- Nút Cấu Hình Chặn Quảng Cáo (Trỏ về link mới) -->
+            <!-- Nút Cấu Hình Chặn Quảng Cáo -->
             <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-panel btn-config-red" target="_blank">
                 <svg viewBox="0 0 24 24">
                     <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5L12 1zm0 2.18l7 3.12v4.7c0 4.83-3.93 9.11-7 10.12-3.07-1.01-7-5.29-7-10.12V6.3l7-3.12z"/>
@@ -447,7 +441,7 @@
                 </svg>
             </a>
 
-            <!-- Nút Repo Esign (Trỏ về link mới) -->
+            <!-- Nút Repo Esign -->
             <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-panel btn-repo-red" target="_blank">
                 <svg viewBox="0 0 24 24">
                     <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/>
