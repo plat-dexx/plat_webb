@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SubUnlock - Plat • Dex</title>
+    <title>Plat • Dex</title>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
     <style>
         :root {
             --red-main: #ff003c;
@@ -21,26 +22,85 @@
 
         /* NỀN ĐEN THUẦN */
         body {
-            background-color: #000000;
+            background: #000000;
             color: var(--text-pure);
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
             align-items: center;
-            position: relative;
             overflow-x: hidden;
         }
 
+        /* OVERLAY TURNSTILE */
+        #turnstile-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            backdrop-filter: blur(8px);
+            transition: opacity 0.4s ease;
+        }
+        #turnstile-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .turnstile-box {
+            background: #0a0c10;
+            padding: 35px 28px;
+            border: 2px solid #2f3442;
+            border-top: 3px solid var(--red-main);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9), 0 0 20px rgba(255, 0, 60, 0.2);
+            text-align: center;
+            max-width: 420px;
+            width: 90%;
+            position: relative;
+        }
+        .turnstile-box h2 {
+            font-size: 1.35rem;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        .turnstile-box p {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        .btn-skip-test {
+            margin-top: 18px;
+            background: #151821;
+            border: 1px solid #393e50;
+            color: #aaa;
+            padding: 8px 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-skip-test:hover {
+            background: var(--red-main);
+            color: #ffffff;
+            border-color: var(--red-main);
+        }
+
+        /* CONTAINER CHÍNH */
         .container {
             width: 100%;
             max-width: 620px;
             padding: 30px 18px;
             flex: 1;
             position: relative;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            z-index: 2;
         }
 
         /* HEADER: KHUNG CHỮ NHẬT GIÁP ROBOT ĐA TẦNG + DẢI LED NEON 7 MÀU */
@@ -50,13 +110,12 @@
             margin-bottom: 35px;
             width: 100%;
         }
-
         .mech-header-outer {
             position: relative;
             width: 100%;
             max-width: 530px;
             padding: 3px;
-            /* Dải LED viền 7 màu chạy từ trái sang phải */
+            /* Dải LED 7 màu chạy từ trái sang phải */
             background: linear-gradient(90deg, #ff0000, #ff7700, #ffee00, #00ff55, #00e1ff, #0033ff, #8800ff, #ff0000);
             background-size: 200% 100%;
             animation: flowRainbow 3.5s linear infinite;
@@ -65,14 +124,13 @@
                 0 0 25px rgba(255, 0, 60, 0.4),
                 0 15px 35px rgba(0, 0, 0, 0.95);
         }
-
         /* Lớp giáp nổi đa tầng bên trong */
         .mech-header-armor {
             position: relative;
             background: linear-gradient(180deg, #181b24 0%, #0b0c10 100%);
             border: 2px solid #363c4e;
-            border-top: 2px solid #5a647d;
-            border-bottom: 3px solid #050608;
+            border-top: 2px solid #5a647d; /* Cạnh phản quang kim loại */
+            border-bottom: 3px solid #050608; /* Bóng chân giáp */
             padding: 26px 20px 22px 20px;
             display: flex;
             flex-direction: column;
@@ -84,7 +142,7 @@
                 0 0 0 2px #101217;
         }
 
-        /* Đinh tán cơ khí 4 góc */
+        /* Đinh tán cơ khí 4 góc (Rivets) */
         .mech-bolt {
             position: absolute;
             width: 8px;
@@ -104,50 +162,41 @@
             100% { background-position: 200% 50%; }
         }
 
-        /* LOGO ROBOT MECHA CỠ LỚN */
+        /* LOGO CỠ LỚN */
         .logo-wrapper {
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-
         .logo-svg {
             width: clamp(140px, 26vw, 175px);
             height: clamp(140px, 26vw, 175px);
             filter: drop-shadow(0 0 18px rgba(255, 0, 60, 0.85));
             transition: transform 0.3s ease;
         }
-
         .logo-wrapper:hover .logo-svg {
             transform: scale(1.05);
         }
 
-        /* CHỮ PLAT DEX 7 MÀU CHẠY TỪ TRÁI SANG PHẢI */
+        /* CHỮ 3D IN NỔI ĐỔ BÓNG ĐA TẦNG */
         .header-main-title {
             font-size: clamp(2rem, 7vw, 2.7rem);
             font-weight: 900;
+            color: #ffffff;
             letter-spacing: 4px;
             text-transform: uppercase;
             margin-top: 10px;
             line-height: 1.15;
-            white-space: nowrap;
-            background: linear-gradient(
-                90deg, 
-                #ff0055, #ff7300, #fffb00, #48ff00, #00ffd5, #002bfd, #7a00ff, #ff00c8, #ff0055
-            );
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: flowRainbowText 3s linear infinite;
-            filter: drop-shadow(2px 2px 0px #000) 
-                    drop-shadow(-1px -1px 0px #000) 
-                    drop-shadow(0px 0px 18px rgba(255, 0, 85, 0.7));
-        }
-
-        @keyframes flowRainbowText {
-            0% { background-position: 0% center; }
-            100% { background-position: 200% center; }
+            text-shadow: 
+                1px 1px 0 #d9d9d9,
+                2px 2px 0 #b3b3b3,
+                3px 3px 0 #8c8c8c,
+                4px 4px 0 #595959,
+                5px 5px 0 #333333,
+                6px 6px 0 #111111,
+                7px 7px 14px rgba(0, 0, 0, 0.95),
+                0 0 25px rgba(255, 0, 60, 0.65);
         }
 
         .header-sub-title {
@@ -165,105 +214,201 @@
                 0 0 12px rgba(255, 0, 60, 0.7);
         }
 
-        /* KHUNG BỐ CỤC NÚT UNLOCK */
-        .unlock-container {
+        /* KHỐI 3 NÚT CHỨC NĂNG */
+        .action-group {
             display: flex;
             flex-direction: column;
             gap: 16px;
-            align-items: center;
             width: 100%;
-            max-width: 380px;
-            margin: 0 auto;
+            margin-bottom: 40px;
         }
-
-        .unlock-btn {
-            width: 100%;
+        .btn-panel {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 12px;
-            padding: 16px 20px;
-            font-size: 1.1rem;
-            font-weight: 800;
-            text-transform: uppercase;
+            justify-content: space-between;
+            padding: 14px 20px;
             text-decoration: none;
             color: #ffffff;
-            border-radius: 12px;
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+            transition: all 0.25s ease;
             position: relative;
-            cursor: pointer;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* 1. NÚT CỘNG ĐỒNG: XANH DƯƠNG */
+        .btn-community {
+            background: linear-gradient(135deg, #0044aa 0%, #0077ff 100%);
+            border: 1px solid #3399ff;
+            box-shadow: 0 4px 15px rgba(0, 119, 255, 0.4);
+        }
+        .btn-community:hover {
+            background: linear-gradient(135deg, #005ce6 0%, #3399ff 100%);
+            box-shadow: 0 0 25px rgba(0, 119, 255, 0.8);
+            transform: translateY(-2px) scale(1.01);
+            border-color: #ffffff;
+        }
+
+        /* 2. NÚT CẤU HÌNH: XANH LÁ */
+        .btn-config-green {
+            background: linear-gradient(135deg, #007a33 0%, #00c853 100%);
+            border: 1px solid #69f0ae;
+            box-shadow: 0 4px 15px rgba(0, 200, 83, 0.4);
+        }
+        .btn-config-green:hover {
+            background: linear-gradient(135deg, #009940 0%, #1ae36b 100%);
+            box-shadow: 0 0 25px rgba(0, 200, 83, 0.8);
+            transform: translateY(-2px) scale(1.01);
+            border-color: #ffffff;
+        }
+
+        /* 3. NÚT REPO: ĐỎ */
+        .btn-repo-red {
+            background: linear-gradient(135deg, #990024 0%, #ff003c 100%);
+            border: 1px solid #ff6685;
+            box-shadow: 0 4px 15px rgba(255, 0, 60, 0.4);
+        }
+        .btn-repo-red:hover {
+            background: linear-gradient(135deg, #cc0030 0%, #ff3366 100%);
+            box-shadow: 0 0 25px rgba(255, 0, 60, 0.8);
+            transform: translateY(-2px) scale(1.01);
+            border-color: #ffffff;
+        }
+
+        .btn-panel-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            text-align: center;
+            padding: 0 12px;
+        }
+        .btn-panel-title {
+            font-size: 0.95rem;
+            font-weight: 900;
+            text-transform: uppercase;
             letter-spacing: 1px;
-        }
-
-        .unlock-btn svg {
-            width: 22px;
-            height: 22px;
-            fill: currentColor;
-            flex-shrink: 0;
-        }
-
-        /* TRẠNG THÁI KHÓA */
-        .unlock-btn.disabled {
-            background: rgba(255, 255, 255, 0.05) !important;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            color: rgba(255, 255, 255, 0.35) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            cursor: not-allowed !important;
-            box-shadow: none !important;
-        }
-
-        .unlock-btn.disabled svg {
-            fill: rgba(255, 255, 255, 0.35) !important;
-        }
-
-        /* TRẠNG THÁI ĐÃ HOÀN THÀNH */
-        .unlock-btn.completed {
-            background: linear-gradient(135deg, #00b09b, #96c93d) !important;
-            color: #ffffff !important;
-            border-color: #00ff88 !important;
-            box-shadow: 0 0 18px rgba(0, 255, 136, 0.5) !important;
-        }
-
-        /* Nút TikTok - Active */
-        .btn-tiktok:not(.disabled):not(.completed) {
-            background: linear-gradient(135deg, #ff0055 0%, #ff5252 50%, #ff7300 100%);
-            border-color: rgba(255, 255, 255, 0.4);
-            box-shadow: 0 4px 20px rgba(255, 0, 85, 0.4);
-        }
-        .btn-tiktok:not(.disabled):hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(255, 0, 85, 0.7);
-        }
-
-        /* Nút YouTube - Active */
-        .btn-youtube:not(.disabled):not(.completed) {
-            background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
-            border-color: rgba(255, 255, 255, 0.4);
-            box-shadow: 0 4px 20px rgba(255, 0, 0, 0.4);
-        }
-        .btn-youtube:not(.disabled):hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(255, 0, 0, 0.7);
-        }
-
-        /* Nút Mở Khóa Để Tải - Active */
-        .btn-download:not(.disabled) {
-            background: linear-gradient(135deg, #e91e63 0%, #ff0055 100%);
             color: #ffffff;
-            border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: 0 0 20px rgba(233, 30, 99, 0.6);
-            animation: pulseUnlock 1.8s infinite alternate;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
         }
-        .btn-download:not(.disabled):hover {
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 0 30px rgba(233, 30, 99, 0.9);
+        .btn-panel-sub {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-top: 2px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .btn-panel svg {
+            width: 32px;
+            height: 32px;
+            fill: #ffffff;
+            flex-shrink: 0;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
         }
 
-        @keyframes pulseUnlock {
-            0% { box-shadow: 0 0 10px rgba(233, 30, 99, 0.4); }
-            100% { box-shadow: 0 0 25px rgba(233, 30, 99, 0.9); }
+        /* DANH SÁCH BANNER: KHUNG HÌNH CHỮ NHẬT GIÁP ROBOT ĐA TẦNG */
+        .banner-list {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            width: 100%;
+        }
+
+        /* Khung thân Banner hình chữ nhật nổi đa tầng */
+        .banner-card {
+            position: relative;
+            background: linear-gradient(180deg, #161822 0%, #090a0e 100%);
+            border: 2px solid #33394a;
+            border-top: 3px solid #5d677f; /* Gờ kim loại phản quang */
+            border-bottom: 3px solid #050507;
+            padding: 14px;
+            box-shadow: 
+                0 0 0 1px #000000,
+                0 0 0 3px #13151c,
+                0 15px 35px rgba(0, 0, 0, 0.95),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15),
+                inset 0 0 15px rgba(0, 0, 0, 0.85);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            border-radius: 2px;
+        }
+
+        /* Khung Tiêu Đề Banner: Hình chữ nhật vỏ robot nổi khối */
+        .banner-card-header {
+            position: relative;
+            background: linear-gradient(90deg, #22080d 0%, #151722 45%, #0e1017 100%);
+            border: 1px solid #3a4154;
+            border-left: 5px solid var(--red-main);
+            border-top: 1px solid #636f8f;
+            border-bottom: 2px solid #050608;
+            padding: 10px 16px;
+            font-size: 0.95rem;
+            font-weight: 900;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            display: flex;
+            align-items: center;
+            box-shadow: 
+                0 3px 8px rgba(0, 0, 0, 0.8),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.7);
+        }
+
+        /* Khung chứa ảnh chữ nhật dập rãnh sâu */
+        .banner-view-box {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            display: block;
+            background: #000000;
+            position: relative;
+            border: 2px solid #232733;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9);
+            border-radius: 0;
+        }
+        .banner-view-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease, filter 0.4s ease;
+        }
+        .banner-card:hover .banner-view-box img {
+            transform: scale(1.04);
+            filter: contrast(1.08);
+        }
+
+        .banner-footer-btn {
+            display: flex;
+            justify-content: center;
+            padding-top: 2px;
+        }
+        .btn-action-view {
+            width: 100%;
+            background: linear-gradient(90deg, #94001b 0%, var(--red-main) 50%, #94001b 100%);
+            color: #ffffff;
+            font-weight: 900;
+            text-transform: uppercase;
+            text-align: center;
+            text-decoration: none;
+            padding: 12px 20px;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            border: 1px solid #ff4d6d;
+            border-top: 1px solid #ffffff;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px rgba(255, 0, 60, 0.35);
+            border-radius: 2px;
+        }
+        .btn-action-view:hover {
+            background: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
+            transform: translateY(-2px);
         }
 
         /* FOOTER */
@@ -275,13 +420,7 @@
             text-align: center;
             background: #000000;
         }
-
-        .footer-info {
-            max-width: 620px;
-            margin: 0 auto;
-        }
-
-        .footer-info h3 {
+        .footer-content h4 {
             color: var(--red-main);
             font-size: 0.85rem;
             font-weight: 900;
@@ -289,19 +428,55 @@
             letter-spacing: 2px;
             margin-bottom: 6px;
         }
-
-        .footer-info p {
+        .footer-content p {
             color: #ffffff;
             font-size: 0.95rem;
             font-weight: 700;
-            margin-bottom: 4px;
+        }
+
+        /* NÚT TELEGRAM TRÒN (GIỮ NGUYÊN) */
+        .telegram-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 58px;
+            height: 58px;
+            background: linear-gradient(135deg, #0088cc, #0055ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(0, 136, 204, 0.6);
+            transition: transform 0.3s, box-shadow 0.3s;
+            z-index: 1000;
+            border: 2px solid #ffffff;
+        }
+        .telegram-btn:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 0 25px rgba(0, 136, 204, 1);
+        }
+        .telegram-btn svg {
+            width: 30px;
+            height: 30px;
+            fill: #ffffff;
+            margin-right: 2px;
         }
     </style>
 </head>
 <body>
 
+    <!-- OVERLAY XÁC MINH TURNSTILE -->
+    <div id="turnstile-overlay">
+        <div class="turnstile-box">
+            <h2>Hệ Thống Xác Minh</h2>
+            <p>Vui lòng xác minh để truy cập hệ thống</p>
+            <div id="turnstile-container"></div>
+            <button class="btn-skip-test" onclick="document.getElementById('turnstile-overlay').classList.add('hidden')">Bỏ Qua Để Xem Trước</button>
+        </div>
+    </div>
+
     <div class="container">
-        <!-- HEADER VỎ ROBOT CHỮ NHẬT ĐA TẦNG + DẢI LED NEON 7 MÀU -->
+        <!-- HEADER VỎ ROBOT CHỮ NHẬT ĐA TẦNG + KHUNG NEON 7 MÀU -->
         <header>
             <div class="mech-header-outer">
                 <div class="mech-header-armor">
@@ -311,7 +486,6 @@
                     <span class="mech-bolt bolt-bl"></span>
                     <span class="mech-bolt bolt-br"></span>
 
-                    <!-- SVG LOGO ROBOT MECHA ĐỎ - ĐEN -->
                     <div class="logo-wrapper">
                         <svg class="logo-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
                             <polygon points="200,120 280,150 300,260 200,320 100,260 120,150" fill="none" stroke="#ff003c" stroke-width="8"/>
@@ -332,110 +506,126 @@
                             <path d="M 170,285 L 140,295 L 145,310 Z M 230,285 L 260,295 L 255,310 Z" fill="#ff003c" />
                         </svg>
                     </div>
-
-                    <!-- CHỮ PLAT DEX 7 MÀU CHẠY TỪ TRÁI SANG PHẢI -->
                     <h1 class="header-main-title">PLAT • DEX</h1>
                     <p class="header-sub-title">Nơi Các Siêu Nhân Ra Đời</p>
                 </div>
             </div>
         </header>
 
-        <!-- 3 NÚT UNLOCK -->
-        <main class="unlock-container">
-            <!-- Nút 1: Follow TikTok -->
-            <button id="btn-step1" class="unlock-btn btn-tiktok" onclick="processStep(1, 'https://www.tiktok.com/@duy_lee01')">
+        <!-- KHỐI 3 NÚT CHỨC NĂNG -->
+        <div class="action-group">
+            <!-- 1. NÚT CỘNG ĐỒNG: XANH DƯƠNG (GIỮ NGUYÊN LINK) -->
+            <a href="https://t.me/plat_shareios" class="btn-panel btn-community" target="_blank">
                 <svg viewBox="0 0 24 24">
-                    <path d="M12.525 0h3.08c.089 1.488.75 2.83 1.8 3.82 1.05 1 2.45 1.57 3.965 1.62V8.58c-1.85 0-3.56-.56-4.985-1.52v7.1c0 4.14-3.36 7.5-7.5 7.5S1.39 18.3 1.39 14.16c0-4.14 3.36-7.5 7.5-7.5.38 0 .75.03 1.11.09V9.93c-.36-.08-.73-.12-1.11-.12-2.39 0-4.34 1.95-4.34 4.35 0 2.4 1.95 4.35 4.34 4.35 2.39 0 4.35-1.95 4.35-4.35V0z"/>
+                    <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.56 8.16l-2.01 9.48c-.15.68-.55.84-1.12.52l-3.1-2.28-1.5 1.44c-.17.17-.31.31-.63.31l.22-3.17 5.77-5.21c.25-.22-.05-.34-.39-.12l-7.13 4.49-3.07-.96c-.67-.21-.68-.67.14-.99l12.01-4.63c.56-.21 1.05.13.83.92z"/>
                 </svg>
-                <span id="txt-step1">Follow TikTok</span>
-            </button>
+                <div class="btn-panel-content">
+                    <span class="btn-panel-title">Tham Gia Cộng Đồng</span>
+                    <span class="btn-panel-sub">Share Mod Hack IOS</span>
+                </div>
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.56 8.16l-2.01 9.48c-.15.68-.55.84-1.12.52l-3.1-2.28-1.5 1.44c-.17.17-.31.31-.63.31l.22-3.17 5.77-5.21c.25-.22-.05-.34-.39-.12l-7.13 4.49-3.07-.96c-.67-.21-.68-.67.14-.99l12.01-4.63c.56-.21 1.05.13.83.92z"/>
+                </svg>
+            </a>
 
-            <!-- Nút 2: Đăng Kí Youtube -->
-            <button id="btn-step2" class="unlock-btn btn-youtube disabled" onclick="processStep(2, 'https://youtube.com/@plat.dexios')">
+            <!-- 2. NÚT CẤU HÌNH: XANH LÁ -->
+            <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-panel btn-config-green" target="_blank">
                 <svg viewBox="0 0 24 24">
-                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5L12 1zm0 2.18l7 3.12v4.7c0 4.83-3.93 9.11-7 10.12-3.07-1.01-7-5.29-7-10.12V6.3l7-3.12z"/>
+                    <path d="M12 5.32L7 7.88v3.12c0 3.62 2.92 6.83 5 7.88 2.08-1.05 5-4.26 5-7.88V7.88L12 5.32z"/>
                 </svg>
-                <span id="txt-step2">Đăng Kí Youtube</span>
-            </button>
+                <div class="btn-panel-content">
+                    <span class="btn-panel-title">Cấu Hình Chặn Quảng Cáo</span>
+                    <span class="btn-panel-sub">Anti Thu Hồi Chứng Chỉ</span>
+                </div>
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5L12 1zm0 2.18l7 3.12v4.7c0 4.83-3.93 9.11-7 10.12-3.07-1.01-7-5.29-7-10.12V6.3l7-3.12z"/>
+                    <path d="M12 5.32L7 7.88v3.12c0 3.62 2.92 6.83 5 7.88 2.08-1.05 5-4.26 5-7.88V7.88L12 5.32z"/>
+                </svg>
+            </a>
 
-            <!-- Nút 3: Mở Khóa Để Tải -->
-            <button id="btn-step3" class="unlock-btn btn-download disabled" onclick="downloadFile()">
+            <!-- 3. NÚT REPO: ĐỎ -->
+            <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-panel btn-repo-red" target="_blank">
                 <svg viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14v-4H8l4-4 4 4h-3v4h-2z"/>
+                    <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/>
                 </svg>
-                <span id="txt-step3">Mở Khoá Để Tải</span>
-            </button>
+                <div class="btn-panel-content">
+                    <span class="btn-panel-title">Repo Esign & 3105</span>
+                    <span class="btn-panel-sub">Tài Nguyên MOD IOS</span>
+                </div>
+                <svg viewBox="0 0 24 24">
+                    <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/>
+                </svg>
+            </a>
+        </div>
+
+        <!-- DANH SÁCH BANNER (KHUNG CHỮ NHẬT GIÁP ROBOT ĐA TẦNG) -->
+        <main class="banner-list">
+            <!-- Banner 1 -->
+            <div class="banner-card">
+                <div class="banner-card-header">
+                    01. Tổng Hợp Game Hack By Plat
+                </div>
+                <a href="https://plat-dexx.github.io/plat-unlock/" class="banner-view-box" target="_blank">
+                    <img src="PLAT.PNG" alt="Tổng Hợp Game Hack By Plat">
+                </a>
+                <div class="banner-footer-btn">
+                    <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-action-view" target="_blank">Xem Ngay</a>
+                </div>
+            </div>
+
+            <!-- Banner 2 -->
+            <div class="banner-card">
+                <div class="banner-card-header">
+                    02. Cài TFT PBE IOS Miễn Phí
+                </div>
+                <a href="https://plat-dexx.github.io/plat-unlock/" class="banner-view-box" target="_blank">
+                    <img src="TFTPBE.PNG" alt="Tải Và Hướng Dẫn Cài TFT Pbe IOS Miễn Phí">
+                </a>
+                <div class="banner-footer-btn">
+                    <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-action-view" target="_blank">Xem Ngay</a>
+                </div>
+            </div>
         </main>
     </div>
 
     <!-- FOOTER -->
     <footer>
-        <div class="footer-info">
-            <h3>THÔNG TIN CHỦ SỞ HỮU</h3>
-            <p><strong>Developer:</strong> Plat • Dex</p>
-            <p><strong>Địa Chỉ:</strong> Hà Nội, Việt Nam</p>
+        <div class="footer-content">
+            <h4>Bản Quyền Thuộc Về</h4>
+            <p>Developer: Plat • Dex</p>
         </div>
     </footer>
 
-    <!-- SCRIPT SUBUNLOCK -->
+    <!-- NÚT TELEGRAM TRÒN (GIỮ NGUYÊN) -->
+    <a href="https://t.me/plat_dex" class="telegram-btn" target="_blank" aria-label="Telegram">
+        <svg viewBox="0 0 24 24">
+            <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.56 8.16l-2.01 9.48c-.15.68-.55.84-1.12.52l-3.1-2.28-1.5 1.44c-.17.17-.31.31-.63.31l.22-3.17 5.77-5.21c.25-.22-.05-.34-.39-.12l-7.13 4.49-3.07-.96c-.67-.21-.68-.67.14-.99l12.01-4.63c.56-.21 1.05.13.83.92z"/>
+        </svg>
+    </a>
+
+    <!-- CLOUDFLARE TURNSTILE SCRIPT -->
     <script>
-        let step1Completed = false;
-        let step2Completed = false;
-
-        function processStep(stepNum, url) {
-            if (stepNum === 1 && !step1Completed) {
-                window.open(url, '_blank');
-                let count = 5;
-                const txt = document.getElementById('txt-step1');
-                txt.innerText = `Đang xác minh... (${count}s)`;
-
-                const timer = setInterval(() => {
-                    count--;
-                    if (count > 0) {
-                        txt.innerText = `Đang xác minh... (${count}s)`;
-                    } else {
-                        clearInterval(timer);
-                        step1Completed = true;
-                        txt.innerText = '✓ Đã Hoàn Thành';
-                        
-                        const btn1 = document.getElementById('btn-step1');
-                        btn1.classList.add('completed');
-
-                        const btn2 = document.getElementById('btn-step2');
-                        btn2.classList.remove('disabled');
-                    }
-                }, 1000);
-            } 
-            else if (stepNum === 2 && step1Completed && !step2Completed) {
-                window.open(url, '_blank');
-                let count = 5;
-                const txt = document.getElementById('txt-step2');
-                txt.innerText = `Đang xác minh... (${count}s)`;
-
-                const timer = setInterval(() => {
-                    count--;
-                    if (count > 0) {
-                        txt.innerText = `Đang xác minh... (${count}s)`;
-                    } else {
-                        clearInterval(timer);
-                        step2Completed = true;
-                        txt.innerText = '✓ Đã Hoàn Thành';
-
-                        const btn2 = document.getElementById('btn-step2');
-                        btn2.classList.add('completed');
-
-                        const btn3 = document.getElementById('btn-step3');
-                        btn3.classList.remove('disabled');
-                    }
-                }, 1000);
+        window.onload = function() {
+            if (location.protocol === 'file:') {
+                document.getElementById('turnstile-overlay').classList.add('hidden');
+                return;
             }
-        }
-
-        function downloadFile() {
-            if (step1Completed && step2Completed) {
-                window.location.href = "https://link4m.org/fddLr2";
+            if (typeof turnstile !== 'undefined') {
+                turnstile.render('#turnstile-container', {
+                    sitekey: '0x4AAAAAAEc9ewrv4yt_-nMA',
+                    callback: function(token) {
+                        document.getElementById('turnstile-overlay').classList.add('hidden');
+                    },
+                    'expired-callback': function() {
+                        turnstile.reset('#turnstile-container');
+                    },
+                    'error-callback': function() {
+                        console.error('Turnstile error');
+                    }
+                });
             }
-        }
+        };
     </script>
 </body>
 </html>
