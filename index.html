@@ -547,7 +547,6 @@
                     <div class="logo-wrapper">
                         <svg class="logo-svg" viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg">
                             <defs>
-                                <!-- Độ bóng và dập nổi vỏ tay cầm -->
                                 <radialGradient id="ctrl-body" cx="50%" cy="30%" r="70%">
                                     <stop offset="0%" stop-color="#2c3345"/>
                                     <stop offset="55%" stop-color="#141722"/>
@@ -559,7 +558,6 @@
                                     <stop offset="100%" stop-color="#040508"/>
                                 </linearGradient>
 
-                                <!-- 2 Grip bên hông -->
                                 <radialGradient id="ctrl-grip-l" cx="30%" cy="50%" r="60%">
                                     <stop offset="0%" stop-color="#3c455d"/>
                                     <stop offset="65%" stop-color="#141822"/>
@@ -571,7 +569,6 @@
                                     <stop offset="100%" stop-color="#050608"/>
                                 </radialGradient>
 
-                                <!-- Analog và Nút bấm -->
                                 <radialGradient id="ctrl-stick-base" cx="50%" cy="50%" r="50%">
                                     <stop offset="65%" stop-color="#0e1017"/>
                                     <stop offset="88%" stop-color="#ff003c"/>
@@ -594,10 +591,8 @@
                                 </filter>
                             </defs>
 
-                            <!-- Bóng đáy 3D -->
                             <ellipse cx="200" cy="255" rx="145" ry="20" fill="#000000" opacity="0.85"/>
 
-                            <!-- Bumpers & Triggers phía sau -->
                             <g>
                                 <path d="M 115,55 L 140,28 L 178,34 L 165,55 Z" fill="#10131c" stroke="#48536c" stroke-width="2"/>
                                 <path d="M 125,34 L 142,16 L 168,21 L 160,35 Z" fill="#ff003c" opacity="0.6"/>
@@ -605,19 +600,15 @@
                                 <path d="M 275,34 L 258,16 L 232,21 L 240,35 Z" fill="#ff003c" opacity="0.6"/>
                             </g>
 
-                            <!-- Khung viền vát cơ khí dày -->
                             <path d="M 148,48 L 252,48 L 298,64 L 345,122 L 358,178 L 338,232 L 295,234 L 252,170 L 200,188 L 148,170 L 105,234 L 62,232 L 42,178 L 55,122 L 102,64 Z"
                                   fill="url(#ctrl-chassis-bevel)" stroke="#05060a" stroke-width="4"/>
 
-                            <!-- Thân chính của máy -->
                             <path d="M 150,50 L 250,50 L 294,66 L 340,122 L 352,175 L 333,226 L 293,228 L 250,166 L 200,184 L 150,166 L 107,228 L 67,226 L 48,175 L 60,122 L 106,66 Z"
                                   fill="url(#ctrl-body)"/>
 
-                            <!-- 2 Tấm ốp tay cầm nổi -->
                             <path d="M 106,66 L 60,122 L 48,175 L 67,226 L 107,228 L 132,168 L 106,66 Z" fill="url(#ctrl-grip-l)" opacity="0.95"/>
                             <path d="M 294,66 L 340,122 L 352,175 L 333,226 L 293,228 L 268,168 L 294,66 Z" fill="url(#ctrl-grip-r)" opacity="0.95"/>
 
-                            <!-- Dải rãnh LED tay cầm -->
                             <g stroke="#ff003c" stroke-width="2" opacity="0.8" filter="url(#ctrl-glow)">
                                 <line x1="62" y1="150" x2="88" y2="165"/>
                                 <line x1="68" y1="172" x2="94" y2="187"/>
@@ -625,12 +616,10 @@
                                 <line x1="332" y1="172" x2="306" y2="187"/>
                             </g>
 
-                            <!-- Màn hình Touchpad trung tâm -->
                             <polygon points="160,56 240,56 230,102 170,102" fill="#0d0f16" stroke="#48536c" stroke-width="2"/>
                             <polygon points="163,59 237,59 228,99 172,99" fill="#181c28"/>
                             <path d="M 178,72 L 200,85 L 222,72" fill="none" stroke="#ff003c" stroke-width="3" stroke-linecap="round" filter="url(#ctrl-glow)"/>
 
-                            <!-- Cụm D-Pad bên trái -->
                             <g transform="translate(112, 105)">
                                 <polygon points="-8,-28 8,-28 8,-8 28,-8 28,8 8,8 8,28 -8,28 -8,8 -28,8 -28,-8 -8,-8" fill="#050608"/>
                                 <polygon points="-7,-26 7,-26 7,-7 26,-7 26,7 7,7 7,26 -7,26 -7,7 -26,7 -26,-7 -7,-7" fill="#1b202c" stroke="#3b445b" stroke-width="1.5"/>
@@ -641,7 +630,6 @@
                                 <path d="M 21,0 L 14,-3 L 14,3 Z" fill="#ff003c"/>
                             </g>
 
-                            <!-- Cụm nút A, B, X, Y bên phải -->
                             <g transform="translate(288, 105)">
                                 <circle cx="0" cy="-20" r="8" fill="#0a0c10" stroke="#ff003c" stroke-width="1.5"/>
                                 <circle cx="0" cy="-20" r="6.5" fill="url(#ctrl-btn-red)"/>
@@ -660,7 +648,6 @@
                                 <text x="-20" y="3" font-size="8" font-weight="900" fill="#ffffff" text-anchor="middle" font-family="Arial">X</text>
                             </g>
 
-                            <!-- Cần xoay Analog 3D trái -->
                             <g transform="translate(162, 155)">
                                 <circle cx="0" cy="0" r="25" fill="#050608"/>
                                 <circle cx="0" cy="0" r="23" fill="url(#ctrl-stick-base)"/>
@@ -669,7 +656,6 @@
                                 <circle cx="-1" cy="-2" r="4" fill="#ff003c" filter="url(#ctrl-glow)"/>
                             </g>
 
-                            <!-- Cần xoay Analog 3D phải -->
                             <g transform="translate(238, 155)">
                                 <circle cx="0" cy="0" r="25" fill="#050608"/>
                                 <circle cx="0" cy="0" r="23" fill="url(#ctrl-stick-base)"/>
@@ -678,7 +664,6 @@
                                 <circle cx="1" cy="-2" r="4" fill="#ff003c" filter="url(#ctrl-glow)"/>
                             </g>
 
-                            <!-- Đinh tán cơ khí trên tay cầm -->
                             <circle cx="120" cy="58" r="2.5" fill="#525d78" stroke="#000000" stroke-width="0.8"/>
                             <circle cx="280" cy="58" r="2.5" fill="#525d78" stroke="#000000" stroke-width="0.8"/>
                             <circle cx="140" cy="215" r="2.5" fill="#525d78" stroke="#000000" stroke-width="0.8"/>
@@ -686,7 +671,6 @@
                         </svg>
                     </div>
 
-                    <!-- CHỮ 3D CẦU VỒNG CHẠY TỪ TRÁI SANG PHẢI -->
                     <h1 class="header-main-title" data-text="PLAT • DEX">PLAT • DEX</h1>
                     <p class="header-sub-title">Nơi Các Siêu Nhân Ra Đời</p>
                 </div>
@@ -695,7 +679,6 @@
 
         <!-- KHỐI 3 NÚT CHỨC NĂNG -->
         <div class="action-group">
-            <!-- 1. NÚT CỘNG ĐỒNG: XANH DƯƠNG -->
             <a href="https://t.me/plat_shareios" class="btn-panel btn-community" target="_blank" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24">
                     <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.56 8.16l-2.01 9.48c-.15.68-.55.84-1.12.52l-3.1-2.28-1.5 1.44c-.17.17-.31.31-.63.31l.22-3.17 5.77-5.21c.25-.22-.05-.34-.39-.12l-7.13 4.49-3.07-.96c-.67-.21-.68-.67.14-.99l12.01-4.63c.56-.21 1.05.13.83.92z"/>
@@ -709,7 +692,6 @@
                 </svg>
             </a>
 
-            <!-- 2. NÚT CẤU HÌNH: XANH LÁ -->
             <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-panel btn-config-green" target="_blank" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24">
                     <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5L12 1zm0 2.18l7 3.12v4.7c0 4.83-3.93 9.11-7 10.12-3.07-1.01-7-5.29-7-10.12V6.3l7-3.12z"/>
@@ -725,7 +707,6 @@
                 </svg>
             </a>
 
-            <!-- 3. NÚT REPO: ĐỎ -->
             <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-panel btn-repo-red" target="_blank" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24">
                     <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/>
@@ -742,20 +723,33 @@
 
         <!-- DANH SÁCH BANNER -->
         <main class="banner-list">
-            <!-- Banner 1 -->
+            <!-- Banner 1: Plat AOV -->
             <div class="banner-card">
                 <div class="banner-card-header">
-                    02. Game Hack Miễn Phí 
+                    01. Mua Hack Liên Quân Vip Giá Rẻ
                 </div>
                 <a href="https://plat-dexx.github.io/plat-unlock/" class="banner-view-box" target="_blank" rel="noopener noreferrer">
-                    <img src="PLAT1.PNG" alt="Tổng Hợp Game Hack By Plat">
+                    <img src="PLATAOV.PNG" alt="Mua Hack Liên Quân Vip Giá Rẻ">
                 </a>
                 <div class="banner-footer-btn">
                     <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-action-view" target="_blank" rel="noopener noreferrer">Xem Ngay</a>
                 </div>
             </div>
 
-            <!-- Banner 2 -->
+            <!-- Banner 2: Game Hack Miễn Phí -->
+            <div class="banner-card">
+                <div class="banner-card-header">
+                    02. Game Hack Miễn Phí 
+                </div>
+                <a href="https://plat-dexx.github.io/plat-unlock/" class="banner-view-box" target="_blank" rel="noopener noreferrer">
+                    <img src="PLAT1.PNG" alt="Game Hack Miễn Phí">
+                </a>
+                <div class="banner-footer-btn">
+                    <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-action-view" target="_blank" rel="noopener noreferrer">Xem Ngay</a>
+                </div>
+            </div>
+
+            <!-- Banner 3: TFT PBE -->
             <div class="banner-card">
                 <div class="banner-card-header">
                     03. Cài TFT PBE IOS Miễn Phí
@@ -795,7 +789,6 @@
         }
 
         function initTurnstile() {
-            // Khi chạy trực tiếp file trên máy (file://), tự động mở khóa để không bị kẹt
             if (location.protocol === 'file:') {
                 unlockPage();
                 return;
