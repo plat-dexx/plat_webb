@@ -190,7 +190,7 @@
             transform: scale(1.05) translateY(-2px);
         }
 
-        /* CHỮ PLAT DEX: 3D ĐA TẦNG + DẢI MÀU CẦU VỒNG CHẠY TỪ TRÁI SANG PHẢI */
+        /* CHỮ PLAT DEX */
         .header-main-title {
             position: relative;
             display: inline-block;
@@ -202,7 +202,6 @@
             line-height: 1.15;
             text-align: center;
 
-            /* Dải quang phổ 7 sắc */
             background: linear-gradient(
                 90deg,
                 #ff0000 0%,
@@ -220,7 +219,7 @@
             animation: rainbowFlow 3s linear infinite;
         }
 
-        /* BÓNG ĐỔ KHỐI 3D ĐÚC NỔI PHÍA SAU */
+        /* BÓNG ĐỔ KHỐI 3D */
         .header-main-title::before {
             content: attr(data-text);
             position: absolute;
@@ -265,7 +264,7 @@
                 0 0 12px rgba(255, 0, 60, 0.7);
         }
 
-        /* KHỐI 3 NÚT BẤM */
+        /* KHỐI NÚT BẤM */
         .action-group {
             display: flex;
             flex-direction: column;
@@ -302,7 +301,7 @@
             left: 120%;
         }
 
-        /* 1. NÚT CỘNG ĐỒNG: XANH DƯƠNG */
+        /* NÚT CỘNG ĐỒNG: XANH DƯƠNG */
         .btn-community {
             background: linear-gradient(135deg, #0044aa 0%, #0077ff 100%);
             border: 1px solid #3399ff;
@@ -310,30 +309,6 @@
         }
         .btn-community:hover {
             box-shadow: 0 0 25px rgba(0, 119, 255, 0.85);
-            transform: translateY(-2px);
-            border-color: #ffffff;
-        }
-
-        /* 2. NÚT CẤU HÌNH: XANH LÁ */
-        .btn-config-green {
-            background: linear-gradient(135deg, #007a33 0%, #00c853 100%);
-            border: 1px solid #69f0ae;
-            box-shadow: 0 4px 15px rgba(0, 200, 83, 0.4);
-        }
-        .btn-config-green:hover {
-            box-shadow: 0 0 25px rgba(0, 200, 83, 0.85);
-            transform: translateY(-2px);
-            border-color: #ffffff;
-        }
-
-        /* 3. NÚT REPO: ĐỎ */
-        .btn-repo-red {
-            background: linear-gradient(135deg, #990024 0%, #ff003c 100%);
-            border: 1px solid #ff6685;
-            box-shadow: 0 4px 15px rgba(255, 0, 60, 0.4);
-        }
-        .btn-repo-red:hover {
-            box-shadow: 0 0 25px rgba(255, 0, 60, 0.85);
             transform: translateY(-2px);
             border-color: #ffffff;
         }
@@ -677,7 +652,7 @@
             </div>
         </header>
 
-        <!-- KHỐI 3 NÚT CHỨC NĂNG -->
+        <!-- KHỐI NÚT CHỨC NĂNG -->
         <div class="action-group">
             <a href="https://t.me/plat_shareios" class="btn-panel btn-community" target="_blank" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24">
@@ -689,34 +664,6 @@
                 </div>
                 <svg viewBox="0 0 24 24">
                     <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.56 8.16l-2.01 9.48c-.15.68-.55.84-1.12.52l-3.1-2.28-1.5 1.44c-.17.17-.31.31-.63.31l.22-3.17 5.77-5.21c.25-.22-.05-.34-.39-.12l-7.13 4.49-3.07-.96c-.67-.21-.68-.67.14-.99l12.01-4.63c.56-.21 1.05.13.83.92z"/>
-                </svg>
-            </a>
-
-            <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-panel btn-config-green" target="_blank" rel="noopener noreferrer">
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5L12 1zm0 2.18l7 3.12v4.7c0 4.83-3.93 9.11-7 10.12-3.07-1.01-7-5.29-7-10.12V6.3l7-3.12z"/>
-                    <path d="M12 5.32L7 7.88v3.12c0 3.62 2.92 6.83 5 7.88 2.08-1.05 5-4.26 5-7.88V7.88L12 5.32z"/>
-                </svg>
-                <div class="btn-panel-content">
-                    <span class="btn-panel-title">Cấu Hình Chặn Quảng Cáo</span>
-                    <span class="btn-panel-sub">Anti Thu Hồi Chứng Chỉ</span>
-                </div>
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5L12 1zm0 2.18l7 3.12v4.7c0 4.83-3.93 9.11-7 10.12-3.07-1.01-7-5.29-7-10.12V6.3l7-3.12z"/>
-                    <path d="M12 5.32L7 7.88v3.12c0 3.62 2.92 6.83 5 7.88 2.08-1.05 5-4.26 5-7.88V7.88L12 5.32z"/>
-                </svg>
-            </a>
-
-            <a href="https://plat-dexx.github.io/plat-unlock/" class="btn-panel btn-repo-red" target="_blank" rel="noopener noreferrer">
-                <svg viewBox="0 0 24 24">
-                    <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/>
-                </svg>
-                <div class="btn-panel-content">
-                    <span class="btn-panel-title">Repo Esign & 3105</span>
-                    <span class="btn-panel-sub">Tài Nguyên MOD IOS</span>
-                </div>
-                <svg viewBox="0 0 24 24">
-                    <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/>
                 </svg>
             </a>
         </div>
